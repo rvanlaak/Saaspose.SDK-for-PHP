@@ -2,39 +2,44 @@
 
 namespace Saaspose\Cells;
 
-/*
+use Saaspose\Common\Utils;
+use Saaspose\Common\Product;
+use Saaspose\Exception\SaasposeException as Exception;
+
+/**
 * This class contains features to work with charts
 */
-class CellsWorksheet
+class Worksheet
 {
-	public $FileName = "";
-	public $WorksheetName = "";
-    public function CellsWorksheet($fileName, $worksheetName)
+	public $fileName = "";
+	public $worksheetName = "";
+
+    public function __constructor($fileName, $worksheetName)
     {
-        $this->FileName = $fileName;
-		$this->WorksheetName = $worksheetName;
+        $this->fileName = $fileName;
+		$this->worksheetName = $worksheetName;
+
+		//check whether file is set or not
+		if ($this->fileName == "") {
+			throw new Exception("No file name specified");
+		}
+
+		//check whether workshett name is set or not
+		if ($this->worksheetName == "") {
+			throw new Exception("Worksheet name not specified");
+		}
     }
 
-
-	/*
+	/**
     * Gets a list of cells
 	* $offset
 	* $count
 	*/
-
-	public function GetCellsList($offset, $count)
+	public function getCellsList($offset, $count)
 	{
-		try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-			//check whether workshett name is set or not
-			if ($this->WorksheetName == "")
-				throw new Exception("Worksheet name not specified");
-
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName .
-						"/worksheets/" . $this->WorksheetName . "/cells?offset=" .
+		try {
+			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+						"/worksheets/" . $this->worksheetName . "/cells?offset=" .
 						$offset . "&count=" . $count;
 
 			$signedURI = Utils::Sign($strURI);
@@ -46,8 +51,8 @@ class CellsWorksheet
 			$listCells = array();
 
 			foreach ($json->Cells->CellList as $cell) {
-				$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName .
-						"/worksheets/" . $this->WorksheetName . "/cells" . $cell->link->Href;
+				$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+						"/worksheets/" . $this->worksheetName . "/cells" . $cell->link->Href;
 
 				$signedURI = Utils::Sign($strURI);
 
@@ -58,30 +63,20 @@ class CellsWorksheet
 			}
 
 			return $listCells;
-		}
-		catch (Exception $e)
-		{
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Gets a list of rows from the worksheet
 	*/
-
 	public function GetRowsList()
 	{
-		try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-			//check whether workshett name is set or not
-			if ($this->WorksheetName == "")
-				throw new Exception("Worksheet name not specified");
-
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName .
-						"/worksheets/" . $this->WorksheetName . "/cells/rows";
+		try {
+			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+						"/worksheets/" . $this->worksheetName . "/cells/rows";
 
 			$signedURI = Utils::Sign($strURI);
 
@@ -92,8 +87,8 @@ class CellsWorksheet
 			$listRows = array();
 
 			foreach ($json->Rows->RowsList as $row) {
-				$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName .
-						"/worksheets/" . $this->WorksheetName . "/cells/rows" . $row->link->Href;
+				$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+						"/worksheets/" . $this->worksheetName . "/cells/rows" . $row->link->Href;
 
 				$signedURI = Utils::Sign($strURI);
 
@@ -102,32 +97,21 @@ class CellsWorksheet
 
 				array_push($listRows, $json->Row);
 			}
-
 			return $listRows;
-		}
-		catch (Exception $e)
-		{
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Gets a list of columns from the worksheet
 	*/
-
 	public function GetColumnsList()
 	{
-		try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-			//check whether workshett name is set or not
-			if ($this->WorksheetName == "")
-				throw new Exception("Worksheet name not specified");
-
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName .
-						"/worksheets/" . $this->WorksheetName . "/cells/columns";
+		try {
+			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+						"/worksheets/" . $this->worksheetName . "/cells/columns";
 
 			$signedURI = Utils::Sign($strURI);
 
@@ -138,8 +122,8 @@ class CellsWorksheet
 			$listColumns = array();
 
 			foreach ($json->Columns->ColumnsList as $column) {
-				$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName .
-						"/worksheets/" . $this->WorksheetName . "/cells/columns" . $column->link->Href;
+				$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+						"/worksheets/" . $this->worksheetName . "/cells/columns" . $column->link->Href;
 
 				$signedURI = Utils::Sign($strURI);
 
@@ -150,32 +134,22 @@ class CellsWorksheet
 			}
 
 			return $listColumns;
-		}
-		catch (Exception $e)
-		{
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Gets maximum column index of cell which contains data or style
 	* $offset
 	* $count
 	*/
-
-	public function GetMaxColumn($offset, $count)
+	public function getMaxColumn($offset, $count)
 	{
-		try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-			//check whether workshett name is set or not
-			if ($this->WorksheetName == "")
-				throw new Exception("Worksheet name not specified");
-
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName .
-						"/worksheets/" . $this->WorksheetName . "/cells?offset=" .
+		try {
+			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+						"/worksheets/" . $this->worksheetName . "/cells?offset=" .
 						$offset . "&count=" . $count;
 
 			$signedURI = Utils::Sign($strURI);
@@ -185,32 +159,22 @@ class CellsWorksheet
 			$json = json_decode($responseStream);
 
 			return $json->Cells->MaxColumn;
-		}
-		catch (Exception $e)
-		{
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Gets maximum row index of cell which contains data or style
 	* $offset
 	* $count
 	*/
-
-	public function GetMaxRow($offset, $count)
+	public function getMaxRow($offset, $count)
 	{
-		try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-			//check whether workshett name is set or not
-			if ($this->WorksheetName == "")
-				throw new Exception("Worksheet name not specified");
-
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName .
-						"/worksheets/" . $this->WorksheetName . "/cells?offset=" .
+		try {
+			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+						"/worksheets/" . $this->worksheetName . "/cells?offset=" .
 						$offset . "&count=" . $count;
 
 			$signedURI = Utils::Sign($strURI);
@@ -220,32 +184,22 @@ class CellsWorksheet
 			$json = json_decode($responseStream);
 
 			return $json->Cells->MaxRow;
-		}
-		catch (Exception $e)
-		{
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Gets cell count in the worksheet
 	* $offset
 	* $count
 	*/
-
-	public function GetCellsCount($offset, $count)
+	public function getCellsCount($offset, $count)
 	{
-		try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-			//check whether workshett name is set or not
-			if ($this->WorksheetName == "")
-				throw new Exception("Worksheet name not specified");
-
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName .
-						"/worksheets/" . $this->WorksheetName . "/cells?offset=" .
+		try {
+			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+						"/worksheets/" . $this->worksheetName . "/cells?offset=" .
 						$offset . "&count=" . $count;
 
 			$signedURI = Utils::Sign($strURI);
@@ -262,23 +216,14 @@ class CellsWorksheet
 		}
 	}
 
-	/*
+	/**
     * Gets AutoShape count in the worksheet
 	*/
-
-	public function GetAutoShapesCount()
+	public function getAutoShapesCount()
 	{
-		try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-			//check whether workshett name is set or not
-			if ($this->WorksheetName == "")
-				throw new Exception("Worksheet name not specified");
-
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName .
-						"/worksheets/" . $this->WorksheetName . "/autoshapes";
+		try {
+			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+						"/worksheets/" . $this->worksheetName . "/autoshapes";
 
 			$signedURI = Utils::Sign($strURI);
 
@@ -286,32 +231,22 @@ class CellsWorksheet
 
 			$json = json_decode($responseStream);
 
-			return Count($json->AutoShapes->AuotShapeList);
-		}
-		catch (Exception $e)
-		{
+			return count($json->AutoShapes->AuotShapeList);
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Gets a specific AutoShape from the sheet
 	* $index
 	*/
-
-	public function GetAutoShapeByIndex($index)
+	public function getAutoShapeByIndex($index)
 	{
-		try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-			//check whether workshett name is set or not
-			if ($this->WorksheetName == "")
-				throw new Exception("Worksheet name not specified");
-
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName .
-						"/worksheets/" . $this->WorksheetName . "/autoshapes/" . $index;
+		try {
+			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+						"/worksheets/" . $this->worksheetName . "/autoshapes/" . $index;
 
 			$signedURI = Utils::Sign($strURI);
 
@@ -320,30 +255,20 @@ class CellsWorksheet
 			$json = json_decode($responseStream);
 
 			return $json->AutoShape;
-		}
-		catch (Exception $e)
-		{
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Gets charts count in the worksheet
 	*/
-
-	public function GetChartsCount()
+	public function getChartsCount()
 	{
-		try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-			//check whether workshett name is set or not
-			if ($this->WorksheetName == "")
-				throw new Exception("Worksheet name not specified");
-
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName .
-						"/worksheets/" . $this->WorksheetName . "/charts";
+		try {
+			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+						"/worksheets/" . $this->worksheetName . "/charts";
 
 			$signedURI = Utils::Sign($strURI);
 
@@ -351,32 +276,22 @@ class CellsWorksheet
 
 			$json = json_decode($responseStream);
 
-			return Count($json->Charts->ChartList);
-		}
-		catch (Exception $e)
-		{
+			return count($json->Charts->ChartList);
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Gets a specific chart from the sheet
 	* $index
 	*/
-
-	public function GetChartByIndex($index)
+	public function getChartByIndex($index)
 	{
-		try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-			//check whether workshett name is set or not
-			if ($this->WorksheetName == "")
-				throw new Exception("Worksheet name not specified");
-
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName .
-						"/worksheets/" . $this->WorksheetName . "/charts/" . $index;
+		try {
+			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+						"/worksheets/" . $this->worksheetName . "/charts/" . $index;
 
 			$signedURI = Utils::Sign($strURI);
 
@@ -392,67 +307,47 @@ class CellsWorksheet
 		}
 	}
 
-	/*
+	/**
     * Gets hyperlinks count in the worksheet
 	*/
-
-	public function GetHyperlinksCount()
+	public function getHyperlinksCount()
 	{
-		try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-			//check whether workshett name is set or not
-			if ($this->WorksheetName == "")
-				throw new Exception("Worksheet name not specified");
+		try {
+			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+						"/worksheets/" . $this->worksheetName . "/hyperlinks";
 
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName .
-						"/worksheets/" . $this->WorksheetName . "/hyperlinks";
-
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
 			$json = json_decode($responseStream);
 
-			return Count($json->Hyperlinks->HyperlinkList);
-		}
-		catch (Exception $e)
-		{
+			return count($json->Hyperlinks->HyperlinkList);
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Gets a specific hyperlink from the sheet
 	* $index
 	*/
-
-	public function GetHyperlinkByIndex($index)
+	public function getHyperlinkByIndex($index)
 	{
-		try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-			//check whether workshett name is set or not
-			if ($this->WorksheetName == "")
-				throw new Exception("Worksheet name not specified");
+		try {
+			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+						"/worksheets/" . $this->worksheetName . "/hyperlinks/" . $index;
 
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName .
-						"/worksheets/" . $this->WorksheetName . "/hyperlinks/" . $index;
-
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
 			$json = json_decode($responseStream);
 
 			return $json->Hyperlink;
-		}
-		catch (Exception $e)
-		{
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}

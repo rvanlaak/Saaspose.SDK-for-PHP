@@ -2,31 +2,37 @@
 
 namespace Saaspose\Barcode;
 
-/*
+use Saaspose\Common\Utils;
+
+use Saaspose\Common\Product;
+use Saaspose\Exception\SaasposeException as Exception;
+
+/**
 * reads barcodes from images
 */
-class BarcodeReader
+class Reader
 {
-	public $FileName = "";
+	public $fileName = "";
 
-    public function BarcodeReader($fileName)
+    public function __construct($fileName)
     {
-        $this->FileName = $fileName;
+        $this->fileName = $fileName;
+
+        //check whether file is set or not
+        if ($this->fileName == "") {
+			throw new Exception("No file name specified");
+        }
     }
-	/*
+
+	/**
     * reads all or specific barcodes from images
 	* @param string $symbology
 	*/
-	public function Read($symbology)
+	public function read($symbology)
 	{
-	    try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-
+	    try {
             //build URI to read barcode
-			$strURI = Product::$BaseProductUri . "/barcode/" . $this->FileName . "/recognize?" .
+			$strURI = Product::$BaseProductUri . "/barcode/" . $this->fileName . "/recognize?" .
 						(!isset($symbology) || trim($symbology)==='' ? "type=" : "type=" . $symbology);
 
 			//sign URI
@@ -39,9 +45,8 @@ class BarcodeReader
 
 			//returns a list of extracted barcodes
 			return $json->Barcodes;
-		}
-		catch (Exception $e)
-		{
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}

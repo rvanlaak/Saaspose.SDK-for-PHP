@@ -5,7 +5,7 @@ namespace Saaspose\Cells;
 /*
 * converts pages or document into different formats
 */
-class CellsConverter
+class Converter
 {
 	public $FileName = "";
 	public $WorksheetName = "";

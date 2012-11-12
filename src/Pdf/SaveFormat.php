@@ -2,11 +2,13 @@
 
 namespace Saaspose\Pdf;
 
+// TODO put all formats in configuration file
+
     $PDFSaveFormat = array(
 		"TIFF" => "TIFF",
 		"PDF" => "PDF",
 		"XPS" => "XPS",
-		"DOC" => "DOC"
+		"DOC" => "DOC",
 	);
 
 	$PDFConvertImageFormat = array(
@@ -15,5 +17,5 @@ namespace Saaspose\Pdf;
 		"PNG" => "PNG",
 		"EMF" => "EMF",
 		"BMP" => "BMP",
-		"GIF" => "GIF"
+		"GIF" => "GIF",
 	);

@@ -2,21 +2,36 @@
 
 namespace Saaspose\Cells;
 
-/*
+use Saaspose\Common\Utils;
+use Saaspose\Common\Product;
+use Saaspose\Exception\SaasposeException as Exception;
+use Saaspose\Storage\Folder;
+
+/**
 * This class contains features to work with charts
 */
-class CellsChartEditor
+class ChartEditor
 {
-	public $FileName = "";
-	public $WorksheetName = "";
-    public function CellsChartEditor($fileName, $worksheetName)
+	public $fileName = "";
+	public $worksheetName = "";
+
+    public function __construct($fileName, $worksheetName)
     {
-        $this->FileName = $fileName;
-		$this->WorksheetName = $worksheetName;
+        $this->fileName 		= $fileName;
+		$this->worksheetName 	= $worksheetName;
+
+		//check whether file is set or not
+		if ($this->fileName == "") {
+			throw new Exception("No file name specified");
+		}
+
+		//check whether workshett name is set or not
+		if ($this->worksheetName == "") {
+			throw new Exception("Worksheet name not specified");
+		}
     }
 
-
-	/*
+	/**
     * Adds a new chart
 	* $chartType
 	* $upperLeftRow
@@ -24,20 +39,11 @@ class CellsChartEditor
 	* $lowerRightRow
 	* $lowerRightColumn
 	*/
-
-	public function AddChart($chartType, $upperLeftRow, $upperLeftColumn, $lowerRightRow, $lowerRightColumn)
+	public function addChart($chartType, $upperLeftRow, $upperLeftColumn, $lowerRightRow, $lowerRightColumn)
 	{
-		try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-			//check whether workshett name is set or not
-			if ($this->WorksheetName == "")
-				throw new Exception("Worksheet name not specified");
-
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName .
-						"/worksheets/" . $this->WorksheetName . "/charts?chartType=" .
+		try {
+			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+						"/worksheets/" . $this->worksheetName . "/charts?chartType=" .
 						$chartType . "&upperLeftRow=" . $upperLeftRow . "&upperLeftColumn=" .
 						$upperLeftColumn . "&lowerRightRow=" . $lowerRightRow .
 						"&lowerRightColumn=" . $lowerRightColumn;
@@ -51,38 +57,29 @@ class CellsChartEditor
 			if ($v_output === "") {
 				//Save doc on server
 				$folder = new Folder();
-				$outputStream = $folder->GetFile($this->FileName);
-				$outputPath = SaasposeApp::$OutPutLocation . $this->FileName;
+				$outputStream = $folder->GetFile($this->fileName);
+				$outputPath = SaasposeApp::$OutPutLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
-			}
-			else
+
+			} else {
 				return $v_output;
-		}
-		catch (Exception $e)
-		{
+			}
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Deletes a chart
 	* $chartIndex
 	*/
-
-	public function DeleteChart($chartIndex)
+	public function deleteChart($chartIndex)
 	{
-		try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-			//check whether workshett name is set or not
-			if ($this->WorksheetName == "")
-				throw new Exception("Worksheet name not specified");
-
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName .
-						"/worksheets/" . $this->WorksheetName . "/charts/" . $chartIndex;
+		try {
+			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+						"/worksheets/" . $this->worksheetName . "/charts/" . $chartIndex;
 
 			$signedURI = Utils::Sign($strURI);
 
@@ -93,38 +90,28 @@ class CellsChartEditor
 			if ($v_output === "") {
 				//Save doc on server
 				$folder = new Folder();
-				$outputStream = $folder->GetFile($this->FileName);
-				$outputPath = SaasposeApp::$OutPutLocation . $this->FileName;
+				$outputStream = $folder->GetFile($this->fileName);
+				$outputPath = SaasposeApp::$OutPutLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
-			}
-			else
+			} else {
 				return $v_output;
-		}
-		catch (Exception $e)
-		{
+			}
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Gets ChartArea of a chart
 	* $chartIndex
 	*/
-
-	public function GetChartArea($chartIndex)
+	public function getChartArea($chartIndex)
 	{
-		try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-			//check whether workshett name is set or not
-			if ($this->WorksheetName == "")
-				throw new Exception("Worksheet name not specified");
-
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName .
-						"/worksheets/" . $this->WorksheetName . "/charts/" . $chartIndex . "/chartArea";
+		try {
+			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+						"/worksheets/" . $this->worksheetName . "/charts/" . $chartIndex . "/chartArea";
 
 			$signedURI = Utils::Sign($strURI);
 
@@ -133,31 +120,21 @@ class CellsChartEditor
 			$json = json_decode($responseStream);
 
 			return $json->ChartArea;
-		}
-		catch (Exception $e)
-		{
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Gets fill format of the ChartArea of a chart
 	* $chartIndex
 	*/
-
-	public function GetFillFormat($chartIndex)
+	public function getFillFormat($chartIndex)
 	{
-		try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-			//check whether workshett name is set or not
-			if ($this->WorksheetName == "")
-				throw new Exception("Worksheet name not specified");
-
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName . "/worksheets/" .
-						$this->WorksheetName . "/charts/" . $chartIndex . "/chartArea/fillFormat";
+		try {
+			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName . "/worksheets/" .
+						$this->worksheetName . "/charts/" . $chartIndex . "/chartArea/fillFormat";
 
 			$signedURI = Utils::Sign($strURI);
 
@@ -166,31 +143,21 @@ class CellsChartEditor
 			$json = json_decode($responseStream);
 
 			return $json->FillFormat;
-		}
-		catch (Exception $e)
-		{
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Gets border of the ChartArea of a chart
 	* $chartIndex
 	*/
-
-	public function GetBorder($chartIndex)
+	public function getBorder($chartIndex)
 	{
-		try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-			//check whether workshett name is set or not
-			if ($this->WorksheetName == "")
-				throw new Exception("Worksheet name not specified");
-
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName . "/worksheets/" .
-						$this->WorksheetName . "/charts/" . $chartIndex . "/chartArea/border";
+		try {
+			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName . "/worksheets/" .
+						$this->worksheetName . "/charts/" . $chartIndex . "/chartArea/border";
 
 			$signedURI = Utils::Sign($strURI);
 
@@ -199,9 +166,8 @@ class CellsChartEditor
 			$json = json_decode($responseStream);
 
 			return $json->Line;
-		}
-		catch (Exception $e)
-		{
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}

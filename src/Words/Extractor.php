@@ -2,32 +2,34 @@
 
 namespace Saaspose\Words;
 
-/*
+use Saaspose\Exception\SaasposeException as Exception;
+use Saaspose\Common\Product;
+use Saaspose\Common\Utils;
+
+/**
 * Extract various types of information from the document
 */
-class WordExtractor
+class Extractor
 {
-	public $FileName = "";
+	public $fileName = "";
 
-    public function WordExtractor($fileName)
+    public function __construct($fileName)
     {
-        $this->FileName = $fileName;
+        $this->fileName = $fileName;
+
+        //check whether file is set or not
+        if ($this->fileName == "") {
+        	throw new Exception("No file name specified");
+        }
     }
 
-
-	/*
+	/**
     * Gets Text items list from document
 	*/
-
-	public function GetText()
+	public function getText()
 	{
-		try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-
-			$strURI = Product::$BaseProductUri . "/words/" . $this->FileName . "/textItems";
+		try {
+			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/textItems";
 
 			$signedURI = Utils::Sign($strURI);
 
@@ -39,27 +41,19 @@ class WordExtractor
 			//echo $json->TextItems->List[0]->Text;
 			//return count($json->Images->List);
 
-		}
-		catch (Exception $e)
-		{
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Get the OLE drawing object from document
 	* @param int $index
 	* @param string $OLEFormat
 	*/
-
-    public function GetoleData($index, $OLEFormat)
+    public function getOleData($index, $OLEFormat)
     {
-       try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-
+      	try {
 			$strURI = Product::$BaseProductUri . "/words/" . $this->FileName . "/drawingObjects/" . $index . "/oleData";
 
 			$signedURI = Utils::Sign($strURI);
@@ -68,34 +62,27 @@ class WordExtractor
 
 			$v_output = Utils::ValidateOutput($responseStream);
 
-			if ($v_output === "")
-			{
+			if ($v_output === "") {
 				Utils::saveFile($responseStream, SaasposeApp::$OutPutLocation . Utils::getFileName($this->FileName). "_" . $index . "." . $OLEFormat);
 				return "";
-			}
-			else
+
+			} else {
 				return $v_output;
-		}
-		catch (Exception $e)
-		{
+			}
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
     }
 
- 	/*
+ 	/**
     * Get the Image drawing object from document
 	* @param int $index
 	* @param string $renderformat
 	*/
-
-    public function GetimageData($index, $renderformat)
+    public function getImageData($index, $renderformat)
     {
-       try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-
+       try {
 			$strURI = Product::$BaseProductUri . "/words/" . $this->FileName . "/drawingObjects/" . $index . "/ImageData";
 
 			$signedURI = Utils::Sign($strURI);
@@ -108,30 +95,24 @@ class WordExtractor
 			{
 				Utils::saveFile($responseStream, SaasposeApp::$OutPutLocation . Utils::getFileName($this->FileName). "_" . $index . "." . $renderformat);
 				return "";
-			}
-			else
+
+			} else {
 				return $v_output;
-		}
-		catch (Exception $e)
-		{
+			}
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
     }
 
-	/*
+	/**
     * Convert drawing object to image
 	* @param int $index
 	* @param string $renderformat
 	*/
-
-    public function ConvertDrawingObject($index, $renderformat)
+    public function convertDrawingObject($index, $renderformat)
     {
-       try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-
+       try {
 			$strURI = Product::$BaseProductUri . "/words/" . $this->FileName . "/drawingObjects/" . $index . "?format=" . $renderformat;
 
 			$signedURI = Utils::Sign($strURI);
@@ -140,13 +121,12 @@ class WordExtractor
 
 			$v_output = Utils::ValidateOutput($responseStream);
 
-			if ($v_output === "")
-			{
+			if ($v_output === "") {
 				Utils::saveFile($responseStream, SaasposeApp::$OutPutLocation . Utils::getFileName($this->FileName). "_" . $index . "." . $renderformat);
 				return "";
-			}
-			else
+			} else {
 				return $v_output;
+			}
 		}
 		catch (Exception $e)
 		{
@@ -154,18 +134,12 @@ class WordExtractor
 		}
     }
 
-	/*
+	/**
     * Get the List of drawing object from document
 	*/
-
-    public function GetDrawingObjectList()
+    public function getDrawingObjectList()
     {
-       try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-
+       try {
 			$strURI = Product::$BaseProductUri . "/words/" . $this->FileName . "/drawingObjects";
 
 			$signedURI = Utils::Sign($strURI);
@@ -174,38 +148,32 @@ class WordExtractor
 
 			$json = json_decode($responseStream);
 
-			if($json->Code == 200)
+			if ($json->Code == 200) {
 				return $json->DrawingObjects->List;
-			else
+			} else {
 				return false;
+			}
 
-
-		}
-		catch (Exception $e)
-		{
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
     }
 
-	/*
+	/**
     * Get the drawing object from document
 	* @param string $objectURI
 	* @param string $outputPath
 	*/
-
-    public function GetDrawingObject($objectURI="",$outputPath="")
+    public function getDrawingObject($objectURI="", $outputPath="")
     {
-       try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-
-			if ($outputPath == "")
+       try {
+			if ($outputPath == "") {
 				throw new Exception("Output path not specified");
+			}
 
-			if ($objectURI == "")
+			if ($objectURI == "") {
 				throw new Exception("Object URI not specified");
+			}
 
 			$url_arr = explode("/",$objectURI);
 			$objectIndex = end($url_arr);
@@ -218,20 +186,15 @@ class WordExtractor
 
 			$json = json_decode($responseStream);
 
-			if($json->Code == 200)
-			{
-				if($json->DrawingObject->ImageDataLink != "")
-				{
+			if ($json->Code == 200) {
+
+				if($json->DrawingObject->ImageDataLink != "") {
 					$strURI = $strURI . "/imageData";
 					$outputPath = $outputPath . "\\DrawingObject_" . $objectIndex . ".jpeg";
-				}
-				else if($json->DrawingObject->OLEDataLink != "")
-				{
+				} else if($json->DrawingObject->OLEDataLink != "") {
 					$strURI = $strURI . "/oleData";
 					$outputPath = $outputPath . "\\DrawingObject_" . $objectIndex . ".xlsx";
-				}
-				else
-				{
+				} else {
 					$strURI = $strURI . "?format=jpeg";
 					$outputPath = $outputPath . "\\DrawingObject_" . $objectIndex . ".jpeg";
 				}
@@ -242,42 +205,33 @@ class WordExtractor
 
 				$v_output = Utils::ValidateOutput($responseStream);
 
-				if ($v_output === "")
-				{
+				if ($v_output === "") {
 					Utils::saveFile($responseStream, $outputPath);
 					return true;
-				}
-				else
+				} else {
 					return $v_output;
-			}
-			else
-			{
+				}
+
+			} else {
 				return false;
 			}
 
-		}
-		catch (Exception $e)
-		{
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
     }
 
 
-	/*
+	/**
     * Get the List of drawing object from document
 	* @param string outputPath
 	*/
-
-    public function GetDrawingObjects($outputPath="")
+    public function getDrawingObjects($outputPath="")
     {
-       try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-
-			if ($outputPath == "")
+       try {
+			if ($outputPath == "") {
 				throw new Exception("Output path not specified");
+			}
 
 			$strURI = Product::$BaseProductUri . "/words/" . $this->FileName . "/drawingObjects";
 
@@ -287,20 +241,15 @@ class WordExtractor
 
 			$json = json_decode($responseStream);
 
-			if($json->Code == 200)
-			{
-				foreach($json->DrawingObjects->List as $object)
-				{
+			if ($json->Code == 200) {
+				foreach($json->DrawingObjects->List as $object) {
 					$this->GetDrawingObject($object->link->Href,$outputPath);
 				}
-			}
-			else
+			} else {
 				return false;
+			}
 
-
-		}
-		catch (Exception $e)
-		{
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
     }

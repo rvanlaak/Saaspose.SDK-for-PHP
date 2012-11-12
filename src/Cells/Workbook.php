@@ -5,7 +5,7 @@ namespace Saaspose\Cells;
 /*
 * This class contains features to work with charts
 */
-class CellsWorkbook
+class Workbook
 {
 	public $FileName = "";
     public function CellsWorkbook($fileName)

@@ -2,7 +2,11 @@
 
 namespace Saaspose\Storage;
 
-/*
+use Saaspose\Exception\SaasposeException as Exception;
+use Saaspose\Common\Product;
+use Saaspose\Common\Utils;
+
+/**
 * converts pages or document into different formats
 */
 class SlideConverter
@@ -10,7 +14,7 @@ class SlideConverter
 	public $FileName = "";
 	public $saveformat = "";
 
-	public function SlideConverter($fileName)
+	public function __construct($fileName)
 	{
 		//set default values
 		$this->FileName = $fileName;

@@ -5,30 +5,31 @@ namespace Saaspose\Pdf;
 /*
 * Extract various types of information from the document
 */
-class PDFExtractor
-{
-	public $FileName = "";
+use Saaspose\Common\Utils;
+use Saaspose\Exception\Exception as Exception;
 
-    public function PDFExtractor($fileName)
+class Extractor
+{
+	public $fileName = "";
+
+    public function __constructor($fileName)
     {
-        $this->FileName = $fileName;
+        $this->fileName = $fileName;
     }
 
 
-	/*
+	/**
     * Gets number of images in a specified page
 	* @param $pageNumber
 	*/
-
-	public function GetImageCount($pageNumber)
+	public function getImageCount($pageNumber)
 	{
-		try
-		{
+		try {
 			//check whether file is set or not
-			if ($this->FileName == "")
+			if ($this->fileName == "")
 				throw new Exception("No file name specified");
 
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->FileName . "/pages/" . $pageNumber . "/images";
+			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "/images";
 
 			$signedURI = Utils::Sign($strURI);
 
@@ -38,29 +39,25 @@ class PDFExtractor
 
 			return count($json->Images->List);
 
-		}
-		catch (Exception $e)
-		{
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Get the particular image from the specified page with the default image size
 	* @param int $pageNumber
 	* @param int $imageIndex
 	* @param string $imageFormat
 	*/
-
-    public function GetImageDefaultSize($pageNumber, $imageIndex, $imageFormat)
+    public function getImageDefaultSize($pageNumber, $imageIndex, $imageFormat)
     {
-       try
-		{
+       try {
 			//check whether file is set or not
-			if ($this->FileName == "")
+			if ($this->fileName == "")
 				throw new Exception("No file name specified");
 
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->FileName . "/pages/" . $pageNumber . "/images/" . $imageIndex . "?format=" . $imageFormat;
+			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "/images/" . $imageIndex . "?format=" . $imageFormat;
 
 			$signedURI = Utils::Sign($strURI);
 
@@ -70,7 +67,7 @@ class PDFExtractor
 
 			if ($v_output === "")
 			{
-				Utils::saveFile($responseStream, SaasposeApp::$OutPutLocation . Utils::getFileName($this->FileName). "_" . $imageIndex . "." . $imageFormat);
+				Utils::saveFile($responseStream, SaasposeApp::$OutPutLocation . Utils::getfileName($this->fileName). "_" . $imageIndex . "." . $imageFormat);
 				return "";
 			}
 			else
@@ -82,7 +79,7 @@ class PDFExtractor
 		}
     }
 
-/*
+	/**
     * Get the particular image from the specified page with the default image size
 	* @param int $pageNumber
 	* @param int $imageIndex
@@ -90,16 +87,14 @@ class PDFExtractor
 	* @param int $imageWidth
 	* @param int $imageHeight
 	*/
-
-    public function GetImageCustomSize($pageNumber, $imageIndex, $imageFormat, $imageWidth, $imageHeight)
+    public function getImageCustomSize($pageNumber, $imageIndex, $imageFormat, $imageWidth, $imageHeight)
     {
-       try
-		{
+       try {
 			//check whether file is set or not
-			if ($this->FileName == "")
+			if ($this->fileName == "")
 				throw new Exception("No file name specified");
 
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->FileName . "/pages/" . $pageNumber . "/images/" . $imageIndex . "?format=" . $imageFormat . "&width=" . $imageWidth . "&height=" . $imageHeight;
+			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "/images/" . $imageIndex . "?format=" . $imageFormat . "&width=" . $imageWidth . "&height=" . $imageHeight;
 
 			$signedURI = Utils::Sign($strURI);
 
@@ -109,14 +104,12 @@ class PDFExtractor
 
 			if ($v_output === "")
 			{
-				Utils::saveFile($responseStream, SaasposeApp::$OutPutLocation . Utils::getFileName($this->FileName). "_" . $imageIndex . "." . $imageFormat);
+				Utils::saveFile($responseStream, SaasposeApp::$OutPutLocation . Utils::getfileName($this->fileName). "_" . $imageIndex . "." . $imageFormat);
 				return "";
 			}
 			else
 				return $v_output;
-		}
-		catch (Exception $e)
-		{
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
     }

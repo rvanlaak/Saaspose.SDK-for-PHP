@@ -2,31 +2,38 @@
 
 namespace Saaspose\Words;
 
-/*
+use Saaspose\Common\SaasposeApp;
+use Saaspose\Exception\SaasposeException as Exception;
+use Saaspose\Common\Product;
+use Saaspose\Common\Utils;
+
+/**
 * Deals with Word document level aspects
 */
-class WordDocument
+class Document
 {
-        public $FileName = "";
 
+    public $fileName = "";
 
-		public function WordDocument($fileName)
-        {
-            $this->FileName = $fileName;
-        }
+	public function __construct($fileName)
+    {
+    	$this->fileName = $fileName;
 
+    	//check whether files are set or not
+    	if ($this->fileName == "") {
+    		throw new Exception("Base file not specified");
+    	}
+    }
 
-	/*
+	/**
     * Appends a list of documents to this one.
 	* @param string $appendDocs (List of documents to append)
 	* @param string $importFormatModes
 	* @param string $sourceFolder (name of the folder where documents are present)
 	*/
-	public function AppendDocument($appendDocs, $importFormatModes, $sourceFolder) {
+	public function appendDocument($appendDocs, $importFormatModes, $sourceFolder)
+	{
        try {
-			//check whether files are set or not
-			if ($this->FileName == "")
-				throw new Exception("Base file not specified");
 			//check whether required information is complete
 			if (count($appendDocs) != count($importFormatModes))
 				throw new Exception("Please specify complete documents and import format modes");
@@ -59,24 +66,21 @@ class WordDocument
 				$outputPath = SaasposeApp::$OutPutLocation . $this->FileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
-			}
-			else
+			} else {
 				return $v_output;
-		}
-		catch (Exception $e) {
+			}
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
     }
 
-	/*
+	/**
     * Get Resource Properties information like document source format, IsEncrypted, IsSigned and document properties
 	*/
-	public function GetDocumentInfo(){
-		try{
-			//check whether files are set or not
-			if ($this->FileName == "")
-				throw new Exception("Base file not specified");
-
+	public function getDocumentInfo()
+	{
+       try {
 			//build URI to merge Docs
 			$strURI = Product::$BaseProductUri . "/words/" . $this->FileName;
 
@@ -97,16 +101,13 @@ class WordDocument
 		}
 	}
 
-	/*
+	/**
     * Get Resource Properties information like document source format, IsEncrypted, IsSigned and document properties
-	@param string $propertyName
+	* @param string $propertyName
 	*/
-	public function GetProperty($propertyName){
-		try{
-			//check whether files are set or not
-			if ($this->FileName == "")
-				throw new Exception("Base file not specified");
-
+	public function getProperty($propertyName)
+	{
+       try {
 			if ($propertyName == "")
 				throw new Exception("Property Name not specified");
 
@@ -131,22 +132,21 @@ class WordDocument
 		}
 	}
 
-	/*
+	/**
     * Set document property
-	@param string $propertyName
-	@param string $propertyValue
+	* @param string $propertyName
+	* @param string $propertyValue
 	*/
-	public function SetProperty($propertyName="",$propertyValue=""){
-		try{
-			//check whether files are set or not
-			if ($this->FileName == "")
-				throw new Exception("Base file not specified");
-
-			if ($propertyName == "")
+	public function setProperty($propertyName="", $propertyValue="")
+	{
+       try {
+			if ($propertyName == "") {
 				throw new Exception("Property Name not specified");
+			}
 
-			if ($propertyValue == "")
+			if ($propertyValue == "") {
 				throw new Exception("Property Value not specified");
+			}
 
 			//build URI to merge Docs
 			$strURI = Product::$BaseProductUri . "/words/" . $this->FileName . "/documentProperties/" . $propertyName;
@@ -162,28 +162,27 @@ class WordDocument
 
 			$json = json_decode($responseStream);
 
-			if($json->Code == 200)
+			if ($json->Code == 200) {
 				return $json->DocumentProperty;
-			else
+			} else {
 				return false;
+			}
 
 		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Delete a document property
-	@param string $propertyName
+	* @param string $propertyName
 	*/
-	public function DeleteProperty($propertyName){
-		try{
-			//check whether files are set or not
-			if ($this->FileName == "")
-				throw new Exception("Base file not specified");
-
-			if ($propertyName == "")
+	public function deleteProperty($propertyName)
+	{
+       try {
+			if ($propertyName == "") {
 				throw new Exception("Property Name not specified");
+			}
 
 			//build URI to merge Docs
 			$strURI = Product::$BaseProductUri . "/words/" . $this->FileName . "/documentProperties/" . $propertyName;
@@ -195,26 +194,23 @@ class WordDocument
 
 			$json = json_decode($responseStream);
 
-			if($json->Code == 200)
+			if ($json->Code == 200) {
 				return true;
-			else
+			} else {
 				return false;
+			}
 
 		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Get Document's properties
 	*/
-	public function GetProperties(){
-		try{
-			//check whether files are set or not
-			if ($this->FileName == "")
-				throw new Exception("Base file not specified");
-
-
+	public function getProperties()
+	{
+       try {
 			//build URI to merge Docs
 			$strURI = Product::$BaseProductUri . "/words/" . $this->FileName . "/documentProperties";
 
@@ -225,42 +221,40 @@ class WordDocument
 
 			$json = json_decode($responseStream);
 
-
-			if($json->Code == 200)
+			if ($json->Code == 200) {
 				return $json->DocumentProperties->List;
-			else
+			} else {
 				return false;
+			}
 
 		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Convert Document to different file format without using storage
 	* $param string $inputPath
 	* @param string $outputPath
 	* @param string $outputFormat
 	*/
-	public function ConvertLocalFile($inputPath="",$outputPath="",$outputFormat="")
+	public function convertLocalFile($inputPath="", $outputPath="", $outputFormat="")
 	{
-		try
-		{
+		try {
 			//check whether file is set or not
-			if ($inputPath == "")
+			if ($inputPath == "") {
 				throw new Exception("No file name specified");
+			}
 
-			if ($outputFormat == "")
+			if ($outputFormat == "") {
 				throw new Exception("output format not specified");
-
+			}
 
 			$strURI = Product::$BaseProductUri . "/words/convert?format=" . $outputFormat;
 
-			if(!file_exists($inputPath))
-			{
+			if (!file_exists($inputPath)) {
 				throw new Exception("input file doesn't exist.");
 			}
-
 
 			$signedURI = Utils::Sign($strURI);
 
@@ -268,26 +262,25 @@ class WordDocument
 
 			$v_output = Utils::ValidateOutput($responseStream);
 
-			if ($v_output === "")
-			{
-				if($outputFormat == "html")
+			if ($v_output === "") {
+				if ($outputFormat == "html") {
 					$save_format = "zip";
-				else
+				} else {
 					$save_format = $outputFormat;
+				}
 
-				if($outputPath == "")
-				{
+				if ($outputPath == "") {
 					$outputPath = Utils::getFileName($inputPath). "." . $save_format;
 				}
 
 				Utils::saveFile($responseStream, SaasposeApp::$OutPutLocation . $outputPath);
 				return true;
-			}
-			else
+
+			} else {
 				return $v_output;
-		}
-		catch (Exception $e)
-		{
+			}
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}

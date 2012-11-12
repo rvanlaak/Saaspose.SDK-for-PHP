@@ -1,34 +1,37 @@
 <?php
 
-namespace Saaspose\Pdf;
+namespace Saaspose\Slides;
 
-/*
+use Saaspose\Common\Product;
+use Saaspose\Common\Utils;
+use Saaspose\Exception\SaasposeException as Exception;
+
+/**
 * Deals with PowerPoint document level aspects
 */
-class SlideDocument
+class Document
 {
-	public $FileName = "";
+	public $fileName = "";
 
-	public function SlideDocument($fileName)
+	public function __construct($fileName)
 	{
 		//set default values
-		$this->FileName = $fileName;
+		$this->fileName = $fileName;
+
+		//check whether file is set or not
+		if ($this->fileName == "") {
+			throw new Exception("No file name specified");
+		}
 	}
 
-	/*
+	/**
     * Finds the slide count of the specified PowerPoint document
 	*/
-
-	public function GetSlideCount()
+	public function getSlideCount()
 	{
-		try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-
+		try {
 			//Build URI to get a list of slides
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->FileName . "/slides";
+			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides";
 
 			$signedURI = Utils::Sign($strURI);
 
@@ -37,44 +40,37 @@ class SlideDocument
 			$json = json_decode($responseStream);
 
 			return count($json->Slides->SlideList);
-		}
-		catch (Exception $e)
-		{
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Replaces all instances of old text with new text in a presentation or a particular slide
 	* @param string $oldText
 	* @param string $newText
 	*/
-	public function ReplaceText()
+	public function replaceText()
 	{
+		// FIXME do not use func_get_args
 		$parameters = func_get_args();
 
 		//set parameter values
-		if(count($parameters)==2)
-		{
+		if (count($parameters) == 2) {
 			$oldText = $parameters[0];
 			$newText = $parameters[1];
-		}
-		else if(count($parameters)==3)
-		{
+		} else if(count($parameters) == 3) {
 			$oldText = $parameters[0];
 			$newText = $parameters[1];
 			$slideNumber = $parameters[2];
-		}
-		else
+		} else {
 			throw new Exception("Invalid number of arguments");
-		try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
+		}
 
+		try {
 			//Build URI to replace text
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->FileName . ((isset($parameters[2]))? "/slides/" . $slideNumber: "") .
+			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . ((isset($parameters[2]))? "/slides/" . $slideNumber: "") .
 						"/replaceText?oldValue=" . $oldText . "&newValue=" . $newText . "&ignoreCase=true";
 
 			$signedURI = Utils::Sign($strURI);
@@ -86,42 +82,36 @@ class SlideDocument
 			if ($v_output === "") {
 				//Save doc on server
 				$folder = new Folder();
-				$outputStream = $folder->GetFile($this->FileName);
-				$outputPath = SaasposeApp::$OutPutLocation . $this->FileName;
+				$outputStream = $folder->GetFile($this->fileName);
+				$outputPath = SaasposeApp::$OutPutLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
-			}
-			else
+			} else {
 				return $v_output;
-		}
-		catch (Exception $e)
-		{
+			}
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Gets all the text items in a slide or presentation
 	*/
-	public function GetAllTextItems()
+	public function getAllTextItems()
 	{
+		// FIXME do not use func_get_args
 		$parameters = func_get_args();
 
 		//set parameter values
-		if(count($parameters)>0)
-		{
+		if (count($parameters) > 0) {
 			$slideNumber = $parameters[0];
 			$withEmpty = $parameters[1];
 		}
 
-		try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-
+		try {
 			//Build URI to get all text items
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->FileName .
+			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName .
 						((isset($parameters[0]))? "/slides/" . $slideNumber . "/textItems?withEmpty=" . $withEmpty: "/textItems");
 
 			$signedURI = Utils::Sign($strURI);
@@ -131,26 +121,20 @@ class SlideDocument
 			$json = json_decode($responseStream);
 
 			return $json->TextItems->Items;
-		}
-		catch (Exception $e)
-		{
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Deletes all slides from a presentation
 	*/
-	public function DeleteAllSlides()
+	public function deleteAllSlides()
 	{
-		try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-
+		try {
 			//Build URI to replace text
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->FileName . "/slides";
+			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides";
 
 			$signedURI = Utils::Sign($strURI);
 
@@ -161,32 +145,28 @@ class SlideDocument
 			if ($v_output === "") {
 				//Save doc on server
 				$folder = new Folder();
-				$outputStream = $folder->GetFile($this->FileName);
-				$outputPath = SaasposeApp::$OutPutLocation . $this->FileName;
+				$outputStream = $folder->GetFile($this->fileName);
+				$outputPath = SaasposeApp::$OutPutLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
-			}
-			else
+
+			} else {
 				return $v_output;
-		}
-		catch (Exception $e)
-		{
+			}
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Get Document's properties
 	*/
-	public function GetDocumentProperties(){
-		try{
-			//check whether files are set or not
-			if ($this->FileName == "")
-				throw new Exception("Base file not specified");
-
-
+	public function getDocumentProperties()
+	{
+		try {
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->FileName . "/documentProperties";
+			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/documentProperties";
 
 			//sign URI
 			$signedURI = Utils::Sign($strURI);
@@ -195,32 +175,30 @@ class SlideDocument
 
 			$json = json_decode($responseStream);
 
-
-			if($json->Code == 200)
+			if($json->Code == 200) {
 				return $json->DocumentProperties->List;
-			else
+			} else {
 				return false;
+			}
 
 		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Get Resource Properties information like document source format, IsEncrypted, IsSigned and document properties
-	@param string $propertyName
+	* @param string $propertyName
 	*/
-	public function GetDocumentProperty($propertyName){
-		try{
-			//check whether files are set or not
-			if ($this->FileName == "")
-				throw new Exception("Base file not specified");
-
-			if ($propertyName == "")
+	public function getDocumentProperty($propertyName)
+	{
+		try {
+			if ($propertyName == "") {
 				throw new Exception("Property Name not specified");
+			}
 
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->FileName . "/presentation/documentProperties/" . $propertyName;
+			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/presentation/documentProperties/" . $propertyName;
 
 			//sign URI
 			$signedURI = Utils::Sign($strURI);
@@ -230,28 +208,30 @@ class SlideDocument
 			$json = json_decode($responseStream);
 
 
-			if($json->Code == 200)
+			if($json->Code == 200) {
 				return $json->DocumentProperty;
-			else
+			} else {
 				return false;
+			}
 
 		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Remove All Document's properties
 	*/
-	public function RemoveAllProperties(){
+	public function removeAllProperties()
+	{
 		try{
 			//check whether files are set or not
-			if ($this->FileName == "")
+			if ($this->fileName == "") {
 				throw new Exception("Base file not specified");
-
+			}
 
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->FileName . "/documentProperties";
+			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/documentProperties";
 
 			//sign URI
 			$signedURI = Utils::Sign($strURI);
@@ -259,14 +239,14 @@ class SlideDocument
 			$responseStream = Utils::processCommand($signedURI, "DELETE");
 
 			$json = json_decode($responseStream);
-			if(is_object($json))
-			{
-				if($json->Code == 200)
-					return true;
-				else
-					return false;
-			}
 
+			if (is_object($json)) {
+				if($json->Code == 200) {
+					return true;
+				} else {
+					return false;
+				}
+			}
 			return true;
 
 		} catch (Exception $e) {
@@ -274,21 +254,19 @@ class SlideDocument
 		}
 	}
 
-	/*
+	/**
     * Delete a document property
-	@param string $propertyName
+	* @param string $propertyName
 	*/
-	public function DeleteDocumentProperty($propertyName){
-		try{
-			//check whether files are set or not
-			if ($this->FileName == "")
-				throw new Exception("Base file not specified");
-
-			if ($propertyName == "")
+	public function deleteDocumentProperty($propertyName)
+	{
+		try {
+			if ($propertyName == "") {
 				throw new Exception("Property Name not specified");
+			}
 
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->FileName . "/documentProperties/" . $propertyName;
+			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/documentProperties/" . $propertyName;
 
 			//sign URI
 			$signedURI = Utils::Sign($strURI);
@@ -297,35 +275,34 @@ class SlideDocument
 
 			$json = json_decode($responseStream);
 
-			if($json->Code == 200)
+			if($json->Code == 200) {
 				return true;
-			else
+			} else {
 				return false;
+			}
 
 		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Set document property
-	@param string $propertyName
-	@param string $propertyValue
+	* @param string $propertyName
+	* @param string $propertyValue
 	*/
-	public function SetProperty($propertyName="",$propertyValue=""){
-		try{
-			//check whether files are set or not
-			if ($this->FileName == "")
-				throw new Exception("Base file not specified");
-
-			if ($propertyName == "")
+	public function setProperty($propertyName="", $propertyValue="")
+	{
+		try {
+			if ($propertyName == "") {
 				throw new Exception("Property Name not specified");
-
-			if ($propertyValue == "")
+			}
+			if ($propertyValue == "") {
 				throw new Exception("Property Value not specified");
+			}
 
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->FileName . "/documentProperties/" . $propertyName;
+			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/documentProperties/" . $propertyName;
 
 			$put_data_arr['Value'] = $propertyValue;
 
@@ -338,32 +315,30 @@ class SlideDocument
 
 			$json = json_decode($responseStream);
 
-			if($json->Code == 200)
+			if ($json->Code == 200) {
 				return $json->DocumentProperty;
-			else
+			} else {
 				return false;
+			}
 
 		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Add custom document properties
-	@param array $propertiesList
+	* @param array $propertiesList
 	*/
-	public function AddCustomProperty($propertiesList=""){
-		try{
-			//check whether files are set or not
-			if ($this->FileName == "")
-				throw new Exception("Base file not specified");
-
-			if ($propertiesList == "")
+	public function addCustomProperty($propertiesList = "")
+	{
+		try {
+			if ($propertiesList == "") {
 				throw new Exception("Properties not specified");
-
+			}
 
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->FileName . "/documentProperties";
+			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/documentProperties";
 
 			$put_data = json_encode($propertiesList);
 
@@ -381,29 +356,23 @@ class SlideDocument
 		}
 	}
 
-	/*
+	/**
     *saves the document into various formats
 	* @param string $outputPath
 	* @param string $saveFormat
 	*/
-
-    public function SaveAs($outputPath="",$saveFormat="")
+    public function saveAs($outputPath="", $saveFormat="")
     {
-       try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-
-			if ($outputPath == "")
+       try {
+			if ($outputPath == "") {
 				throw new Exception("Output path not specified");
+			}
 
-			if ($saveFormat == "")
+			if ($saveFormat == "") {
 				throw new Exception("Save format not specified");
+			}
 
-
-
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->FileName . "?format=" . $saveFormat;
+			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "?format=" . $saveFormat;
 
 			$signedURI = Utils::Sign($strURI);
 
@@ -411,37 +380,27 @@ class SlideDocument
 
 			$v_output = Utils::ValidateOutput($responseStream);
 
-			if ($v_output === "")
-			{
-
-				Utils::saveFile($responseStream, $outputPath . Utils::getFileName($this->FileName) . "." . $saveFormat);
+			if ($v_output === "") {
+				Utils::saveFile($responseStream, $outputPath . Utils::getFileName($this->fileName) . "." . $saveFormat);
 				return true;
-			}
-			else
+			} else {
 				return $v_output;
+			}
 
-		}
-		catch (Exception $e)
-		{
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
     }
 
-	/*
-    *Saves a particular slide into various formats
+	/**
+    * Saves a particular slide into various formats
 	* @param number $slideNumber
 	* @param string $outputPath
 	* @param string $saveFormat
 	*/
-
-    public function SaveSlideAs($slideNumber="",$outputPath="",$saveFormat="")
+    public function saveSlideAs($slideNumber="", $outputPath="", $saveFormat="")
     {
-       try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-
+       try {
 			if ($outputPath == "")
 				throw new Exception("Output path not specified");
 
@@ -451,9 +410,7 @@ class SlideDocument
 			if ($slideNumber == "")
 				throw new Exception("Slide number not specified");
 
-
-
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->FileName . "/slides/$slideNumber?format=" . $saveFormat;
+			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides/$slideNumber?format=" . $saveFormat;
 
 			$signedURI = Utils::Sign($strURI);
 
@@ -461,18 +418,14 @@ class SlideDocument
 
 			$v_output = Utils::ValidateOutput($responseStream);
 
-			if ($v_output === "")
-			{
-
-				Utils::saveFile($responseStream, $outputPath . Utils::getFileName($this->FileName) . "." . $saveFormat);
+			if ($v_output === "") {
+				Utils::saveFile($responseStream, $outputPath . Utils::getFileName($this->fileName) . "." . $saveFormat);
 				return true;
-			}
-			else
+			} else {
 				return $v_output;
+			}
 
-		}
-		catch (Exception $e)
-		{
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
     }

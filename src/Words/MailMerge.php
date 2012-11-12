@@ -2,25 +2,39 @@
 
 namespace Saaspose\Words;
 
-/*
+use Saaspose\Common\Utils;
+use Saaspose\Common\Product;
+use Saaspose\Exception\SaasposeException as Exception;
+use Saaspose\Storage\Folder;
+
+/**
 * Deals with Word document builder aspects
 */
-class WordMailMerge
+class MailMerge
 {
 
-	/*
+	public $fileName;
+
+	public function __construct($fileName)
+	{
+		$this->fileName = $fileName;
+
+		//check whether files are set or not
+		if ($this->fileName == "") {
+			throw new Exception("File not specified");
+		}
+	}
+
+	/**
     * Executes mail merge without regions.
 	* @param string $fileName
 	* @param string $strXML
 	*/
-	public function ExecuteMailMerge($fileName, $strXML) {
+	public function executeMailMerge($strXML)
+	{
        try {
-			//check whether files are set or not
-			if ($fileName == "")
-				throw new Exception("File not specified");
-
 			//build URI to execute mail merge without regions
-			$strURI = Product::$BaseProductUri . "/words/" . $fileName . "/executeMailMerge";
+			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/executeMailMerge";
 
 			//sign URI
 			$signedURI = Utils::Sign($strURI);
@@ -34,31 +48,28 @@ class WordMailMerge
 				//Save docs on server
 				$folder = new Folder();
 				$outputStream = $folder->GetFile($json->Document->FileName);
-				$outputPath = SaasposeApp::$OutPutLocation . $fileName;
+				$outputPath = SaasposeApp::$OutPutLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
-			}
-			else
+			} else {
 				return $v_output;
-		}
-		catch (Exception $e) {
+			}
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
     }
 
-	/*
+	/**
     * Executes mail merge with regions.
 	* @param string $fileName
 	* @param string $strXML
 	*/
-	public function ExecuteMailMergewithRegions($fileName, $strXML) {
+	public function executeMailMergewithRegions($strXML)
+	{
        try {
-			//check whether files are set or not
-			if ($fileName == "")
-				throw new Exception("File not specified");
-
 			//build URI to execute mail merge with regions
-			$strURI = Product::$BaseProductUri . "/words/" . $fileName . "/executeMailMerge?withRegions=true";
+			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/executeMailMerge?withRegions=true";
 
 			//sign URI
 			$signedURI = Utils::Sign($strURI);
@@ -75,28 +86,25 @@ class WordMailMerge
 				$outputPath = SaasposeApp::$OutPutLocation . $fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
-			}
-			else
+			} else {
 				return $v_output;
-		}
-		catch (Exception $e) {
+			}
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
     }
 
-	/*
+	/**
     * Executes mail merge template.
 	* @param string $fileName
 	* @param string $strXML
 	*/
-	public function ExecuteTemplate($fileName, $strXML) {
+	public function executeTemplate($strXML)
+	{
        try {
-			//check whether files are set or not
-			if ($fileName == "")
-				throw new Exception("File not specified");
-
 			//build URI to execute mail merge template
-			$strURI = Product::$BaseProductUri . "/words/" . $fileName . "/executeTemplate";
+			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/executeTemplate";
 
 			//sign URI
 			$signedURI = Utils::Sign($strURI);
@@ -107,17 +115,18 @@ class WordMailMerge
 
 			if ($v_output === "") {
 				$json = json_decode($responseStream);
+
 				//Save docs on server
 				$folder = new Folder();
 				$outputStream = $folder->GetFile($json->Document->FileName);
-				$outputPath = SaasposeApp::$OutPutLocation . $fileName;
+				$outputPath = SaasposeApp::$OutPutLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
-			}
-			else
+			} else {
 				return $v_output;
-		}
-		catch (Exception $e) {
+			}
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
     }

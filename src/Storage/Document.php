@@ -2,31 +2,34 @@
 
 namespace Saaspose\Storage;
 
-/*
+use Saaspose\Exception\SaasposeException as Exception;
+use Saaspose\Common\Product;
+use Saaspose\Common\Utils;
+
+/**
 * Deals with PowerPoint document level aspects
 */
-class SlideDocument
+class Document
 {
 	public $FileName = "";
 
-	public function SlideDocument($fileName)
+	public function __construct($fileName)
 	{
 		//set default values
-		$this->FileName = $fileName;
+		$this->fileName = $fileName;
+
+		//check whether file is set or not
+		if ($this->fileName == "") {
+			throw new Exception("No file name specified");
+		}
 	}
 
-	/*
+	/**
     * Finds the slide count of the specified PowerPoint document
 	*/
-
-	public function GetSlideCount()
+	public function getSlideCount()
 	{
-		try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-
+		try {
 			//Build URI to get a list of slides
 			$strURI = Product::$BaseProductUri . "/slides/" . $this->FileName . "/slides";
 
@@ -37,42 +40,35 @@ class SlideDocument
 			$json = json_decode($responseStream);
 
 			return count($json->Slides->SlideList);
-		}
-		catch (Exception $e)
-		{
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Replaces all instances of old text with new text in a presentation or a particular slide
 	* @param string $oldText
 	* @param string $newText
 	*/
-	public function ReplaceText()
+	public function replaceText()
 	{
+		// FIXME get rid of the func_get_args
 		$parameters = func_get_args();
 
 		//set parameter values
-		if(count($parameters)==2)
-		{
+		if (count($parameters) == 2) {
 			$oldText = $parameters[0];
 			$newText = $parameters[1];
-		}
-		else if(count($parameters)==3)
-		{
+		} else if (count($parameters) == 3) {
 			$oldText = $parameters[0];
 			$newText = $parameters[1];
 			$slideNumber = $parameters[2];
-		}
-		else
+		} else {
 			throw new Exception("Invalid number of arguments");
-		try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
+		}
 
+		try {
 			//Build URI to replace text
 			$strURI = Product::$BaseProductUri . "/slides/" . $this->FileName . ((isset($parameters[2]))? "/slides/" . $slideNumber: "") .
 						"/replaceText?oldValue=" . $oldText . "&newValue=" . $newText . "&ignoreCase=true";
@@ -90,39 +86,34 @@ class SlideDocument
 				$outputPath = SaasposeApp::$OutPutLocation . $this->FileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
-			}
-			else
+			} else {
 				return $v_output;
-		}
-		catch (Exception $e)
-		{
+			}
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Gets all the text items in a slide or presentation
 	*/
-	public function GetAllTextItems()
+	public function getAllTextItems()
 	{
+		// FIXME get rid of the func_get_args
 		$parameters = func_get_args();
 
 		//set parameter values
-		if(count($parameters)>0)
-		{
+		if (count($parameters) > 0) {
 			$slideNumber = $parameters[0];
 			$withEmpty = $parameters[1];
 		}
 
-		try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-
-			//Build URI to get all text items
+		try {
+			//Build URI to get all text items TODO make use of sprintf
 			$strURI = Product::$BaseProductUri . "/slides/" . $this->FileName .
-						((isset($parameters[0]))? "/slides/" . $slideNumber . "/textItems?withEmpty=" . $withEmpty: "/textItems");
+								((isset($parameters[0]))? "/slides/" . $slideNumber .
+								"/textItems?withEmpty=" . $withEmpty: "/textItems");
 
 			$signedURI = Utils::Sign($strURI);
 
@@ -131,24 +122,18 @@ class SlideDocument
 			$json = json_decode($responseStream);
 
 			return $json->TextItems->Items;
-		}
-		catch (Exception $e)
-		{
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Deletes all slides from a presentation
 	*/
-	public function DeleteAllSlides()
+	public function deleteAllSlides()
 	{
-		try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-
+		try {
 			//Build URI to replace text
 			$strURI = Product::$BaseProductUri . "/slides/" . $this->FileName . "/slides";
 
@@ -165,12 +150,11 @@ class SlideDocument
 				$outputPath = SaasposeApp::$OutPutLocation . $this->FileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
-			}
-			else
+			} else {
 				return $v_output;
-		}
-		catch (Exception $e)
-		{
+			}
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}

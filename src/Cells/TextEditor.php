@@ -5,7 +5,7 @@ namespace Saaspose\Cells;
 /*
 * This class contains features to work with text
 */
-class CellsTextEditor
+class TextEditor
 {
 	public $FileName = "";
 

@@ -2,12 +2,16 @@
 
 namespace Saaspose\Barcode;
 
-/*
+use Saaspose\Common\SaasposeApp;
+use Saaspose\Common\Utils;
+use Saaspose\Common\Product;
+
+/**
 * generates new barcodes
 */
-class BarcodeBuilder
+class Builder
 {
-	/*
+	/**
     * generates new barcodes with specific text, symbology, image format, resolution and dimensions
 	* @param string $codeText
 	* @param string $symbology
@@ -17,7 +21,7 @@ class BarcodeBuilder
 	* @param string $xDimension
 	* @param string $yDimension
 	*/
-	public function Save($codeText, $symbology, $imageFormat, $xResolution, $yResolution,
+	public function save($codeText, $symbology, $imageFormat, $xResolution, $yResolution,
 	                                $xDimension, $yDimension)
 	{
 		//build URI to generate barcode
@@ -27,8 +31,8 @@ class BarcodeBuilder
 					($yResolution <= 0 ? "" : "&resolutionY=" . $yResolution) .
 					($xDimension <= 0 ? "" : "&dimensionX=" . $xDimension) .
 					($yDimension <= 0 ? "" : "&dimensionY=" . $yDimension);
-		try
-		{
+
+		try {
 			//sign URI
 			$signedURI = Utils::Sign($strURI);
 
@@ -39,9 +43,8 @@ class BarcodeBuilder
 			$outputPath = SaasposeApp::$OutPutLocation . "barcode" . $symbology . "." . $imageFormat;
 			Utils::saveFile($responseStream, $outputPath);
 			return $outputPath;
-		}
-		catch (Exception $e)
-		{
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}

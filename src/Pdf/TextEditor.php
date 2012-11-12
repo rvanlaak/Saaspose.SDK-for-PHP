@@ -2,39 +2,40 @@
 
 namespace Saaspose\Pdf;
 
-/*
+/**
 * This class contains features to work with text
 */
+use Saaspose\Exception\Exception as Exception;
+use Saaspose\Common\Utils;
+
 class TextEditor
 {
-	public $FileName = "";
+	public $fileName = "";
 
-    public function TextEditor($fileName)
+    public function __construct($fileName)
     {
-        $this->FileName = $fileName;
+        $this->fileName = $fileName;
     }
 
-
-	/*
+	/**
     * Gets raw text from the whole PDF file or a specific page
 	*/
-
-	public function GetText()
+	public function getText()
 	{
 		$parameters = func_get_args();
 
 		//set parameter values
-		if(count($parameters)>0)
-		{
+		if (count($parameters)>0) {
 			$pageNumber = $parameters[0];
 		}
-		try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
 
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->FileName .
+		try {
+			//check whether file is set or not
+			if ($this->fileName == "") {
+				throw new Exception("No file name specified");
+			}
+
+			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName .
 						((isset($parameters[0]))? "/pages/" . $pageNumber . "/TextItems" : "/TextItems");
 
 			$signedURI = Utils::Sign($strURI);
@@ -49,33 +50,29 @@ class TextEditor
 			}
 			return $rawText;
 
-		}
-		catch (Exception $e)
-		{
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Gets text items from the whole PDF file or a specific page
 	*/
-
-	public function GetTextItems()
+	public function getTextItems()
 	{
 		$parameters = func_get_args();
 
 		//set parameter values
-		if(count($parameters)>0)
-		{
+		if (count($parameters)>0) {
 			$pageNumber = $parameters[0];
 		}
-		try
-		{
+
+		try {
 			//check whether file is set or not
-			if ($this->FileName == "")
+			if ($this->fileName == "")
 				throw new Exception("No file name specified");
 
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->FileName .
+			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName .
 						((isset($parameters[0]))? "/pages/" . $pageNumber . "/TextItems" : "/TextItems");
 
 			$signedURI = Utils::Sign($strURI);
@@ -85,27 +82,23 @@ class TextEditor
 			$json = json_decode($responseStream);
 
 			return $json->TextItems->List;
-		}
-		catch (Exception $e)
-		{
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Gets count of the fragments from a particular page
 	* $pageNumber
 	*/
-
-	public function GetFragmentCount($pageNumber)
+	public function getFragmentCount($pageNumber)
 	{
-		try
-		{
+		try {
 			//check whether file is set or not
-			if ($this->FileName == "")
+			if ($this->fileName == "")
 				throw new Exception("No file name specified");
 
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->FileName . "/pages/" . $pageNumber . "/fragments";
+			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "/fragments";
 
 			$signedURI = Utils::Sign($strURI);
 
@@ -115,26 +108,22 @@ class TextEditor
 
 			return count($json->TextItems->List);
 
-		}
-		catch (Exception $e)
-		{
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
 
-	/*
+	/**
     * Gets count of the segments in a fragment
 	* @param number $pageNumber
 	* @param number $fragmentNumber
 	*/
-
-	public function GetSegmentCount($pageNumber="",$fragmentNumber="")
+	public function getSegmentCount($pageNumber="",$fragmentNumber="")
 	{
-		try
-		{
+		try {
 			//check whether file is set or not
-			if ($this->FileName == "")
+			if ($this->fileName == "")
 				throw new Exception("No file name specified");
 
 			if ($pageNumber == "")
@@ -144,7 +133,7 @@ class TextEditor
 				throw new Exception("fragment number not specified");
 
 
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->FileName . "/pages/" . $pageNumber . "/fragments/" . $fragmentNumber;
+			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "/fragments/" . $fragmentNumber;
 
 			$signedURI = Utils::Sign($strURI);
 
@@ -154,28 +143,24 @@ class TextEditor
 
 			return count($json->TextItems->List);
 
-		}
-		catch (Exception $e)
-		{
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Gets TextFormat of a particular Fragment
 	* $pageNumber
 	* $fragmentNumber
 	*/
-
-	public function GetTextFormat($pageNumber, $fragmentNumber)
+	public function getTextFormat($pageNumber, $fragmentNumber)
 	{
-		try
-		{
+		try {
 			//check whether file is set or not
-			if ($this->FileName == "")
+			if ($this->fileName == "")
 				throw new Exception("No file name specified");
 
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->FileName . "/pages/" . $pageNumber .
+			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber .
 						"/fragments/" . $fragmentNumber . "/textformat";
 
 			$signedURI = Utils::Sign($strURI);
@@ -186,9 +171,7 @@ class TextEditor
 
 			return $json->TextFormat;
 
-		}
-		catch (Exception $e)
-		{
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
@@ -198,30 +181,26 @@ class TextEditor
 	* @param string $oldText
 	* @param string $newText
 	*/
-	public function ReplaceText()
+	public function replaceText()
 	{
 		$parameters = func_get_args();
 
 		//set parameter values
-		if(count($parameters)==3)
-		{
+		if(count($parameters)==3) {
 			$oldText = $parameters[0];
 			$newText = $parameters[1];
 			$isRegularExpression = $parameters[2];
-		}
-		else if(count($parameters)==4)
-		{
+		} else if (count($parameters) == 4) {
 			$oldText = $parameters[0];
 			$newText = $parameters[1];
 			$isRegularExpression = $parameters[2];
 			$pageNumber = $parameters[3];
-		}
-		else
+		} else {
 			throw new Exception("Invalid number of arguments");
-		try
-		{
+		}
+		try {
 			//check whether file is set or not
-			if ($this->FileName == "")
+			if ($this->fileName == "")
 				throw new Exception("No file name specified");
 
 			//Build JSON to post
@@ -229,7 +208,7 @@ class TextEditor
 			$json = json_encode($fieldsArray);
 
 			//Build URI to replace text
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->FileName . ((isset($parameters[3]))? "/pages/" . $pageNumber: "") .
+			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . ((isset($parameters[3]))? "/pages/" . $pageNumber: "") .
 						"/replaceText";
 
 			$signedURI = Utils::Sign($strURI);
@@ -241,8 +220,8 @@ class TextEditor
 			if ($v_output === "") {
 				//Save doc on server
 				$folder = new Folder();
-				$outputStream = $folder->GetFile($this->FileName);
-				$outputPath = SaasposeApp::$OutPutLocation . $this->FileName;
+				$outputStream = $folder->GetFile($this->fileName);
+				$outputPath = SaasposeApp::$OutPutLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
 			}

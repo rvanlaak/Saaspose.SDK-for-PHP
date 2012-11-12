@@ -2,7 +2,11 @@
 
 namespace Saaspose\Storage;
 
-/*
+use Saaspose\Common\Utils;
+use Saaspore\Common\Product;
+use Saaspose\Exception\SaasposeException as Exception;
+
+/**
 *  Main class that provides methods to perform all the transactions on the storage of a Saaspose Application.
 */
 class Folder
@@ -12,56 +16,54 @@ class Folder
 	public $strURIExist = "";
 	public $strURIDisc = "";
 
-	public function Folder()
+	public function __construct()
 	{
 		$this->strURIFolder = Product::$BaseProductUri . "/storage/folder/";
-		$this->strURIFile = Product::$BaseProductUri . "/storage/file/";
-		$this->strURIExist = Product::$BaseProductUri . "/storage/exist/";
-		$this->strURIDisc = Product::$BaseProductUri . "/storage/disc";
+		$this->strURIFile 	= Product::$BaseProductUri . "/storage/file/";
+		$this->strURIExist 	= Product::$BaseProductUri . "/storage/exist/";
+		$this->strURIDisc 	= Product::$BaseProductUri . "/storage/disc";
 	}
 
-	/*
+	/**
     * Uploads a file from your local machine to specified folder / subfolder on Saaspose storage.
     *
     * @param string $strFile
     * @param string $strFolder
     */
-    public function UploadFile($strFile, $strFolder)
+    public function uploadFile($strFile, $strFolder)
     {
-        try
-        {
+        try {
 			$strRemoteFileName = basename($strFile);
 
 			$strURIRequest = $this->strURIFile;
 
-			if($strFolder == "")
+			if ($strFolder == "") {
 				$strURIRequest .= $strRemoteFileName;
-			else
+			} else {
 				$strURIRequest .= $strFolder . "/". $strRemoteFileName;
+			}
 
 			$signedURI = Utils::Sign($strURIRequest);
 
 			Utils::uploadFileBinary($signedURI, $strFile);
 
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
 
-    /*
+    /**
     * Checks if a file exists
     *
     * @param string $fileName
     */
-    public function FileExists($fileName)
+    public function fileExists($fileName)
     {
-        try
-        {
+        try {
             //check whether file is set or not
-            if ($fileName == "")
+            if ($fileName == "") {
                 throw new Exception("No file name specified");
+            }
 
             //build URI
             $strURI = $this->strURIExist . $fileName;
@@ -71,27 +73,27 @@ class Folder
 
             $responseStream = json_decode(Utils::processCommand($signedURI, "GET", "", ""));
             if (!$responseStream->FileExist->IsExist) {
-                return FALSE;
+                return false;
             }
-            return TRUE;
+            return true;
 
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
 
-    /*
+    /**
     * Deletes a file from remote storage
     *
     * @param string $fileName
     */
-    public function DeleteFile($fileName)
+    public function deleteFile($fileName)
     {
-        try
-        {
+        try {
             //check whether file is set or not
-            if ($fileName == "")
+            if ($fileName == "") {
                 throw new Exception("No file name specified");
+            }
 
             //build URI
             $strURI = $this->strURIFile . $fileName;
@@ -101,24 +103,23 @@ class Folder
 
             $responseStream = json_decode(Utils::processCommand($signedURI, "DELETE", "", ""));
             if ($responseStream->Code != 200) {
-                return FALSE;
+                return false;
             }
-            return TRUE;
+            return true;
 
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
 
-	/*
+	/**
     * Creates a new folder  under the specified folder on Saaspose storage. If no path specified, creates a folder under the root folder.
     *
     * @param string $strFolder
     */
-    public function CreateFolder($strFolder)
+    public function createFolder($strFolder)
     {
-        try
-        {
+        try {
 			//build URI
 			$strURIRequest = $this->strURIFolder . $strFolder;
 
@@ -128,28 +129,27 @@ class Folder
 			$responseStream = json_decode(Utils::processCommand($signedURI, "PUT", "", ""));
 
             if ($responseStream->Code != 200) {
-                return FALSE;
+                return false;
             }
-            return TRUE;
-        }
-        catch (Exception $e)
-        {
+            return true;
+
+        } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
 
-	/*
+	/**
     * Deletes a folder from remote storage
     *
     * @param string $folderName
     */
-    public function DeleteFolder($folderName)
+    public function deleteFolder($folderName)
     {
-        try
-        {
+        try {
             //check whether folder is set or not
-            if ($folderName == "")
+            if ($folderName == "") {
                 throw new Exception("No folder name specified");
+            }
 
             //build URI
             $strURI = $this->strURIFolder . $folderName;
@@ -159,22 +159,21 @@ class Folder
 
             $responseStream = json_decode(Utils::processCommand($signedURI, "DELETE", "", ""));
             if ($responseStream->Code != 200) {
-                return FALSE;
+                return false;
             }
-            return TRUE;
+            return true;
 
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
 
-	/*
+	/**
     * Provides the total / free disc size in bytes for your app
     */
-    public function GetDiscUsage()
+    public function getDiscUsage()
     {
-        try
-        {
+        try {
             //build URI
             $strURI = $this->strURIDisc;
 
@@ -184,23 +183,24 @@ class Folder
             $responseStream = json_decode(Utils::processCommand($signedURI, "GET", "", ""));
 
             return $responseStream->DiscUsage;
+
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
 
-	/*
+	/**
     * Get file from Saaspose server
     *
     * @param string $fileName
     */
-    public function GetFile($fileName)
+    public function getFile($fileName)
     {
-        try
-        {
+        try {
             //check whether file is set or not
-            if ($fileName == "")
+            if ($fileName == "") {
                 throw new Exception("No file name specified");
+            }
 
             //build URI
             $strURI = $this->strURIFile . $fileName;
@@ -217,20 +217,21 @@ class Folder
         }
     }
 
-	/*
-    * Retrives the list of files and folders under the specified folder. Use empty string to specify root folder.
+	/**
+    * Retrieves the list of files and folders under the specified folder. Use empty string to specify root folder.
     *
     * @param string $strFolder
     */
-    public function GetFilesList($strFolder)
+    public function getFilesList($strFolder)
     {
-        try
-        {
+        try {
 			//build URI
             $strURI = $this->strURIFolder;
+
             //check whether file is set or not
-            if (!$strFolder == "")
+            if (!$strFolder == "") {
                 $strURI .= $strFolder;
+            }
 
             //sign URI
             $signedURI = Utils::Sign($strURI);

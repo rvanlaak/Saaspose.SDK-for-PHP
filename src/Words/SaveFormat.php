@@ -2,6 +2,8 @@
 
 namespace Saaspose\Words;
 
+// TODO put all formats in configuration file
+
     $WordSaveFormat = array(
 		"Doc" => "Doc",
 		"Dot" => "Dot",

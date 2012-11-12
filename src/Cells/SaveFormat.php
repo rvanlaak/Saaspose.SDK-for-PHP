@@ -2,6 +2,8 @@
 
 namespace Saaspose\Cells;
 
+// TODO put all formats in configuration file
+
     $CellSaveFormat = array(
 		"CSV" => "CSV",
 		"XLSX" => "XLSX",

@@ -5,35 +5,36 @@ namespace Saaspose\Pdf;
 /*
 * converts pages or document into different formats
 */
-class PDFConverter
+use Saaspose\Common\Utils;
+use Saaspose\Exception\Exception as Exception;
+
+class Converter
 {
-	public $FileName = "";
+	public $fileName = "";
 	public $saveformat = "";
 
-    public function PDFConverter($fileName)
+    public function __construct($fileName)
     {
-        $this->FileName = $fileName;
+        $this->fileName = $fileName;
 
 		$this->saveformat =  "Pdf";
     }
 
-	/*
+	/**
     * convert a particular page to image with specified size
 	* @param string $pageNumber
 	* @param string $imageFormat
 	* @param string $width
 	* @param string $height
 	*/
-
-    public function ConvertToImagebySize($pageNumber, $imageFormat, $width, $height)
+    public function convertToImagebySize($pageNumber, $imageFormat, $width, $height)
     {
-       try
-		{
+       try {
 			//check whether file is set or not
-			if ($this->FileName == "")
+			if ($this->fileName == "")
 				throw new Exception("No file name specified");
 
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->FileName . "/pages/" . $pageNumber . "?format=" . $imageFormat . "&width=" . $width . "&height=" . $height;
+			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "?format=" . $imageFormat . "&width=" . $width . "&height=" . $height;
 
 			$signedURI = Utils::Sign($strURI);
 
@@ -41,34 +42,31 @@ class PDFConverter
 
 			$v_output = Utils::ValidateOutput($responseStream);
 
-			if ($v_output === "")
-			{
-				Utils::saveFile($responseStream, SaasposeApp::$OutPutLocation . Utils::getFileName($this->FileName). "_" . $pageNumber . "." . $imageFormat);
+			if ($v_output === "") {
+				Utils::saveFile($responseStream, SaasposeApp::$OutPutLocation . Utils::getFileName($this->fileName). "_" . $pageNumber . "." . $imageFormat);
 				return "";
-			}
-			else
+			} else {
 				return $v_output;
-		}
-		catch (Exception $e)
-		{
+			}
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
     }
 
-	/*
+	/**
     * convert a particular page to image with default size
 	* @param string $pageNumber
 	* @param string $imageFormat
 	*/
-	public function ConvertToImage($pageNumber, $imageFormat)
+	public function convertToImage($pageNumber, $imageFormat)
 	{
-		try
-		{
+		try {
 			//check whether file is set or not
-			if ($this->FileName == "")
+			if ($this->fileName == "") {
 				throw new Exception("No file name specified");
+			}
 
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->FileName . "/pages/" . $pageNumber . "?format=" . $imageFormat;
+			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "?format=" . $imageFormat;
 
 			$signedURI = Utils::Sign($strURI);
 
@@ -78,7 +76,7 @@ class PDFConverter
 
 			if ($v_output === "")
 			{
-				Utils::saveFile($responseStream, SaasposeApp::$OutPutLocation . Utils::getFileName($this->FileName). "_" . $pageNumber . "." . $imageFormat);
+				Utils::saveFile($responseStream, SaasposeApp::$OutPutLocation . Utils::getFileName($this->fileName). "_" . $pageNumber . "." . $imageFormat);
 				return "";
 			}
 			else
@@ -91,18 +89,18 @@ class PDFConverter
 		}
     }
 
-	/*
+	/**
     * convert a document to SaveFormat
 	*/
-	public function Convert()
+	public function convert()
 	{
 		try
 		{
 			//check whether file is set or not
-			if ($this->FileName == "")
+			if ($this->fileName == "")
 				throw new Exception("No file name specified");
 
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->FileName . "?format=" . $this->saveformat;
+			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "?format=" . $this->saveformat;
 
 			$signedURI = Utils::Sign($strURI);
 
@@ -117,7 +115,7 @@ class PDFConverter
 				else
 					$save_format = $this->saveformat;
 
-				Utils::saveFile($responseStream, SaasposeApp::$OutPutLocation . Utils::getFileName($this->FileName). "." . $save_format);
+				Utils::saveFile($responseStream, SaasposeApp::$OutPutLocation . Utils::getFileName($this->fileName). "." . $save_format);
 				return "";
 			}
 			else
@@ -129,13 +127,13 @@ class PDFConverter
 		}
 	}
 
-	/*
+	/**
     * Convert PDF to different file format without using storage
 	* $param string $inputFile
 	* @param string $outputFilename
 	* @param string $outputFormat
 	*/
-	public function ConvertLocalFile($inputFile="",$outputFilename="",$outputFormat="")
+	public function convertLocalFile($inputFile="",$outputFilename="",$outputFormat="")
 	{
 		try
 		{

@@ -2,55 +2,62 @@
 
 namespace Saaspose\Words;
 
-/*
-* converts pages or document into different formats
-*/
-class WordConverter
+use Saaspose\Exception\SaasposeException as Exception;
+use Saaspose\Common\Product;
+use Saaspose\Common\SaasposeApp;
+use Saaspose\Common\Utils;
+
+/**
+ * converts pages or document into different formats
+ */
+class Converter
 {
-	public $FileName = "";
+
+	public $fileName = "";
 	public $saveformat = "";
 
-	public function WordConverter($fileName)
+	public function __construct($fileName)
 	{
 		//set default values
-		$this->FileName = $fileName;
+		$this->fileName = $fileName;
 
-		$this->saveformat =  "Doc";
+		$this->saveformat = "Doc";
+
+		//check whether file is set or not
+		if ($this->fileName == "") {
+			throw new Exception("No file name specified");
+		}
 	}
 
-	    /*
-        * convert a document to SaveFormat
-		*/
-        public function Convert()
-        {
-            try
-            {
-                //check whether file is set or not
-                if ($this->FileName == "")
-                   throw new Exception("No file name specified");
+	/**
+	 * convert a document to SaveFormat
+	 */
+	public function convert()
+	{
+		try {
+			//build URI
+			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName
+					. "?format=" . $this->saveformat;
 
-                //build URI
-                $strURI = Product::$BaseProductUri . "/words/" . $this->FileName . "?format=" . $this->saveformat;
+			//sign URI
+			$signedURI = Utils::Sign($strURI);
 
-                //sign URI
-                $signedURI = Utils::Sign($strURI);
+			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
-				$responseStream = Utils::processCommand($signedURI, "GET", "", "");
+			$v_output = Utils::ValidateOutput($responseStream);
 
-				$v_output = Utils::ValidateOutput($responseStream);
+			if ($v_output === "") {
+				Utils::saveFile($responseStream,
+						SaasposeApp::$OutPutLocation
+								. Utils::getFileName($this->fileName) . "."
+								. $this->saveformat);
+				return "";
+			} else {
+				return $v_output;
+			}
 
-				if ($v_output === "")
-				{
-					Utils::saveFile($responseStream, SaasposeApp::$OutPutLocation . Utils::getFileName($this->FileName). "." . $this->saveformat);
-					return "";
-				}
-				else
-					return $v_output;
-
-            }
-            catch (Exception $e)
-            {
-                throw new Exception($e->getMessage());
-            }
-        }
+		} catch (Exception $e) {
+			throw new Exception($e->getMessage());
+		}
+	}
 }

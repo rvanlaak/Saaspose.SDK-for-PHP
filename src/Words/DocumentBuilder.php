@@ -2,24 +2,39 @@
 
 namespace Saaspose\Words;
 
-/*
+use Saaspose\Storage\Folder;
+
+use Saaspose\Exception\SaasposeException as Exception;
+use Saaspose\Common\Product;
+use Saaspose\Common\Utils;
+
+/**
 * Deals with Word document builder aspects
 */
-class WordDocumentBuilder
+class DocumentBuilder
 {
 
-	/*
+	public $fileName = "";
+
+	public function __construct($fileName)
+	{
+		$this->fileName = $fileName;
+
+		//check whether file is set or not
+		if ($this->fileName == "") {
+			throw new Exception("No file name specified");
+		}
+	}
+
+	/**
     * Inserts water mark text into the document.
 	* @param string $fileName
 	* @param string $text
 	* @param string $rotationAngle
 	*/
-	public function InsertWatermarkText($fileName, $text, $rotationAngle) {
+	public function insertWatermarkText($text, $rotationAngle)
+	{
        try {
-			//check whether files are set or not
-			if ($fileName == "")
-				throw new Exception("File not specified");
-
 			//Build JSON to post
 			$fieldsArray = array('Text'=>$text, 'RotationAngle'=>$rotationAngle);
 			$json = json_encode($fieldsArray);
@@ -41,11 +56,11 @@ class WordDocumentBuilder
 				$outputPath = SaasposeApp::$OutPutLocation . $fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
-			}
-			else
+			} else {
 				return $v_output;
-		}
-		catch (Exception $e) {
+			}
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
     }
@@ -56,15 +71,12 @@ class WordDocumentBuilder
 	* @param string $imageFile
 	* @param string $rotationAngle
 	*/
-	public function InsertWatermarkImage($fileName, $imageFile, $rotationAngle) {
+	public function insertWatermarkImage($imageFile, $rotationAngle)
+	{
        try {
-			//check whether files are set or not
-			if ($fileName == "")
-				throw new Exception("File not specified");
-
 			//build URI to insert watermark image
 			$strURI = Product::$BaseProductUri . "/words/" . $fileName .
-			"/insertWatermarkImage?imageFile=" . $imageFile . "&rotationAngle=" . $rotationAngle;
+					"/insertWatermarkImage?imageFile=" . $imageFile . "&rotationAngle=" . $rotationAngle;
 
 			//sign URI
 			$signedURI = Utils::Sign($strURI);
@@ -80,16 +92,16 @@ class WordDocumentBuilder
 				$outputPath = SaasposeApp::$OutPutLocation . $fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
-			}
-			else
+			} else {
 				return $v_output;
-		}
-		catch (Exception $e) {
+			}
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
     }
 
-	/*
+	/**
     * Replace a text with the new value in the document
 	* @param string $fileName
 	* @param string $oldValue
@@ -97,12 +109,9 @@ class WordDocumentBuilder
 	* @param string $isMatchCase
 	* @param string $isMatchWholeWord
 	*/
-	public function ReplaceText($fileName, $oldValue, $newValue, $isMatchCase, $isMatchWholeWord) {
+	public function replaceText($fileName, $oldValue, $newValue, $isMatchCase, $isMatchWholeWord)
+	{
        try {
-			//check whether files are set or not
-			if ($fileName == "")
-				throw new Exception("File not specified");
-
 			//Build JSON to post
 			$fieldsArray = array('OldValue'=>$oldValue, 'NewValue'=>$newValue,
 									'IsMatchCase'=>$isMatchCase, 'IsMatchWholeWord'=>$isMatchWholeWord);
@@ -125,11 +134,11 @@ class WordDocumentBuilder
 				$outputPath = SaasposeApp::$OutPutLocation . $fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
-			}
-			else
+			} else {
 				return $v_output;
-		}
-		catch (Exception $e) {
+			}
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
     }

@@ -2,13 +2,28 @@
 
 namespace Saaspose\Words;
 
-/*
+use Saaspose\Storage\Folder;
+use Saaspose\Common\Product;
+use Saaspose\Exception\SaasposeException as Exception;
+
+/**
 * Deals with Word document builder aspects
 */
-class WordField
+class Field
 {
+	public $fileName;
 
-	/*
+	public function __construct($fileName)
+	{
+		$this->fileName = $fileName;
+
+		//check whether files are set or not
+		if ($this->fileName == "") {
+			throw new Exception("File not specified");
+		}
+	}
+
+	/**
     * Inserts page number filed into the document.
 	* @param string $fileName
 	* @param string $alignment
@@ -16,15 +31,13 @@ class WordField
 	* @param string $isTop
 	* @param string $setPageNumberOnFirstPage
 	*/
-	public function InsertPageNumber($fileName, $alignment, $format, $isTop, $setPageNumberOnFirstPage) {
+	public function insertPageNumber($alignment, $format, $isTop, $setPageNumberOnFirstPage)
+	{
        try {
-			//check whether files are set or not
-			if ($fileName == "")
-				throw new Exception("File not specified");
-
 			//Build JSON to post
 			$fieldsArray = array('Format'=>$format, 'Alignment'=>$alignment,
 									'IsTop'=>$isTop, 'SetPageNumberOnFirstPage'=>$setPageNumberOnFirstPage);
+
 			$json = json_encode($fieldsArray);
 
 			//build URI to insert page number
@@ -44,28 +57,24 @@ class WordField
 				$outputPath = SaasposeApp::$OutPutLocation . $fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
-			}
-			else
+
+			} else {
 				return $v_output;
-		}
-		catch (Exception $e) {
+			}
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
     }
 
-	/*
+	/**
     * Gets all merge filed names from document.
 	* @param string $fileName
 	*/
-	public function GetMailMergeFieldNames($fileName)
+	public function getMailMergeFieldNames()
 	{
-		try
-		{
-			//check whether file is set or not
-			if ($this->FileName == "")
-				throw new Exception("No file name specified");
-
-			$strURI = Product::$BaseProductUri . "/words/" . $this->FileName . "/mailMergeFieldNames";
+		try {
+			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/mailMergeFieldNames";
 
 			$signedURI = Utils::Sign($strURI);
 
@@ -75,9 +84,7 @@ class WordField
 
 			return $json->FieldNames->List;
 
-		}
-		catch (Exception $e)
-		{
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
