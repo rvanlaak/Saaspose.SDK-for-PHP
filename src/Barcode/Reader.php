@@ -32,7 +32,7 @@ class Reader
 	{
 	    try {
             //build URI to read barcode
-			$strURI = Product::$BaseProductUri . "/barcode/" . $this->fileName . "/recognize?" .
+			$strURI = Product::$baseProductUri . "/barcode/" . $this->fileName . "/recognize?" .
 						(!isset($symbology) || trim($symbology)==='' ? "type=" : "type=" . $symbology);
 
 			//sign URI

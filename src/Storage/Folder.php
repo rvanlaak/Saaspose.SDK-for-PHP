@@ -18,10 +18,10 @@ class Folder
 
 	public function __construct()
 	{
-		$this->strURIFolder = Product::$BaseProductUri . "/storage/folder/";
-		$this->strURIFile 	= Product::$BaseProductUri . "/storage/file/";
-		$this->strURIExist 	= Product::$BaseProductUri . "/storage/exist/";
-		$this->strURIDisc 	= Product::$BaseProductUri . "/storage/disc";
+		$this->strURIFolder = Product::$baseProductUri . "/storage/folder/";
+		$this->strURIFile 	= Product::$baseProductUri . "/storage/file/";
+		$this->strURIExist 	= Product::$baseProductUri . "/storage/exist/";
+		$this->strURIDisc 	= Product::$baseProductUri . "/storage/disc";
 	}
 
 	/**

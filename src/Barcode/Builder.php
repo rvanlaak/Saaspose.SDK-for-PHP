@@ -25,7 +25,7 @@ class Builder
 	                                $xDimension, $yDimension)
 	{
 		//build URI to generate barcode
-		$strURI = Product::$BaseProductUri . "/barcode/generate?text=" . $codeText .
+		$strURI = Product::$baseProductUri . "/barcode/generate?text=" . $codeText .
 					"&type=" . $symbology . "&format=" . $imageFormat .
 					($xResolution <= 0 ? "" : "&resolutionX=" . $xResolution) .
 					($yResolution <= 0 ? "" : "&resolutionY=" . $yResolution) .

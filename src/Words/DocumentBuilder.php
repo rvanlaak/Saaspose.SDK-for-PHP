@@ -40,7 +40,7 @@ class DocumentBuilder
 			$json = json_encode($fieldsArray);
 
 			//build URI to insert watermark text
-			$strURI = Product::$BaseProductUri . "/words/" . $fileName . "/insertWatermarkText";
+			$strURI = Product::$baseProductUri . "/words/" . $fileName . "/insertWatermarkText";
 
 			//sign URI
 			$signedURI = Utils::sign($strURI);
@@ -52,7 +52,7 @@ class DocumentBuilder
 			if ($v_output === "") {
 				//Save docs on server
 				$folder = new Folder();
-				$outputStream = $folder->GetFile($fileName);
+				$outputStream = $folder->getFile($fileName);
 				$outputPath = SaasposeApp::$outputLocation . $fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
@@ -75,7 +75,7 @@ class DocumentBuilder
 	{
        try {
 			//build URI to insert watermark image
-			$strURI = Product::$BaseProductUri . "/words/" . $fileName .
+			$strURI = Product::$baseProductUri . "/words/" . $fileName .
 					"/insertWatermarkImage?imageFile=" . $imageFile . "&rotationAngle=" . $rotationAngle;
 
 			//sign URI
@@ -88,7 +88,7 @@ class DocumentBuilder
 			if ($v_output === "") {
 				//Save doc on server
 				$folder = new Folder();
-				$outputStream = $folder->GetFile($fileName);
+				$outputStream = $folder->getFile($fileName);
 				$outputPath = SaasposeApp::$outputLocation . $fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
@@ -118,7 +118,7 @@ class DocumentBuilder
 			$json = json_encode($fieldsArray);
 
 			//build URI to replace text
-			$strURI = Product::$BaseProductUri . "/words/" . $fileName . "/replaceText";
+			$strURI = Product::$baseProductUri . "/words/" . $fileName . "/replaceText";
 
 			//sign URI
 			$signedURI = Utils::sign($strURI);
@@ -130,7 +130,7 @@ class DocumentBuilder
 			if ($v_output === "") {
 				//Save docs on server
 				$folder = new Folder();
-				$outputStream = $folder->GetFile($fileName);
+				$outputStream = $folder->getFile($fileName);
 				$outputPath = SaasposeApp::$outputLocation . $fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";

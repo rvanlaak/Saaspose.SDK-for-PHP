@@ -36,7 +36,7 @@ class Converter
 	{
 		try {
 			//build URI
-			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName
+			$strURI = Product::$baseProductUri . "/words/" . $this->fileName
 					. "?format=" . $this->saveformat;
 
 			//sign URI

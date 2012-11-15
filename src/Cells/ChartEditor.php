@@ -42,7 +42,7 @@ class ChartEditor
 	public function addChart($chartType, $upperLeftRow, $upperLeftColumn, $lowerRightRow, $lowerRightColumn)
 	{
 		try {
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+			$strURI = Product::$baseProductUri . "/cells/" . $this->fileName .
 						"/worksheets/" . $this->worksheetName . "/charts?chartType=" .
 						$chartType . "&upperLeftRow=" . $upperLeftRow . "&upperLeftColumn=" .
 						$upperLeftColumn . "&lowerRightRow=" . $lowerRightRow .
@@ -57,7 +57,7 @@ class ChartEditor
 			if ($v_output === "") {
 				//Save doc on server
 				$folder = new Folder();
-				$outputStream = $folder->GetFile($this->fileName);
+				$outputStream = $folder->getFile($this->fileName);
 				$outputPath = SaasposeApp::$outputLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
@@ -78,7 +78,7 @@ class ChartEditor
 	public function deleteChart($chartIndex)
 	{
 		try {
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+			$strURI = Product::$baseProductUri . "/cells/" . $this->fileName .
 						"/worksheets/" . $this->worksheetName . "/charts/" . $chartIndex;
 
 			$signedURI = Utils::sign($strURI);
@@ -90,7 +90,7 @@ class ChartEditor
 			if ($v_output === "") {
 				//Save doc on server
 				$folder = new Folder();
-				$outputStream = $folder->GetFile($this->fileName);
+				$outputStream = $folder->getFile($this->fileName);
 				$outputPath = SaasposeApp::$outputLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
@@ -110,7 +110,7 @@ class ChartEditor
 	public function getChartArea($chartIndex)
 	{
 		try {
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+			$strURI = Product::$baseProductUri . "/cells/" . $this->fileName .
 						"/worksheets/" . $this->worksheetName . "/charts/" . $chartIndex . "/chartArea";
 
 			$signedURI = Utils::sign($strURI);
@@ -133,7 +133,7 @@ class ChartEditor
 	public function getFillFormat($chartIndex)
 	{
 		try {
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName . "/worksheets/" .
+			$strURI = Product::$baseProductUri . "/cells/" . $this->fileName . "/worksheets/" .
 						$this->worksheetName . "/charts/" . $chartIndex . "/chartArea/fillFormat";
 
 			$signedURI = Utils::sign($strURI);
@@ -156,7 +156,7 @@ class ChartEditor
 	public function getBorder($chartIndex)
 	{
 		try {
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName . "/worksheets/" .
+			$strURI = Product::$baseProductUri . "/cells/" . $this->fileName . "/worksheets/" .
 						$this->worksheetName . "/charts/" . $chartIndex . "/chartArea/border";
 
 			$signedURI = Utils::sign($strURI);

@@ -31,7 +31,7 @@ class Document
 	{
 		try {
 			//Build URI to get a list of slides
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides";
+			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName . "/slides";
 
 			$signedURI = Utils::sign($strURI);
 
@@ -70,7 +70,7 @@ class Document
 
 		try {
 			//Build URI to replace text
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . ((isset($parameters[2]))? "/slides/" . $slideNumber: "") .
+			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName . ((isset($parameters[2]))? "/slides/" . $slideNumber: "") .
 						"/replaceText?oldValue=" . $oldText . "&newValue=" . $newText . "&ignoreCase=true";
 
 			$signedURI = Utils::sign($strURI);
@@ -82,7 +82,7 @@ class Document
 			if ($v_output === "") {
 				//Save doc on server
 				$folder = new Folder();
-				$outputStream = $folder->GetFile($this->fileName);
+				$outputStream = $folder->getFile($this->fileName);
 				$outputPath = SaasposeApp::$outputLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
@@ -111,7 +111,7 @@ class Document
 
 		try {
 			//Build URI to get all text items
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName .
+			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName .
 						((isset($parameters[0]))? "/slides/" . $slideNumber . "/textItems?withEmpty=" . $withEmpty: "/textItems");
 
 			$signedURI = Utils::sign($strURI);
@@ -134,7 +134,7 @@ class Document
 	{
 		try {
 			//Build URI to replace text
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides";
+			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName . "/slides";
 
 			$signedURI = Utils::sign($strURI);
 
@@ -145,7 +145,7 @@ class Document
 			if ($v_output === "") {
 				//Save doc on server
 				$folder = new Folder();
-				$outputStream = $folder->GetFile($this->fileName);
+				$outputStream = $folder->getFile($this->fileName);
 				$outputPath = SaasposeApp::$outputLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
@@ -166,7 +166,7 @@ class Document
 	{
 		try {
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/documentProperties";
+			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName . "/documentProperties";
 
 			//sign URI
 			$signedURI = Utils::sign($strURI);
@@ -198,7 +198,7 @@ class Document
 			}
 
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/presentation/documentProperties/" . $propertyName;
+			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName . "/presentation/documentProperties/" . $propertyName;
 
 			//sign URI
 			$signedURI = Utils::sign($strURI);
@@ -231,7 +231,7 @@ class Document
 			}
 
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/documentProperties";
+			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName . "/documentProperties";
 
 			//sign URI
 			$signedURI = Utils::sign($strURI);
@@ -266,7 +266,7 @@ class Document
 			}
 
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/documentProperties/" . $propertyName;
+			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName . "/documentProperties/" . $propertyName;
 
 			//sign URI
 			$signedURI = Utils::sign($strURI);
@@ -302,7 +302,7 @@ class Document
 			}
 
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/documentProperties/" . $propertyName;
+			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName . "/documentProperties/" . $propertyName;
 
 			$put_data_arr['Value'] = $propertyValue;
 
@@ -338,7 +338,7 @@ class Document
 			}
 
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/documentProperties";
+			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName . "/documentProperties";
 
 			$put_data = json_encode($propertiesList);
 
@@ -372,7 +372,7 @@ class Document
 				throw new Exception("Save format not specified");
 			}
 
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "?format=" . $saveFormat;
+			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName . "?format=" . $saveFormat;
 
 			$signedURI = Utils::sign($strURI);
 
@@ -410,7 +410,7 @@ class Document
 			if ($slideNumber == "")
 				throw new Exception("Slide number not specified");
 
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides/$slideNumber?format=" . $saveFormat;
+			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName . "/slides/$slideNumber?format=" . $saveFormat;
 
 			$signedURI = Utils::sign($strURI);
 

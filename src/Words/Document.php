@@ -50,7 +50,7 @@ class Document
             $json .= '  ] }';
 
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/appendDocument";
+			$strURI = Product::$baseProductUri . "/words/" . $this->fileName . "/appendDocument";
 
 			//sign URI
 			$signedURI = Utils::sign($strURI);
@@ -62,7 +62,7 @@ class Document
 			if ($v_output === "") {
 				//Save merged docs on server
 				$folder = new Folder();
-				$outputStream = $folder->GetFile($sourceFolder . (($sourceFolder == '') ? '' : '/') . $this->fileName);
+				$outputStream = $folder->getFile($sourceFolder . (($sourceFolder == '') ? '' : '/') . $this->fileName);
 				$outputPath = SaasposeApp::$outputLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
@@ -82,7 +82,7 @@ class Document
 	{
        try {
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName;
+			$strURI = Product::$baseProductUri . "/words/" . $this->fileName;
 
 			//sign URI
 			$signedURI = Utils::sign($strURI);
@@ -112,7 +112,7 @@ class Document
 				throw new Exception("Property Name not specified");
 
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/documentProperties/" . $propertyName;
+			$strURI = Product::$baseProductUri . "/words/" . $this->fileName . "/documentProperties/" . $propertyName;
 
 			//sign URI
 			$signedURI = Utils::sign($strURI);
@@ -149,7 +149,7 @@ class Document
 			}
 
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/documentProperties/" . $propertyName;
+			$strURI = Product::$baseProductUri . "/words/" . $this->fileName . "/documentProperties/" . $propertyName;
 
 			$put_data_arr['Value'] = $propertyValue;
 
@@ -185,7 +185,7 @@ class Document
 			}
 
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/documentProperties/" . $propertyName;
+			$strURI = Product::$baseProductUri . "/words/" . $this->fileName . "/documentProperties/" . $propertyName;
 
 			//sign URI
 			$signedURI = Utils::sign($strURI);
@@ -212,7 +212,7 @@ class Document
 	{
        try {
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/documentProperties";
+			$strURI = Product::$baseProductUri . "/words/" . $this->fileName . "/documentProperties";
 
 			//sign URI
 			$signedURI = Utils::sign($strURI);
@@ -250,7 +250,7 @@ class Document
 				throw new Exception("output format not specified");
 			}
 
-			$strURI = Product::$BaseProductUri . "/words/convert?format=" . $outputFormat;
+			$strURI = Product::$baseProductUri . "/words/convert?format=" . $outputFormat;
 
 			if (!file_exists($inputPath)) {
 				throw new Exception("input file doesn't exist.");

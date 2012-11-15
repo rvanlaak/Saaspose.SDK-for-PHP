@@ -41,7 +41,7 @@ class Field
 			$json = json_encode($fieldsArray);
 
 			//build URI to insert page number
-			$strURI = Product::$BaseProductUri . "/words/" . $fileName . "/insertPageNumbers";
+			$strURI = Product::$baseProductUri . "/words/" . $fileName . "/insertPageNumbers";
 
 			//sign URI
 			$signedURI = Utils::sign($strURI);
@@ -53,7 +53,7 @@ class Field
 			if ($v_output === "") {
 				//Save docs on server
 				$folder = new Folder();
-				$outputStream = $folder->GetFile($fileName);
+				$outputStream = $folder->getFile($fileName);
 				$outputPath = SaasposeApp::$outputLocation . $fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
@@ -74,7 +74,7 @@ class Field
 	public function getMailMergeFieldNames()
 	{
 		try {
-			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/mailMergeFieldNames";
+			$strURI = Product::$baseProductUri . "/words/" . $this->fileName . "/mailMergeFieldNames";
 
 			$signedURI = Utils::sign($strURI);
 

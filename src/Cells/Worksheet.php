@@ -14,7 +14,7 @@ class Worksheet
 	public $fileName = "";
 	public $worksheetName = "";
 
-    public function __constructor($fileName, $worksheetName)
+    public function __construct($fileName, $worksheetName)
     {
         $this->fileName = $fileName;
 		$this->worksheetName = $worksheetName;
@@ -38,7 +38,7 @@ class Worksheet
 	public function getCellsList($offset, $count)
 	{
 		try {
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+			$strURI = Product::$baseProductUri . "/cells/" . $this->fileName .
 						"/worksheets/" . $this->worksheetName . "/cells?offset=" .
 						$offset . "&count=" . $count;
 
@@ -51,7 +51,7 @@ class Worksheet
 			$listCells = array();
 
 			foreach ($json->Cells->CellList as $cell) {
-				$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+				$strURI = Product::$baseProductUri . "/cells/" . $this->fileName .
 						"/worksheets/" . $this->worksheetName . "/cells" . $cell->link->Href;
 
 				$signedURI = Utils::sign($strURI);
@@ -61,7 +61,6 @@ class Worksheet
 
 				array_push($listCells, $json->Cell);
 			}
-
 			return $listCells;
 
 		} catch (Exception $e) {
@@ -75,7 +74,7 @@ class Worksheet
 	public function getRowsList()
 	{
 		try {
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+			$strURI = Product::$baseProductUri . "/cells/" . $this->fileName .
 						"/worksheets/" . $this->worksheetName . "/cells/rows";
 
 			$signedURI = Utils::sign($strURI);
@@ -87,7 +86,7 @@ class Worksheet
 			$listRows = array();
 
 			foreach ($json->Rows->RowsList as $row) {
-				$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+				$strURI = Product::$baseProductUri . "/cells/" . $this->fileName .
 						"/worksheets/" . $this->worksheetName . "/cells/rows" . $row->link->Href;
 
 				$signedURI = Utils::sign($strURI);
@@ -110,7 +109,7 @@ class Worksheet
 	public function getColumnsList()
 	{
 		try {
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+			$strURI = Product::$baseProductUri . "/cells/" . $this->fileName .
 						"/worksheets/" . $this->worksheetName . "/cells/columns";
 
 			$signedURI = Utils::sign($strURI);
@@ -122,7 +121,7 @@ class Worksheet
 			$listColumns = array();
 
 			foreach ($json->Columns->ColumnsList as $column) {
-				$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+				$strURI = Product::$baseProductUri . "/cells/" . $this->fileName .
 						"/worksheets/" . $this->worksheetName . "/cells/columns" . $column->link->Href;
 
 				$signedURI = Utils::sign($strURI);
@@ -132,7 +131,6 @@ class Worksheet
 
 				array_push($listColumns, $json->Column);
 			}
-
 			return $listColumns;
 
 		} catch (Exception $e) {
@@ -148,7 +146,7 @@ class Worksheet
 	public function getMaxColumn($offset, $count)
 	{
 		try {
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+			$strURI = Product::$baseProductUri . "/cells/" . $this->fileName .
 						"/worksheets/" . $this->worksheetName . "/cells?offset=" .
 						$offset . "&count=" . $count;
 
@@ -173,7 +171,7 @@ class Worksheet
 	public function getMaxRow($offset, $count)
 	{
 		try {
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+			$strURI = Product::$baseProductUri . "/cells/" . $this->fileName .
 						"/worksheets/" . $this->worksheetName . "/cells?offset=" .
 						$offset . "&count=" . $count;
 
@@ -198,7 +196,7 @@ class Worksheet
 	public function getCellsCount($offset, $count)
 	{
 		try {
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+			$strURI = Product::$baseProductUri . "/cells/" . $this->fileName .
 						"/worksheets/" . $this->worksheetName . "/cells?offset=" .
 						$offset . "&count=" . $count;
 
@@ -221,7 +219,7 @@ class Worksheet
 	public function getAutoShapesCount()
 	{
 		try {
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+			$strURI = Product::$baseProductUri . "/cells/" . $this->fileName .
 						"/worksheets/" . $this->worksheetName . "/autoshapes";
 
 			$signedURI = Utils::sign($strURI);
@@ -244,7 +242,7 @@ class Worksheet
 	public function getAutoShapeByIndex($index)
 	{
 		try {
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+			$strURI = Product::$baseProductUri . "/cells/" . $this->fileName .
 						"/worksheets/" . $this->worksheetName . "/autoshapes/" . $index;
 
 			$signedURI = Utils::sign($strURI);
@@ -266,7 +264,7 @@ class Worksheet
 	public function getChartsCount()
 	{
 		try {
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+			$strURI = Product::$baseProductUri . "/cells/" . $this->fileName .
 						"/worksheets/" . $this->worksheetName . "/charts";
 
 			$signedURI = Utils::sign($strURI);
@@ -289,7 +287,7 @@ class Worksheet
 	public function getChartByIndex($index)
 	{
 		try {
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+			$strURI = Product::$baseProductUri . "/cells/" . $this->fileName .
 						"/worksheets/" . $this->worksheetName . "/charts/" . $index;
 
 			$signedURI = Utils::sign($strURI);
@@ -311,7 +309,7 @@ class Worksheet
 	public function getHyperlinksCount()
 	{
 		try {
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+			$strURI = Product::$baseProductUri . "/cells/" . $this->fileName .
 						"/worksheets/" . $this->worksheetName . "/hyperlinks";
 
 			$signedURI = Utils::sign($strURI);
@@ -334,7 +332,7 @@ class Worksheet
 	public function getHyperlinkByIndex($index)
 	{
 		try {
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+			$strURI = Product::$baseProductUri . "/cells/" . $this->fileName .
 						"/worksheets/" . $this->worksheetName . "/hyperlinks/" . $index;
 
 			$signedURI = Utils::sign($strURI);

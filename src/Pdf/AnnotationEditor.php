@@ -29,7 +29,7 @@ class AnnotationEditor
 				throw new Exception("No file name specified");
 			}
 
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "/annotations";
+			$strURI = Product::$baseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "/annotations";
 
 			$signedURI = Utils::sign($strURI);
 
@@ -57,7 +57,7 @@ class AnnotationEditor
 				throw new Exception("No file name specified");
 			}
 
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "/annotations/" . $annotationIndex;
+			$strURI = Product::$baseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "/annotations/" . $annotationIndex;
 
 			$signedURI = Utils::sign($strURI);
 
@@ -83,11 +83,11 @@ class AnnotationEditor
 				throw new Exception("No file name specified");
 			}
 
-			$iTotalAnnotation = $this->GetAnnotationsCount($pageNumber);
+			$iTotalAnnotation = $this->getAnnotationsCount($pageNumber);
 
 			$listAnnotations = array();
 			for ($index = 1; $index <= $iTotalAnnotation; $index++) {
-				array_push($listAnnotations, $this->GetAnnotation($pageNumber, $index));
+				array_push($listAnnotations, $this->getAnnotation($pageNumber, $index));
             }
 			return $listAnnotations;
 
@@ -107,7 +107,7 @@ class AnnotationEditor
 				throw new Exception("No file name specified");
 			}
 
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/bookmarks";
+			$strURI = Product::$baseProductUri . "/pdf/" . $this->fileName . "/bookmarks";
 
 			$signedURI = Utils::sign($strURI);
 
@@ -134,7 +134,7 @@ class AnnotationEditor
 				throw new Exception("No file name specified");
 			}
 
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/bookmarks/" . $parent . "/bookmarks";
+			$strURI = Product::$baseProductUri . "/pdf/" . $this->fileName . "/bookmarks/" . $parent . "/bookmarks";
 
 			$signedURI = Utils::sign($strURI);
 
@@ -161,7 +161,7 @@ class AnnotationEditor
 				throw new Exception("No file name specified");
 			}
 
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/bookmarks/" . $bookmarkIndex;
+			$strURI = Product::$baseProductUri . "/pdf/" . $this->fileName . "/bookmarks/" . $bookmarkIndex;
 
 			$signedURI = Utils::sign($strURI);
 
@@ -188,7 +188,7 @@ class AnnotationEditor
 				throw new Exception("No file name specified");
 			}
 
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/bookmarks/" . $parentIndex . "/bookmarks/" . $childIndex;
+			$strURI = Product::$baseProductUri . "/pdf/" . $this->fileName . "/bookmarks/" . $parentIndex . "/bookmarks/" . $childIndex;
 
 			$signedURI = Utils::sign($strURI);
 
@@ -219,7 +219,7 @@ class AnnotationEditor
 				throw new Exception("bookmark index not specified");
 			}
 
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/bookmarks/" . $bookmarkIndex;
+			$strURI = Product::$baseProductUri . "/pdf/" . $this->fileName . "/bookmarks/" . $bookmarkIndex;
 
 			$signedURI = Utils::sign($strURI);
 
@@ -244,12 +244,12 @@ class AnnotationEditor
 			if ($this->fileName == "")
 				throw new Exception("No file name specified");
 
-			$iTotalBookmarks = $this->GetBookmarksCount();
+			$iTotalBookmarks = $this->getBookmarksCount();
 
 			$listBookmarks = array();
 			for ($index = 1; $index <= $iTotalBookmarks; $index++)
             {
-				array_push($listBookmarks, $this->GetBookmark($index));
+				array_push($listBookmarks, $this->getBookmark($index));
             }
 
 			return $listBookmarks;
@@ -272,7 +272,7 @@ class AnnotationEditor
 				throw new Exception("No file name specified");
 			}
 
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/attachments";
+			$strURI = Product::$baseProductUri . "/pdf/" . $this->fileName . "/attachments";
 
 			$signedURI = Utils::sign($strURI);
 
@@ -298,7 +298,7 @@ class AnnotationEditor
 			if ($this->fileName == "")
 				throw new Exception("No file name specified");
 
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/attachments/" . $attachmentIndex;
+			$strURI = Product::$baseProductUri . "/pdf/" . $this->fileName . "/attachments/" . $attachmentIndex;
 
 			$signedURI = Utils::sign($strURI);
 
@@ -322,11 +322,11 @@ class AnnotationEditor
 			if ($this->fileName == "")
 				throw new Exception("No file name specified");
 
-			$iTotalAttachments = $this->GetAttachmentsCount();
+			$iTotalAttachments = $this->getAttachmentsCount();
 
 			$listAttachments = array();
 			for ($index = 1; $index <= $iTotalAttachments; $index++) {
-				array_push($listAttachments, $this->GetAttachment($index));
+				array_push($listAttachments, $this->getAttachment($index));
             }
 
 			return $listAttachments;
@@ -346,10 +346,10 @@ class AnnotationEditor
 			if ($this->fileName == "")
 				throw new Exception("PDF file name not specified");
 
-			$fileInformation = $this->GetAttachment($attachmentIndex);
+			$fileInformation = $this->getAttachment($attachmentIndex);
 
 			//build URI to download attachment
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/attachments/" . $attachmentIndex . "/download";
+			$strURI = Product::$baseProductUri . "/pdf/" . $this->fileName . "/attachments/" . $attachmentIndex . "/download";
 
 			//sign URI
 			$signedURI = Utils::sign($strURI);
@@ -382,7 +382,7 @@ class AnnotationEditor
 				throw new Exception("No file name specified");
 			}
 
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "/links";
+			$strURI = Product::$baseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "/links";
 
 			$signedURI = Utils::sign($strURI);
 
@@ -410,7 +410,7 @@ class AnnotationEditor
 				throw new Exception("No file name specified");
 			}
 
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "/links/" . $linkIndex;
+			$strURI = Product::$baseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "/links/" . $linkIndex;
 
 			$signedURI = Utils::sign($strURI);
 
@@ -437,11 +437,11 @@ class AnnotationEditor
 				throw new Exception("No file name specified");
 			}
 
-			$iTotalLinks = $this->GetLinksCount($pageNumber);
+			$iTotalLinks = $this->getLinksCount($pageNumber);
 
 			$listLinks = array();
 			for ($index = 1; $index <= $iTotalLinks; $index++) {
-				array_push($listLinks, $this->GetLink($pageNumber, $index));
+				array_push($listLinks, $this->getLink($pageNumber, $index));
             }
 
 			return $listLinks;

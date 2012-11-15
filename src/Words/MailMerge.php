@@ -34,7 +34,7 @@ class MailMerge
 	{
        try {
 			//build URI to execute mail merge without regions
-			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/executeMailMerge";
+			$strURI = Product::$baseProductUri . "/words/" . $this->fileName . "/executeMailMerge";
 
 			//sign URI
 			$signedURI = Utils::sign($strURI);
@@ -47,7 +47,7 @@ class MailMerge
 			if ($v_output === "") {
 				//Save docs on server
 				$folder = new Folder();
-				$outputStream = $folder->GetFile($json->Document->fileName);
+				$outputStream = $folder->getFile($json->Document->fileName);
 				$outputPath = SaasposeApp::$outputLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
@@ -69,7 +69,7 @@ class MailMerge
 	{
        try {
 			//build URI to execute mail merge with regions
-			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/executeMailMerge?withRegions=true";
+			$strURI = Product::$baseProductUri . "/words/" . $this->fileName . "/executeMailMerge?withRegions=true";
 
 			//sign URI
 			$signedURI = Utils::sign($strURI);
@@ -82,7 +82,7 @@ class MailMerge
 			if ($v_output === "") {
 				//Save docs on server
 				$folder = new Folder();
-				$outputStream = $folder->GetFile($json->Document->fileName);
+				$outputStream = $folder->getFile($json->Document->fileName);
 				$outputPath = SaasposeApp::$outputLocation . $fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
@@ -104,7 +104,7 @@ class MailMerge
 	{
        try {
 			//build URI to execute mail merge template
-			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/executeTemplate";
+			$strURI = Product::$baseProductUri . "/words/" . $this->fileName . "/executeTemplate";
 
 			//sign URI
 			$signedURI = Utils::sign($strURI);
@@ -118,7 +118,7 @@ class MailMerge
 
 				//Save docs on server
 				$folder = new Folder();
-				$outputStream = $folder->GetFile($json->Document->fileName);
+				$outputStream = $folder->getFile($json->Document->fileName);
 				$outputPath = SaasposeApp::$outputLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";

@@ -29,7 +29,7 @@ class Extractor
 	public function getText()
 	{
 		try {
-			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/textItems";
+			$strURI = Product::$baseProductUri . "/words/" . $this->fileName . "/textItems";
 
 			$signedURI = Utils::sign($strURI);
 
@@ -54,7 +54,7 @@ class Extractor
     public function getOleData($index, $OLEFormat)
     {
       	try {
-			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/drawingObjects/" . $index . "/oleData";
+			$strURI = Product::$baseProductUri . "/words/" . $this->fileName . "/drawingObjects/" . $index . "/oleData";
 
 			$signedURI = Utils::sign($strURI);
 
@@ -83,7 +83,7 @@ class Extractor
     public function getImageData($index, $renderformat)
     {
        try {
-			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/drawingObjects/" . $index . "/ImageData";
+			$strURI = Product::$baseProductUri . "/words/" . $this->fileName . "/drawingObjects/" . $index . "/ImageData";
 
 			$signedURI = Utils::sign($strURI);
 
@@ -113,7 +113,7 @@ class Extractor
     public function convertDrawingObject($index, $renderformat)
     {
        try {
-			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/drawingObjects/" . $index . "?format=" . $renderformat;
+			$strURI = Product::$baseProductUri . "/words/" . $this->fileName . "/drawingObjects/" . $index . "?format=" . $renderformat;
 
 			$signedURI = Utils::sign($strURI);
 
@@ -140,7 +140,7 @@ class Extractor
     public function getDrawingObjectList()
     {
        try {
-			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/drawingObjects";
+			$strURI = Product::$baseProductUri . "/words/" . $this->fileName . "/drawingObjects";
 
 			$signedURI = Utils::sign($strURI);
 
@@ -233,7 +233,7 @@ class Extractor
 				throw new Exception("Output path not specified");
 			}
 
-			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/drawingObjects";
+			$strURI = Product::$baseProductUri . "/words/" . $this->fileName . "/drawingObjects";
 
 			$signedURI = Utils::sign($strURI);
 
@@ -243,7 +243,7 @@ class Extractor
 
 			if ($json->Code == 200) {
 				foreach($json->DrawingObjects->List as $object) {
-					$this->GetDrawingObject($object->link->Href,$outputPath);
+					$this->getDrawingObject($object->link->Href,$outputPath);
 				}
 			} else {
 				return false;

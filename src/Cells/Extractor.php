@@ -34,7 +34,7 @@ class Extractor
 	{
 		try {
 			//Build URI
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName . "/worksheets/" .
+			$strURI = Product::$baseProductUri . "/cells/" . $this->fileName . "/worksheets/" .
 			          $worksheetName . "/pictures/" . $pictureIndex . "?format=" . $imageFormat;
 
 			//sign URI
@@ -71,7 +71,7 @@ class Extractor
 	{
 		try {
 			//Build URI
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName . "/worksheets/" .
+			$strURI = Product::$baseProductUri . "/cells/" . $this->fileName . "/worksheets/" .
 			          $worksheetName . "/oleobjects/" . $objectIndex . "?format=" . $imageFormat;
 
 			//sign URI
@@ -109,7 +109,7 @@ class Extractor
 	{
 		try {
 			//Build URI
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName . "/worksheets/" .
+			$strURI = Product::$baseProductUri . "/cells/" . $this->fileName . "/worksheets/" .
 			          $worksheetName . "/charts/" . $chartIndex . "?format=" . $imageFormat;
 
 			//sign URI
@@ -147,7 +147,7 @@ class Extractor
 	{
 		try {
 			//Build URI
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName . "/worksheets/" .
+			$strURI = Product::$baseProductUri . "/cells/" . $this->fileName . "/worksheets/" .
 			          $worksheetName . "/autoshapes/" . $shapeIndex . "?format=" . $imageFormat;
 
 			//sign URI

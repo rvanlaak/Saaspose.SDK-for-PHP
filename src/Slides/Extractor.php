@@ -30,7 +30,7 @@ class Extractor
 	public function getImageCount()
 	{
 		try {
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/images";
+			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName . "/images";
 
 			$signedURI = Utils::sign($strURI);
 
@@ -53,7 +53,7 @@ class Extractor
 	public function getSlideImageCount($slidenumber)
 	{
 		try {
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides/" . $slidenumber . "/images";
+			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName . "/slides/" . $slidenumber . "/images";
 
 			$signedURI = Utils::sign($strURI);
 
@@ -75,7 +75,7 @@ class Extractor
 	public function getShapes($slidenumber)
 	{
 		try {
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides/" . $slidenumber . "/shapes";
+			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName . "/slides/" . $slidenumber . "/shapes";
 
 			$signedURI = Utils::sign($strURI);
 
@@ -107,7 +107,7 @@ class Extractor
 	{
 		try {
 			//Build URI to get color scheme
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides/" . $slideNumber . "/theme/colorScheme";
+			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName . "/slides/" . $slideNumber . "/theme/colorScheme";
 
 			$signedURI = Utils::sign($strURI);
 
@@ -130,7 +130,7 @@ class Extractor
 	{
 		try {
 			//Build URI to get font scheme
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides/" . $slideNumber . "/theme/fontScheme";
+			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName . "/slides/" . $slideNumber . "/theme/fontScheme";
 
 			$signedURI = Utils::sign($strURI);
 
@@ -152,7 +152,7 @@ class Extractor
 	{
 		try {
 			//Build URI to get format scheme
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides/" . $slideNumber . "/theme/formatScheme";
+			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName . "/slides/" . $slideNumber . "/theme/formatScheme";
 
 			$signedURI = Utils::sign($strURI);
 
@@ -173,7 +173,7 @@ class Extractor
 	public function getPlaceholderCount($slideNumber)
 	{
 		try {
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides/" . $slideNumber . "/placeholders";
+			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName . "/slides/" . $slideNumber . "/placeholders";
 
 			//Build URI to get placeholders
 			$signedURI = Utils::sign($strURI);
@@ -197,7 +197,7 @@ class Extractor
 	public function getPlaceholder($slideNumber, $placeholderIndex)
 	{
 		try {
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides/" . $slideNumber . "/placeholders/" . $placeholderIndex;
+			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName . "/slides/" . $slideNumber . "/placeholders/" . $placeholderIndex;
 
 			//Build URI to get placeholders
 			$signedURI = Utils::sign($strURI);

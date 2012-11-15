@@ -31,7 +31,7 @@ class Document
 	{
 		try {
 			//Build URI to get a list of slides
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides";
+			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName . "/slides";
 
 			$signedURI = Utils::sign($strURI);
 
@@ -70,7 +70,7 @@ class Document
 
 		try {
 			//Build URI to replace text
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . ((isset($parameters[2]))? "/slides/" . $slideNumber: "") .
+			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName . ((isset($parameters[2]))? "/slides/" . $slideNumber: "") .
 						"/replaceText?oldValue=" . $oldText . "&newValue=" . $newText . "&ignoreCase=true";
 
 			$signedURI = Utils::sign($strURI);
@@ -82,7 +82,7 @@ class Document
 			if ($v_output === "") {
 				//Save doc on server
 				$folder = new Folder();
-				$outputStream = $folder->GetFile($this->fileName);
+				$outputStream = $folder->getFile($this->fileName);
 				$outputPath = SaasposeApp::$outputLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
@@ -111,7 +111,7 @@ class Document
 
 		try {
 			//Build URI to get all text items TODO make use of sprintf
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName .
+			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName .
 								((isset($parameters[0]))? "/slides/" . $slideNumber .
 								"/textItems?withEmpty=" . $withEmpty: "/textItems");
 
@@ -135,7 +135,7 @@ class Document
 	{
 		try {
 			//Build URI to replace text
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides";
+			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName . "/slides";
 
 			$signedURI = Utils::sign($strURI);
 
@@ -146,7 +146,7 @@ class Document
 			if ($v_output === "") {
 				//Save doc on server
 				$folder = new Folder();
-				$outputStream = $folder->GetFile($this->fileName);
+				$outputStream = $folder->getFile($this->fileName);
 				$outputPath = SaasposeApp::$outputLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";

@@ -35,7 +35,7 @@ class Converter
 	public function convertToImage($slideNumber, $imageFormat)
 	{
 		try {
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides/" . $slideNumber . "?format=" . $imageFormat;
+			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName . "/slides/" . $slideNumber . "?format=" . $imageFormat;
 
 			$signedURI = Utils::sign($strURI);
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
@@ -56,7 +56,7 @@ class Converter
 	public function convertToImagebySize($slideNumber, $imageFormat, $width, $height)
 	{
 		try {
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides/" . $slideNumber . "?format=" . $imageFormat . "&width=" . $width . "&height=" . $height;
+			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName . "/slides/" . $slideNumber . "?format=" . $imageFormat . "&width=" . $width . "&height=" . $height;
 
 			$signedURI = Utils::sign($strURI);
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
@@ -73,7 +73,7 @@ class Converter
 	public function convert()
 	{
 		try {
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "?format=" . $this->saveformat;
+			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName . "?format=" . $this->saveformat;
 
 			$signedURI = Utils::sign($strURI);
 

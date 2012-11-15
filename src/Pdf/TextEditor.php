@@ -35,7 +35,7 @@ class TextEditor
 				throw new Exception("No file name specified");
 			}
 
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName .
+			$strURI = Product::$baseProductUri . "/pdf/" . $this->fileName .
 						((isset($parameters[0]))? "/pages/" . $pageNumber . "/TextItems" : "/TextItems");
 
 			$signedURI = Utils::sign($strURI);
@@ -72,7 +72,7 @@ class TextEditor
 			if ($this->fileName == "")
 				throw new Exception("No file name specified");
 
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName .
+			$strURI = Product::$baseProductUri . "/pdf/" . $this->fileName .
 						((isset($parameters[0]))? "/pages/" . $pageNumber . "/TextItems" : "/TextItems");
 
 			$signedURI = Utils::sign($strURI);
@@ -98,7 +98,7 @@ class TextEditor
 			if ($this->fileName == "")
 				throw new Exception("No file name specified");
 
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "/fragments";
+			$strURI = Product::$baseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "/fragments";
 
 			$signedURI = Utils::sign($strURI);
 
@@ -133,7 +133,7 @@ class TextEditor
 				throw new Exception("fragment number not specified");
 
 
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "/fragments/" . $fragmentNumber;
+			$strURI = Product::$baseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "/fragments/" . $fragmentNumber;
 
 			$signedURI = Utils::sign($strURI);
 
@@ -160,7 +160,7 @@ class TextEditor
 			if ($this->fileName == "")
 				throw new Exception("No file name specified");
 
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber .
+			$strURI = Product::$baseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber .
 						"/fragments/" . $fragmentNumber . "/textformat";
 
 			$signedURI = Utils::sign($strURI);
@@ -208,7 +208,7 @@ class TextEditor
 			$json = json_encode($fieldsArray);
 
 			//Build URI to replace text
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . ((isset($parameters[3]))? "/pages/" . $pageNumber: "") .
+			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName . ((isset($parameters[3]))? "/pages/" . $pageNumber: "") .
 						"/replaceText";
 
 			$signedURI = Utils::sign($strURI);
@@ -220,7 +220,7 @@ class TextEditor
 			if ($v_output === "") {
 				//Save doc on server
 				$folder = new Folder();
-				$outputStream = $folder->GetFile($this->fileName);
+				$outputStream = $folder->getFile($this->fileName);
 				$outputPath = SaasposeApp::$outputLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";

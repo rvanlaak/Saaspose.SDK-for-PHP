@@ -34,7 +34,7 @@ class Converter
 			if ($this->fileName == "")
 				throw new Exception("No file name specified");
 
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "?format=" . $imageFormat . "&width=" . $width . "&height=" . $height;
+			$strURI = Product::$baseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "?format=" . $imageFormat . "&width=" . $width . "&height=" . $height;
 
 			$signedURI = Utils::sign($strURI);
 
@@ -66,7 +66,7 @@ class Converter
 				throw new Exception("No file name specified");
 			}
 
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "?format=" . $imageFormat;
+			$strURI = Product::$baseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "?format=" . $imageFormat;
 
 			$signedURI = Utils::sign($strURI);
 
@@ -100,7 +100,7 @@ class Converter
 			if ($this->fileName == "")
 				throw new Exception("No file name specified");
 
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "?format=" . $this->saveformat;
+			$strURI = Product::$baseProductUri . "/pdf/" . $this->fileName . "?format=" . $this->saveformat;
 
 			$signedURI = Utils::sign($strURI);
 
@@ -145,7 +145,7 @@ class Converter
 				throw new Exception("output format not specified");
 
 
-			$strURI = Product::$BaseProductUri . "/pdf/convert?format=" . $outputFormat;
+			$strURI = Product::$baseProductUri . "/pdf/convert?format=" . $outputFormat;
 
 			if(!file_exists($inputFile))
 			{

@@ -36,7 +36,7 @@ class SlideConverter
 			if ($this->fileName == "")
 				throw new Exception("No file name specified");
 
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides/" . $slideNumber . "?format=" . $imageFormat;
+			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName . "/slides/" . $slideNumber . "?format=" . $imageFormat;
 
 			$signedURI = Utils::sign($strURI);
 
@@ -66,7 +66,7 @@ class SlideConverter
 			if ($this->fileName == "")
 				throw new Exception("No file name specified");
 
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides/" . $slideNumber . "?format=" . $imageFormat . "&width=" . $width . "&height=" . $height;
+			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName . "/slides/" . $slideNumber . "?format=" . $imageFormat . "&width=" . $width . "&height=" . $height;
 
 			$signedURI = Utils::sign($strURI);
 
@@ -91,7 +91,7 @@ class SlideConverter
 			if ($this->fileName == "")
 				throw new Exception("No file name specified");
 
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "?format=" . $this->saveformat;
+			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName . "?format=" . $this->saveformat;
 
 			$signedURI = Utils::sign($strURI);
 

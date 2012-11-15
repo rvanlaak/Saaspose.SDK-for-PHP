@@ -2,49 +2,48 @@
 
 namespace Saaspose\Cells;
 
-/*
+use Saaspose\Common\Utils;
+use Saaspose\Common\Product;
+use Saaspose\Exception\SaasposeException as Exception;
+
+/**
 * This class contains features to work with text
 */
 class TextEditor
 {
 	public $fileName = "";
 
-    public function CellsTextEditor($fileName)
+    public function __construct($fileName)
     {
         $this->fileName = $fileName;
+
+        //check whether file is set or not
+        if ($this->fileName == "") {
+        	throw new Exception("No file name specified");
+        }
     }
 
 
-	/*
+	/**
     * Finds a speicif text from Excel document or a worksheet
 	*/
-
-	public function FindText()
+	public function findText()
 	{
 		$parameters = func_get_args();
 
 		//set parameter values
-		if(count($parameters)==1)
-		{
+		if(count($parameters)==1) {
 			$text = $parameters[0];
-		}
-		else if(count($parameters)==2)
-		{
-			$WorkSheetName = $parameters[0];
+		} else if(count($parameters)==2) {
+			$worksheetName = $parameters[0];
 			$text = $parameters[1];
-		}
-		else
-		{
+		} else {
 			throw new Exception("Invalid number of arguments");
 		}
-		try
-		{
-			//check whether file is set or not
-			if ($this->fileName == "")
-				throw new Exception("No file name specified");
 
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
-						((count($parameters)==2)? "/worksheets/" . $WorkSheetName : "") .
+		try {
+			$strURI = Product::$baseProductUri . "/cells/" . $this->fileName .
+						((count($parameters)==2)? "/worksheets/" . $worksheetName : "") .
 						"/findText?text=" . $text;
 
 			$signedURI = Utils::sign($strURI);
@@ -54,33 +53,26 @@ class TextEditor
 			$json = json_decode($responseStream);
 
 			return $json->TextItems->TextItemList;
-		}
-		catch (Exception $e)
-		{
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
 
-	/*
+	/**
     * Gets text items from the whole Excel file or a specific worksheet
 	*/
-
-	public function GetTextItems()
+	public function getTextItems()
 	{
 		$parameters = func_get_args();
 
 		//set parameter values
-		if(count($parameters)>0)
-		{
+		if (count($parameters) > 0) {
 			$worksheetName = $parameters[0];
 		}
-		try
-		{
-			//check whether file is set or not
-			if ($this->fileName == "")
-				throw new Exception("No file name specified");
 
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+		try {
+			$strURI = Product::$baseProductUri . "/cells/" . $this->fileName .
 						((isset($parameters[0]))? "/worksheets/" . $worksheetName . "/textItems" : "/textItems");
 
 			$signedURI = Utils::sign($strURI);
@@ -90,9 +82,8 @@ class TextEditor
 			$json = json_decode($responseStream);
 
 			return $json->TextItems->TextItemList;
-		}
-		catch (Exception $e)
-		{
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
@@ -102,32 +93,25 @@ class TextEditor
 	* @param string $oldText
 	* @param string $newText
 	*/
-	public function ReplaceText()
+	public function replaceText()
 	{
 		$parameters = func_get_args();
 
 		//set parameter values
-		if(count($parameters)==2)
-		{
+		if(count($parameters)==2) {
 			$oldText = $parameters[0];
 			$newText = $parameters[1];
-		}
-		else if(count($parameters)==3)
-		{
+		} else if(count($parameters)==3) {
 			$oldText = $parameters[1];
 			$newText = $parameters[2];
 			$worksheetName = $parameters[0];
-		}
-		else
+		} else {
 			throw new Exception("Invalid number of arguments");
-		try
-		{
-			//check whether file is set or not
-			if ($this->fileName == "")
-				throw new Exception("No file name specified");
+		}
 
+		try {
 			//Build URI to replace text
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
+			$strURI = Product::$baseProductUri . "/cells/" . $this->fileName .
 						((count($parameters)==3)? "/worksheets/" . $worksheetName : "") .
 						"/replaceText?oldValue=" . $oldText . "&newValue=" . $newText;
 
@@ -140,16 +124,15 @@ class TextEditor
 			if ($v_output === "") {
 				//Save doc on server
 				$folder = new Folder();
-				$outputStream = $folder->GetFile($this->fileName);
+				$outputStream = $folder->getFile($this->fileName);
 				$outputPath = SaasposeApp::$outputLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
-			}
-			else
+			} else {
 				return $v_output;
-		}
-		catch (Exception $e)
-		{
+			}
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
