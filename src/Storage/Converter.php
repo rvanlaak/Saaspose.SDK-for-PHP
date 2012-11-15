@@ -11,13 +11,13 @@ use Saaspose\Common\Utils;
 */
 class SlideConverter
 {
-	public $FileName = "";
+	public $fileName = "";
 	public $saveformat = "";
 
 	public function __construct($fileName)
 	{
 		//set default values
-		$this->FileName = $fileName;
+		$this->fileName = $fileName;
 
 		$this->saveformat =  "PPT";
 	}
@@ -33,16 +33,16 @@ class SlideConverter
 		try
 		{
 			//check whether file is set or not
-			if ($this->FileName == "")
+			if ($this->fileName == "")
 				throw new Exception("No file name specified");
 
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->FileName . "/slides/" . $slideNumber . "?format=" . $imageFormat;
+			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides/" . $slideNumber . "?format=" . $imageFormat;
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
-			Utils::saveFile($responseStream, SaasposeApp::$OutPutLocation . Utils::getFileName($this->FileName). "." . $this->saveformat);
+			Utils::saveFile($responseStream, SaasposeApp::$outputLocation . Utils::getFileName($this->fileName). "." . $this->saveformat);
 		}
 		catch (Exception $e)
 		{
@@ -63,16 +63,16 @@ class SlideConverter
 		try
 		{
 			//check whether file is set or not
-			if ($this->FileName == "")
+			if ($this->fileName == "")
 				throw new Exception("No file name specified");
 
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->FileName . "/slides/" . $slideNumber . "?format=" . $imageFormat . "&width=" . $width . "&height=" . $height;
+			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides/" . $slideNumber . "?format=" . $imageFormat . "&width=" . $width . "&height=" . $height;
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
-			Utils::saveFile($responseStream, SaasposeApp::$OutPutLocation . "output." . $imageFormat);
+			Utils::saveFile($responseStream, SaasposeApp::$outputLocation . "output." . $imageFormat);
 		}
 		catch (Exception $e)
 		{
@@ -88,12 +88,12 @@ class SlideConverter
 		try
 		{
 			//check whether file is set or not
-			if ($this->FileName == "")
+			if ($this->fileName == "")
 				throw new Exception("No file name specified");
 
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->FileName . "?format=" . $this->saveformat;
+			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "?format=" . $this->saveformat;
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -101,7 +101,7 @@ class SlideConverter
 
 			if ($v_output === "")
 			{
-				Utils::saveFile($responseStream, SaasposeApp::$OutPutLocation . Utils::getFileName($this->FileName). "." . $this->saveformat);
+				Utils::saveFile($responseStream, SaasposeApp::$outputLocation . Utils::getFileName($this->fileName). "." . $this->saveformat);
 				return "";
 			}
 			else

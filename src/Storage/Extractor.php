@@ -31,7 +31,7 @@ class Extractor
 		try {
 			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/images";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -54,7 +54,7 @@ class Extractor
 		try {
 			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides/" . $slidenumber . "/images";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -76,7 +76,7 @@ class Extractor
 		try {
 			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides/" . $slidenumber . "/shapes";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -85,7 +85,7 @@ class Extractor
 			$shapes = array();
 
 			foreach ($json->ShapeList->Links as $shape) {
-				$signedURI = Utils::Sign($shape->Uri->Href);
+				$signedURI = Utils::sign($shape->Uri->Href);
 				$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 				$json = json_decode($responseStream);
 				$shapes[] = $json;
@@ -108,7 +108,7 @@ class Extractor
 			//Build URI to get color scheme
 			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides/" . $slideNumber . "/theme/colorScheme";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -131,7 +131,7 @@ class Extractor
 			//Build URI to get font scheme
 			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides/" . $slideNumber . "/theme/fontScheme";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -154,7 +154,7 @@ class Extractor
 			//Build URI to get format scheme
 			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides/" . $slideNumber . "/theme/formatScheme";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -177,7 +177,7 @@ class Extractor
 			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides/" . $slideNumber . "/placeholders";
 
 			//Build URI to get placeholders
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -201,7 +201,7 @@ class Extractor
 			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides/" . $slideNumber . "/placeholders/" . $placeholderIndex;
 
 			//Build URI to get placeholders
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 

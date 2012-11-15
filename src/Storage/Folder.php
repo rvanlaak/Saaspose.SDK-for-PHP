@@ -33,17 +33,17 @@ class Folder
     public function uploadFile($strFile, $strFolder)
     {
         try {
-			$strRemoteFileName = basename($strFile);
+			$strRemotefileName = basename($strFile);
 
 			$strURIRequest = $this->strURIFile;
 
 			if ($strFolder == "") {
-				$strURIRequest .= $strRemoteFileName;
+				$strURIRequest .= $strRemotefileName;
 			} else {
-				$strURIRequest .= $strFolder . "/". $strRemoteFileName;
+				$strURIRequest .= $strFolder . "/". $strRemotefileName;
 			}
 
-			$signedURI = Utils::Sign($strURIRequest);
+			$signedURI = Utils::sign($strURIRequest);
 
 			Utils::uploadFileBinary($signedURI, $strFile);
 
@@ -69,7 +69,7 @@ class Folder
             $strURI = $this->strURIExist . $fileName;
 
             //sign URI
-            $signedURI = Utils::Sign($strURI);
+            $signedURI = Utils::sign($strURI);
 
             $responseStream = json_decode(Utils::processCommand($signedURI, "GET", "", ""));
             if (!$responseStream->FileExist->IsExist) {
@@ -99,7 +99,7 @@ class Folder
             $strURI = $this->strURIFile . $fileName;
 
             //sign URI
-            $signedURI = Utils::Sign($strURI);
+            $signedURI = Utils::sign($strURI);
 
             $responseStream = json_decode(Utils::processCommand($signedURI, "DELETE", "", ""));
             if ($responseStream->Code != 200) {
@@ -124,7 +124,7 @@ class Folder
 			$strURIRequest = $this->strURIFolder . $strFolder;
 
 			//sign URI
-			$signedURI = Utils::Sign($strURIRequest);
+			$signedURI = Utils::sign($strURIRequest);
 
 			$responseStream = json_decode(Utils::processCommand($signedURI, "PUT", "", ""));
 
@@ -155,7 +155,7 @@ class Folder
             $strURI = $this->strURIFolder . $folderName;
 
             //sign URI
-            $signedURI = Utils::Sign($strURI);
+            $signedURI = Utils::sign($strURI);
 
             $responseStream = json_decode(Utils::processCommand($signedURI, "DELETE", "", ""));
             if ($responseStream->Code != 200) {
@@ -178,7 +178,7 @@ class Folder
             $strURI = $this->strURIDisc;
 
             //sign URI
-            $signedURI = Utils::Sign($strURI);
+            $signedURI = Utils::sign($strURI);
 
             $responseStream = json_decode(Utils::processCommand($signedURI, "GET", "", ""));
 
@@ -206,7 +206,7 @@ class Folder
             $strURI = $this->strURIFile . $fileName;
 
             //sign URI
-            $signedURI = Utils::Sign($strURI);
+            $signedURI = Utils::sign($strURI);
 
             $responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -234,7 +234,7 @@ class Folder
             }
 
             //sign URI
-            $signedURI = Utils::Sign($strURI);
+            $signedURI = Utils::sign($strURI);
 
             $responseStream = Utils::processCommand($signedURI, "GET", "", "");
 

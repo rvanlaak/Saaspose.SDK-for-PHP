@@ -31,7 +31,7 @@ class AnnotationEditor
 
 			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "/annotations";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -59,7 +59,7 @@ class AnnotationEditor
 
 			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "/annotations/" . $annotationIndex;
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -109,7 +109,7 @@ class AnnotationEditor
 
 			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/bookmarks";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -136,7 +136,7 @@ class AnnotationEditor
 
 			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/bookmarks/" . $parent . "/bookmarks";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -163,7 +163,7 @@ class AnnotationEditor
 
 			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/bookmarks/" . $bookmarkIndex;
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -190,7 +190,7 @@ class AnnotationEditor
 
 			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/bookmarks/" . $parentIndex . "/bookmarks/" . $childIndex;
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -221,7 +221,7 @@ class AnnotationEditor
 
 			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/bookmarks/" . $bookmarkIndex;
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -274,7 +274,7 @@ class AnnotationEditor
 
 			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/attachments";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -300,7 +300,7 @@ class AnnotationEditor
 
 			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/attachments/" . $attachmentIndex;
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -352,14 +352,14 @@ class AnnotationEditor
 			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/attachments/" . $attachmentIndex . "/download";
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
 			$v_output = Utils::ValidateOutput($responseStream);
 
 			if ($v_output === "") {
-				Utils::saveFile($responseStream, SaasposeApp::$OutPutLocation . $fileInformation->Name);
+				Utils::saveFile($responseStream, SaasposeApp::$outputLocation . $fileInformation->Name);
 				return "";
 			} else {
 				return $v_output;
@@ -384,7 +384,7 @@ class AnnotationEditor
 
 			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "/links";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -412,7 +412,7 @@ class AnnotationEditor
 
 			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "/links/" . $linkIndex;
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 

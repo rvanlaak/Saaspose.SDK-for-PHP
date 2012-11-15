@@ -43,7 +43,7 @@ class DocumentBuilder
 			$strURI = Product::$BaseProductUri . "/words/" . $fileName . "/insertWatermarkText";
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "POST", "json", $json);
 
@@ -53,7 +53,7 @@ class DocumentBuilder
 				//Save docs on server
 				$folder = new Folder();
 				$outputStream = $folder->GetFile($fileName);
-				$outputPath = SaasposeApp::$OutPutLocation . $fileName;
+				$outputPath = SaasposeApp::$outputLocation . $fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
 			} else {
@@ -79,7 +79,7 @@ class DocumentBuilder
 					"/insertWatermarkImage?imageFile=" . $imageFile . "&rotationAngle=" . $rotationAngle;
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "POST", "json", '');
 
@@ -89,7 +89,7 @@ class DocumentBuilder
 				//Save doc on server
 				$folder = new Folder();
 				$outputStream = $folder->GetFile($fileName);
-				$outputPath = SaasposeApp::$OutPutLocation . $fileName;
+				$outputPath = SaasposeApp::$outputLocation . $fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
 			} else {
@@ -121,7 +121,7 @@ class DocumentBuilder
 			$strURI = Product::$BaseProductUri . "/words/" . $fileName . "/replaceText";
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "POST", "json", $json);
 
@@ -131,7 +131,7 @@ class DocumentBuilder
 				//Save docs on server
 				$folder = new Folder();
 				$outputStream = $folder->GetFile($fileName);
-				$outputPath = SaasposeApp::$OutPutLocation . $fileName;
+				$outputPath = SaasposeApp::$outputLocation . $fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
 			} else {

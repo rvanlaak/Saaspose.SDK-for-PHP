@@ -7,11 +7,11 @@ namespace Saaspose\Cells;
 */
 class TextEditor
 {
-	public $FileName = "";
+	public $fileName = "";
 
     public function CellsTextEditor($fileName)
     {
-        $this->FileName = $fileName;
+        $this->fileName = $fileName;
     }
 
 
@@ -40,14 +40,14 @@ class TextEditor
 		try
 		{
 			//check whether file is set or not
-			if ($this->FileName == "")
+			if ($this->fileName == "")
 				throw new Exception("No file name specified");
 
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName .
+			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
 						((count($parameters)==2)? "/worksheets/" . $WorkSheetName : "") .
 						"/findText?text=" . $text;
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "POST", "", "");
 
@@ -77,13 +77,13 @@ class TextEditor
 		try
 		{
 			//check whether file is set or not
-			if ($this->FileName == "")
+			if ($this->fileName == "")
 				throw new Exception("No file name specified");
 
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName .
+			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
 						((isset($parameters[0]))? "/worksheets/" . $worksheetName . "/textItems" : "/textItems");
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -123,15 +123,15 @@ class TextEditor
 		try
 		{
 			//check whether file is set or not
-			if ($this->FileName == "")
+			if ($this->fileName == "")
 				throw new Exception("No file name specified");
 
 			//Build URI to replace text
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName .
+			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
 						((count($parameters)==3)? "/worksheets/" . $worksheetName : "") .
 						"/replaceText?oldValue=" . $oldText . "&newValue=" . $newText;
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "POST", "", "");
 
@@ -140,8 +140,8 @@ class TextEditor
 			if ($v_output === "") {
 				//Save doc on server
 				$folder = new Folder();
-				$outputStream = $folder->GetFile($this->FileName);
-				$outputPath = SaasposeApp::$OutPutLocation . $this->FileName;
+				$outputStream = $folder->GetFile($this->fileName);
+				$outputPath = SaasposeApp::$outputLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
 			}

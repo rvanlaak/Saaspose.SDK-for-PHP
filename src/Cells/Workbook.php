@@ -7,27 +7,29 @@ namespace Saaspose\Cells;
 */
 class Workbook
 {
-	public $FileName = "";
-    public function CellsWorkbook($fileName)
+	public $fileName = "";
+
+    public function __construct($fileName)
     {
-        $this->FileName = $fileName;
+        $this->fileName = $fileName;
+
+        //check whether files are set or not
+        if ($this->fileName == "") {
+        	throw new Exception("Base file not specified");
+        }
     }
 
 	/*
     * Get Document's properties
 	*/
-	public function GetProperties(){
+	public function getProperties()
+	{
 		try{
-			//check whether files are set or not
-			if ($this->FileName == "")
-				throw new Exception("Base file not specified");
-
-
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName . "/documentProperties";
+			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName . "/documentProperties";
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -45,28 +47,27 @@ class Workbook
 	}
 
 	/*
-    * Get Resource Properties information like document source format, IsEncrypted, IsSigned and document properties
+    * Get Resource Properties information like document source format, isEncrypted, isSigned and document properties
 	@param string $propertyName
 	*/
 	public function GetProperty($propertyName){
 		try{
 			//check whether files are set or not
-			if ($this->FileName == "")
+			if ($this->fileName == "")
 				throw new Exception("Base file not specified");
 
 			if ($propertyName == "")
 				throw new Exception("Property Name not specified");
 
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName . "/documentProperties/" . $propertyName;
+			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName . "/documentProperties/" . $propertyName;
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
 			$json = json_decode($responseStream);
-
 
 			if($json->Code == 200)
 				return $json->DocumentProperty;
@@ -86,7 +87,7 @@ class Workbook
 	public function SetProperty($propertyName="",$propertyValue=""){
 		try{
 			//check whether files are set or not
-			if ($this->FileName == "")
+			if ($this->fileName == "")
 				throw new Exception("Base file not specified");
 
 			if ($propertyName == "")
@@ -96,14 +97,14 @@ class Workbook
 				throw new Exception("Property Value not specified");
 
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName . "/documentProperties/" . $propertyName;
+			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName . "/documentProperties/" . $propertyName;
 
 			$put_data_arr['Value'] = $propertyValue;
 
 			$put_data = json_encode($put_data_arr);
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "PUT", "json", $put_data);
 
@@ -125,15 +126,15 @@ class Workbook
 	public function RemoveAllProperties(){
 		try{
 			//check whether files are set or not
-			if ($this->FileName == "")
+			if ($this->fileName == "")
 				throw new Exception("Base file not specified");
 
 
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName . "/documentProperties";
+			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName . "/documentProperties";
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "DELETE");
 
@@ -162,17 +163,17 @@ class Workbook
 	public function RemoveProperty($propertyName){
 		try{
 			//check whether files are set or not
-			if ($this->FileName == "")
+			if ($this->fileName == "")
 				throw new Exception("Base file not specified");
 
 			if ($propertyName == "")
 				throw new Exception("Property Name not specified");
 
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName . "/documentProperties/" . $propertyName;
+			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName . "/documentProperties/" . $propertyName;
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "DELETE", "", "");
 
@@ -195,10 +196,10 @@ class Workbook
 		try{
 
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName ;
+			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName ;
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "PUT");
 
@@ -213,19 +214,19 @@ class Workbook
 
 	/*
     * Create Empty Workbook
-	* @param string $templateFileName
+	* @param string $templatefileName
 	*/
-	public function CreateWorkbookFromTemplate($templateFileName){
+	public function CreateWorkbookFromTemplate($templatefileName){
 		try{
 
-			if ($templateFileName == "")
+			if ($templatefileName == "")
 				throw new Exception("Template file not specified");
 
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName ."?templatefile=".$templateFileName;
+			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName ."?templatefile=".$templatefileName;
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "PUT");
 
@@ -240,23 +241,23 @@ class Workbook
 
 	/*
     * Create Empty Workbook
-	* @param string $templateFileName
+	* @param string $templatefileName
 	* @param string $dataFile
 	*/
-	public function CreateWorkbookFromSmartMarkerTemplate($templateFileName="",$dataFile=""){
+	public function CreateWorkbookFromSmartMarkerTemplate($templatefileName="",$dataFile=""){
 		try{
 
-			if ($templateFileName == "")
+			if ($templatefileName == "")
 				throw new Exception("Template file not specified");
 
 			if ($dataFile == "")
 				throw new Exception("Data file not specified");
 
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName ."?templatefile=".$templateFileName."&dataFile=".$dataFile;
+			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName ."?templatefile=".$templatefileName."&dataFile=".$dataFile;
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "PUT");
 
@@ -276,17 +277,17 @@ class Workbook
 	public function ProcessSmartMarker($dataFile=""){
 		try{
 
-			if ($templateFileName == "")
+			if ($templatefileName == "")
 				throw new Exception("Template file not specified");
 
 			if ($dataFile == "")
 				throw new Exception("Data file not specified");
 
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName ."/smartmarker?xmlFile=".$dataFile;
+			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName ."/smartmarker?xmlFile=".$dataFile;
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "POST");
 
@@ -305,15 +306,15 @@ class Workbook
 	public function GetWorksheetsCount(){
 		try{
 
-			if ($this->FileName == "")
+			if ($this->fileName == "")
 				throw new Exception("Base file not specified");
 
 
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName ."/worksheets";
+			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName ."/worksheets";
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET");
 
@@ -331,15 +332,15 @@ class Workbook
 	public function GetNamesCount(){
 		try{
 
-			if ($this->FileName == "")
+			if ($this->fileName == "")
 				throw new Exception("Base file not specified");
 
 
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName ."/names";
+			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName ."/names";
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET");
 
@@ -357,15 +358,15 @@ class Workbook
 	public function getDefaultStyle(){
 		try{
 
-			if ($this->FileName == "")
+			if ($this->fileName == "")
 				throw new Exception("Base file not specified");
 
 
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/cells/" . $this->FileName ."/defaultStyle";
+			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName ."/defaultStyle";
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET");
 

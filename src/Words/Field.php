@@ -44,7 +44,7 @@ class Field
 			$strURI = Product::$BaseProductUri . "/words/" . $fileName . "/insertPageNumbers";
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "POST", "json", $json);
 
@@ -54,7 +54,7 @@ class Field
 				//Save docs on server
 				$folder = new Folder();
 				$outputStream = $folder->GetFile($fileName);
-				$outputPath = SaasposeApp::$OutPutLocation . $fileName;
+				$outputPath = SaasposeApp::$outputLocation . $fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
 
@@ -76,7 +76,7 @@ class Field
 		try {
 			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/mailMergeFieldNames";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 

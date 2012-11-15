@@ -31,7 +31,7 @@ class Extractor
 
 			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "/images";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -59,7 +59,7 @@ class Extractor
 
 			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "/images/" . $imageIndex . "?format=" . $imageFormat;
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -67,7 +67,7 @@ class Extractor
 
 			if ($v_output === "")
 			{
-				Utils::saveFile($responseStream, SaasposeApp::$OutPutLocation . Utils::getfileName($this->fileName). "_" . $imageIndex . "." . $imageFormat);
+				Utils::saveFile($responseStream, SaasposeApp::$outputLocation . Utils::getFileName($this->fileName). "_" . $imageIndex . "." . $imageFormat);
 				return "";
 			}
 			else
@@ -96,7 +96,7 @@ class Extractor
 
 			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "/images/" . $imageIndex . "?format=" . $imageFormat . "&width=" . $imageWidth . "&height=" . $imageHeight;
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -104,7 +104,7 @@ class Extractor
 
 			if ($v_output === "")
 			{
-				Utils::saveFile($responseStream, SaasposeApp::$OutPutLocation . Utils::getfileName($this->fileName). "_" . $imageIndex . "." . $imageFormat);
+				Utils::saveFile($responseStream, SaasposeApp::$outputLocation . Utils::getFileName($this->fileName). "_" . $imageIndex . "." . $imageFormat);
 				return "";
 			}
 			else

@@ -36,14 +36,14 @@ class Converter
 
 			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "?format=" . $imageFormat . "&width=" . $width . "&height=" . $height;
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
 			$v_output = Utils::ValidateOutput($responseStream);
 
 			if ($v_output === "") {
-				Utils::saveFile($responseStream, SaasposeApp::$OutPutLocation . Utils::getFileName($this->fileName). "_" . $pageNumber . "." . $imageFormat);
+				Utils::saveFile($responseStream, SaasposeApp::$outputLocation . Utils::getFileName($this->fileName). "_" . $pageNumber . "." . $imageFormat);
 				return "";
 			} else {
 				return $v_output;
@@ -68,7 +68,7 @@ class Converter
 
 			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "?format=" . $imageFormat;
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -76,7 +76,7 @@ class Converter
 
 			if ($v_output === "")
 			{
-				Utils::saveFile($responseStream, SaasposeApp::$OutPutLocation . Utils::getFileName($this->fileName). "_" . $pageNumber . "." . $imageFormat);
+				Utils::saveFile($responseStream, SaasposeApp::$outputLocation . Utils::getFileName($this->fileName). "_" . $pageNumber . "." . $imageFormat);
 				return "";
 			}
 			else
@@ -102,7 +102,7 @@ class Converter
 
 			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "?format=" . $this->saveformat;
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -115,7 +115,7 @@ class Converter
 				else
 					$save_format = $this->saveformat;
 
-				Utils::saveFile($responseStream, SaasposeApp::$OutPutLocation . Utils::getFileName($this->fileName). "." . $save_format);
+				Utils::saveFile($responseStream, SaasposeApp::$outputLocation . Utils::getFileName($this->fileName). "." . $save_format);
 				return "";
 			}
 			else
@@ -130,10 +130,10 @@ class Converter
 	/**
     * Convert PDF to different file format without using storage
 	* $param string $inputFile
-	* @param string $outputFilename
+	* @param string $outputfileName
 	* @param string $outputFormat
 	*/
-	public function convertLocalFile($inputFile="",$outputFilename="",$outputFormat="")
+	public function convertLocalFile($inputFile="",$outputfileName="",$outputFormat="")
 	{
 		try
 		{
@@ -153,7 +153,7 @@ class Converter
 			}
 
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::uploadFileBinary($signedURI, $inputFile , "xml");
 
@@ -166,12 +166,12 @@ class Converter
 				else
 					$save_format = $outputFormat;
 
-				if($outputFilename == "")
+				if($outputfileName == "")
 				{
-					$outputFilename = Utils::getFileName($inputFile). "." . $save_format;
+					$outputfileName = Utils::getFileName($inputFile). "." . $save_format;
 				}
 
-				Utils::saveFile($responseStream, SaasposeApp::$OutPutLocation . $outputFilename);
+				Utils::saveFile($responseStream, SaasposeApp::$outputLocation . $outputfileName);
 				return "";
 			}
 			else

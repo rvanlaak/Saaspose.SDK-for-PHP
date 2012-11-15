@@ -37,7 +37,7 @@ class MailMerge
 			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/executeMailMerge";
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "POST", "", $strXML);
 			$json = json_decode($responseStream);
@@ -47,8 +47,8 @@ class MailMerge
 			if ($v_output === "") {
 				//Save docs on server
 				$folder = new Folder();
-				$outputStream = $folder->GetFile($json->Document->FileName);
-				$outputPath = SaasposeApp::$OutPutLocation . $this->fileName;
+				$outputStream = $folder->GetFile($json->Document->fileName);
+				$outputPath = SaasposeApp::$outputLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
 			} else {
@@ -72,7 +72,7 @@ class MailMerge
 			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/executeMailMerge?withRegions=true";
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "POST", "", $strXML);
 			$json = json_decode($responseStream);
@@ -82,8 +82,8 @@ class MailMerge
 			if ($v_output === "") {
 				//Save docs on server
 				$folder = new Folder();
-				$outputStream = $folder->GetFile($json->Document->FileName);
-				$outputPath = SaasposeApp::$OutPutLocation . $fileName;
+				$outputStream = $folder->GetFile($json->Document->fileName);
+				$outputPath = SaasposeApp::$outputLocation . $fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
 			} else {
@@ -107,7 +107,7 @@ class MailMerge
 			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/executeTemplate";
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "POST", "", $strXML);
 
@@ -118,8 +118,8 @@ class MailMerge
 
 				//Save docs on server
 				$folder = new Folder();
-				$outputStream = $folder->GetFile($json->Document->FileName);
-				$outputPath = SaasposeApp::$OutPutLocation . $this->fileName;
+				$outputStream = $folder->GetFile($json->Document->fileName);
+				$outputPath = SaasposeApp::$outputLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
 			} else {

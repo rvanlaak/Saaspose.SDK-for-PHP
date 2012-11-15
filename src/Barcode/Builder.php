@@ -34,13 +34,13 @@ class Builder
 
 		try {
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			//get response stream
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
 			//Save output barcode image
-			$outputPath = SaasposeApp::$OutPutLocation . "barcode" . $symbology . "." . $imageFormat;
+			$outputPath = SaasposeApp::$outputLocation . "barcode" . $symbology . "." . $imageFormat;
 			Utils::saveFile($responseStream, $outputPath);
 			return $outputPath;
 

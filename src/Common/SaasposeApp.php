@@ -2,22 +2,26 @@
 
 namespace Saaspose\Common;
 
-/// <summary>
-/// Represents a Saaspose Application.
-/// </summary>
+/**
+ * Represents a Saaspose Application.
+ */
 class SaasposeApp
 {
 
 	/**
-    * Represents AppSID for the app.
+    * Represents appSid for the app.
 	*/
-	public static $AppSID  = "";
+	public static $appSid  = "";
 
 	/**
     * Represents AppKey for the app.
 	*/
-	public static $AppKey = "";
+	public static $appKey = "";
 
-	public static $OutPutLocation = "C:\\TempFiles\\";
+	/**
+	 * Location to store the result file
+	 * @var unknown_type
+	 */
+	public static $outputLocation = "C:\\TempFiles\\";
 
 }

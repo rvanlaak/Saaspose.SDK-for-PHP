@@ -48,7 +48,7 @@ class ChartEditor
 						$upperLeftColumn . "&lowerRightRow=" . $lowerRightRow .
 						"&lowerRightColumn=" . $lowerRightColumn;
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "PUT", "", "");
 
@@ -58,7 +58,7 @@ class ChartEditor
 				//Save doc on server
 				$folder = new Folder();
 				$outputStream = $folder->GetFile($this->fileName);
-				$outputPath = SaasposeApp::$OutPutLocation . $this->fileName;
+				$outputPath = SaasposeApp::$outputLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
 
@@ -81,7 +81,7 @@ class ChartEditor
 			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
 						"/worksheets/" . $this->worksheetName . "/charts/" . $chartIndex;
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "DELETE", "", "");
 
@@ -91,7 +91,7 @@ class ChartEditor
 				//Save doc on server
 				$folder = new Folder();
 				$outputStream = $folder->GetFile($this->fileName);
-				$outputPath = SaasposeApp::$OutPutLocation . $this->fileName;
+				$outputPath = SaasposeApp::$outputLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
 			} else {
@@ -113,7 +113,7 @@ class ChartEditor
 			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
 						"/worksheets/" . $this->worksheetName . "/charts/" . $chartIndex . "/chartArea";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -136,7 +136,7 @@ class ChartEditor
 			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName . "/worksheets/" .
 						$this->worksheetName . "/charts/" . $chartIndex . "/chartArea/fillFormat";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -159,7 +159,7 @@ class ChartEditor
 			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName . "/worksheets/" .
 						$this->worksheetName . "/charts/" . $chartIndex . "/chartArea/border";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 

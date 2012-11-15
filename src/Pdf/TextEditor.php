@@ -38,7 +38,7 @@ class TextEditor
 			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName .
 						((isset($parameters[0]))? "/pages/" . $pageNumber . "/TextItems" : "/TextItems");
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -75,7 +75,7 @@ class TextEditor
 			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName .
 						((isset($parameters[0]))? "/pages/" . $pageNumber . "/TextItems" : "/TextItems");
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -100,7 +100,7 @@ class TextEditor
 
 			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "/fragments";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -135,7 +135,7 @@ class TextEditor
 
 			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "/fragments/" . $fragmentNumber;
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -163,7 +163,7 @@ class TextEditor
 			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber .
 						"/fragments/" . $fragmentNumber . "/textformat";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -211,7 +211,7 @@ class TextEditor
 			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . ((isset($parameters[3]))? "/pages/" . $pageNumber: "") .
 						"/replaceText";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "POST", "json", $json);
 
@@ -221,7 +221,7 @@ class TextEditor
 				//Save doc on server
 				$folder = new Folder();
 				$outputStream = $folder->GetFile($this->fileName);
-				$outputPath = SaasposeApp::$OutPutLocation . $this->fileName;
+				$outputPath = SaasposeApp::$outputLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
 			}

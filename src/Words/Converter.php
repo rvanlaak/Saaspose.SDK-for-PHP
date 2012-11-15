@@ -40,7 +40,7 @@ class Converter
 					. "?format=" . $this->saveformat;
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -48,7 +48,7 @@ class Converter
 
 			if ($v_output === "") {
 				Utils::saveFile($responseStream,
-						SaasposeApp::$OutPutLocation
+						SaasposeApp::$outputLocation
 								. Utils::getFileName($this->fileName) . "."
 								. $this->saveformat);
 				return "";

@@ -42,7 +42,7 @@ class Worksheet
 						"/worksheets/" . $this->worksheetName . "/cells?offset=" .
 						$offset . "&count=" . $count;
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -54,7 +54,7 @@ class Worksheet
 				$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
 						"/worksheets/" . $this->worksheetName . "/cells" . $cell->link->Href;
 
-				$signedURI = Utils::Sign($strURI);
+				$signedURI = Utils::sign($strURI);
 
 				$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 				$json = json_decode($responseStream);
@@ -72,13 +72,13 @@ class Worksheet
 	/**
     * Gets a list of rows from the worksheet
 	*/
-	public function GetRowsList()
+	public function getRowsList()
 	{
 		try {
 			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
 						"/worksheets/" . $this->worksheetName . "/cells/rows";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -90,7 +90,7 @@ class Worksheet
 				$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
 						"/worksheets/" . $this->worksheetName . "/cells/rows" . $row->link->Href;
 
-				$signedURI = Utils::Sign($strURI);
+				$signedURI = Utils::sign($strURI);
 
 				$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 				$json = json_decode($responseStream);
@@ -107,13 +107,13 @@ class Worksheet
 	/**
     * Gets a list of columns from the worksheet
 	*/
-	public function GetColumnsList()
+	public function getColumnsList()
 	{
 		try {
 			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
 						"/worksheets/" . $this->worksheetName . "/cells/columns";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -125,7 +125,7 @@ class Worksheet
 				$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
 						"/worksheets/" . $this->worksheetName . "/cells/columns" . $column->link->Href;
 
-				$signedURI = Utils::Sign($strURI);
+				$signedURI = Utils::sign($strURI);
 
 				$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 				$json = json_decode($responseStream);
@@ -152,7 +152,7 @@ class Worksheet
 						"/worksheets/" . $this->worksheetName . "/cells?offset=" .
 						$offset . "&count=" . $count;
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -177,7 +177,7 @@ class Worksheet
 						"/worksheets/" . $this->worksheetName . "/cells?offset=" .
 						$offset . "&count=" . $count;
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -202,16 +202,15 @@ class Worksheet
 						"/worksheets/" . $this->worksheetName . "/cells?offset=" .
 						$offset . "&count=" . $count;
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
 			$json = json_decode($responseStream);
 
 			return $json->Cells->CellCount;
-		}
-		catch (Exception $e)
-		{
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}
@@ -225,7 +224,7 @@ class Worksheet
 			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
 						"/worksheets/" . $this->worksheetName . "/autoshapes";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -248,7 +247,7 @@ class Worksheet
 			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
 						"/worksheets/" . $this->worksheetName . "/autoshapes/" . $index;
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -270,7 +269,7 @@ class Worksheet
 			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
 						"/worksheets/" . $this->worksheetName . "/charts";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -293,16 +292,15 @@ class Worksheet
 			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName .
 						"/worksheets/" . $this->worksheetName . "/charts/" . $index;
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
 			$json = json_decode($responseStream);
 
 			return $json->Chart;
-		}
-		catch (Exception $e)
-		{
+
+		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
 	}

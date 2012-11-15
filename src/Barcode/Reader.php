@@ -36,7 +36,7 @@ class Reader
 						(!isset($symbology) || trim($symbology)==='' ? "type=" : "type=" . $symbology);
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			//get response stream
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");

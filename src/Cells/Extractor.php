@@ -37,8 +37,8 @@ class Extractor
 			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName . "/worksheets/" .
 			          $worksheetName . "/pictures/" . $pictureIndex . "?format=" . $imageFormat;
 
-			//Sign URI
-			$signedURI = Utils::Sign($strURI);
+			//sign URI
+			$signedURI = Utils::sign($strURI);
 
 			//Send request and receive response stream
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
@@ -48,7 +48,7 @@ class Extractor
 
 			if ($v_output === "") {
 				//Save ouput file
-				$outputPath = SaasposeApp::$OutPutLocation . Utils::getFileName($this->fileName).
+				$outputPath = SaasposeApp::$outputLocation . Utils::getFileName($this->fileName).
 				"_" . $worksheetName . "." . $imageFormat;
 				Utils::saveFile($responseStream, $outputPath);
 				return "";
@@ -74,8 +74,8 @@ class Extractor
 			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName . "/worksheets/" .
 			          $worksheetName . "/oleobjects/" . $objectIndex . "?format=" . $imageFormat;
 
-			//Sign URI
-			$signedURI = Utils::Sign($strURI);
+			//sign URI
+			$signedURI = Utils::sign($strURI);
 
 			//Send request and receive response stream
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
@@ -85,7 +85,7 @@ class Extractor
 
 			if ($v_output === "") {
 				//Save ouput file
-				$outputPath = SaasposeApp::$OutPutLocation . Utils::getFileName($this->fileName).
+				$outputPath = SaasposeApp::$outputLocation . Utils::getFileName($this->fileName).
 				"_" . $worksheetName . "." . $imageFormat;
 				Utils::saveFile($responseStream, $outputPath);
 				return "";
@@ -112,8 +112,8 @@ class Extractor
 			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName . "/worksheets/" .
 			          $worksheetName . "/charts/" . $chartIndex . "?format=" . $imageFormat;
 
-			//Sign URI
-			$signedURI = Utils::Sign($strURI);
+			//sign URI
+			$signedURI = Utils::sign($strURI);
 
 			//Send request and receive response stream
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
@@ -123,7 +123,7 @@ class Extractor
 
 			if ($v_output === "") {
 				//Save ouput file
-				$outputPath = SaasposeApp::$OutPutLocation . Utils::getFileName($this->fileName).
+				$outputPath = SaasposeApp::$outputLocation . Utils::getFileName($this->fileName).
 				"_" . $worksheetName . "." . $imageFormat;
 				Utils::saveFile($responseStream, $outputPath);
 				return "";
@@ -150,8 +150,8 @@ class Extractor
 			$strURI = Product::$BaseProductUri . "/cells/" . $this->fileName . "/worksheets/" .
 			          $worksheetName . "/autoshapes/" . $shapeIndex . "?format=" . $imageFormat;
 
-			//Sign URI
-			$signedURI = Utils::Sign($strURI);
+			//sign URI
+			$signedURI = Utils::sign($strURI);
 
 			//Send request and receive response stream
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
@@ -161,7 +161,7 @@ class Extractor
 
 			if ($v_output === "") {
 				//Save ouput file
-				$outputPath = SaasposeApp::$OutPutLocation . Utils::getFileName($this->fileName).
+				$outputPath = SaasposeApp::$outputLocation . Utils::getFileName($this->fileName).
 				"_" . $worksheetName . "." . $imageFormat;
 				Utils::saveFile($responseStream, $outputPath);
 				return "";

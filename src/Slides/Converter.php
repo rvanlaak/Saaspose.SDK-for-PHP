@@ -37,9 +37,9 @@ class Converter
 		try {
 			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides/" . $slideNumber . "?format=" . $imageFormat;
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
-			Utils::saveFile($responseStream, SaasposeApp::$OutPutLocation . Utils::getFileName($this->fileName). "." . $this->saveformat);
+			Utils::saveFile($responseStream, SaasposeApp::$outputLocation . Utils::getFileName($this->fileName). "." . $this->saveformat);
 
 		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
@@ -58,9 +58,9 @@ class Converter
 		try {
 			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides/" . $slideNumber . "?format=" . $imageFormat . "&width=" . $width . "&height=" . $height;
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
-			Utils::saveFile($responseStream, SaasposeApp::$OutPutLocation . "output." . $imageFormat);
+			Utils::saveFile($responseStream, SaasposeApp::$outputLocation . "output." . $imageFormat);
 
 		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
@@ -75,14 +75,14 @@ class Converter
 		try {
 			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "?format=" . $this->saveformat;
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
 			$v_output = Utils::ValidateOutput($responseStream);
 
 			if ($v_output === "") {
-				Utils::saveFile($responseStream, SaasposeApp::$OutPutLocation . Utils::getFileName($this->fileName). "." . $this->saveformat);
+				Utils::saveFile($responseStream, SaasposeApp::$outputLocation . Utils::getFileName($this->fileName). "." . $this->saveformat);
 				return "";
 			} else {
 				return $v_output;

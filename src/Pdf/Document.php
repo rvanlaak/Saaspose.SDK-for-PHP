@@ -26,7 +26,7 @@ class Document
 		$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/pages";
 
 		//sign URI
-		$signedURI = Utils::Sign($strURI);
+		$signedURI = Utils::sign($strURI);
 
 		//get response stream
 		$responseStream = Utils::ProcessCommand($signedURI, "GET", "");
@@ -66,7 +66,7 @@ class Document
 			}
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "POST", "", "");
 
@@ -76,7 +76,7 @@ class Document
 				//Save merged PDF on server
 				$folder = new Folder();
 				$outputStream = $folder->GetFile($sourceFolder . "/" . $basePdf);
-				$outputPath = SaasposeApp::$OutPutLocation . $basePdf;
+				$outputPath = SaasposeApp::$outputLocation . $basePdf;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
 			} else {
@@ -111,7 +111,7 @@ class Document
 			$strURI = Product::$BaseProductUri . "/pdf/" . $mergedfileName . "/merge";
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = json_decode(Utils::processCommand($signedURI, "PUT", "json", $json));
 
@@ -143,7 +143,7 @@ class Document
 							"?templateFile=" . $htmlfileName . "&templateType=html";
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "PUT", "", "");
 
@@ -153,7 +153,7 @@ class Document
 				//Save PDF file on server
 				$folder = new Folder();
 				$outputStream = $folder->GetFile($pdffileName);
-				$outputPath = SaasposeApp::$OutPutLocation . $pdffileName;
+				$outputPath = SaasposeApp::$outputLocation . $pdffileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
 			}
@@ -186,7 +186,7 @@ class Document
 						$xsltfileName . "&dataFile=" . $xmlfileName .  "&templateType=xml";
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "PUT", "", "");
 
@@ -196,7 +196,7 @@ class Document
 				//Save PDF file on server
 				$folder = new Folder();
 				$outputStream = $folder->GetFile($pdffileName);
-				$outputPath = SaasposeApp::$OutPutLocation . $pdffileName;
+				$outputPath = SaasposeApp::$outputLocation . $pdffileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
 			}
@@ -217,7 +217,7 @@ class Document
 		$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/fields";
 
 		//sign URI
-		$signedURI = Utils::Sign($strURI);
+		$signedURI = Utils::sign($strURI);
 
 		//get response stream
 		$responseStream = Utils::ProcessCommand($signedURI, "GET", "");
@@ -236,7 +236,7 @@ class Document
 		$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/fields";
 
 		//sign URI
-		$signedURI = Utils::Sign($strURI);
+		$signedURI = Utils::sign($strURI);
 
 		//get response stream
 		$responseStream = Utils::ProcessCommand($signedURI, "GET", "");
@@ -256,7 +256,7 @@ class Document
 		$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/fields/" . $fieldName;
 
 		//sign URI
-		$signedURI = Utils::Sign($strURI);
+		$signedURI = Utils::sign($strURI);
 
 		//get response stream
 		$responseStream = Utils::ProcessCommand($signedURI, "GET", "");
@@ -280,7 +280,7 @@ class Document
 			$strURI = Product::$BaseProductUri . "/pdf/" . $pdffileName;
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "PUT", "", "");
 
@@ -290,7 +290,7 @@ class Document
 				//Save PDF file on server
 				$folder = new Folder();
 				$outputStream = $folder->GetFile($pdffileName);
-				$outputPath = SaasposeApp::$OutPutLocation . $pdffileName;
+				$outputPath = SaasposeApp::$outputLocation . $pdffileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
 			}
@@ -315,7 +315,7 @@ class Document
 			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/pages";
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "PUT", "", "");
 
@@ -325,7 +325,7 @@ class Document
 				//Save PDF file on server
 				$folder = new Folder();
 				$outputStream = $folder->GetFile($this->fileName);
-				$outputPath = SaasposeApp::$OutPutLocation . $this->fileName;
+				$outputPath = SaasposeApp::$outputLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
 			}
@@ -351,7 +351,7 @@ class Document
 			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber;
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "DELETE", "", "");
 
@@ -361,7 +361,7 @@ class Document
 				//Save PDF file on server
 				$folder = new Folder();
 				$outputStream = $folder->GetFile($this->fileName);
-				$outputPath = SaasposeApp::$OutPutLocation . $this->fileName;
+				$outputPath = SaasposeApp::$outputLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
 			}
@@ -389,7 +389,7 @@ class Document
 						"/movePage?newIndex=" . $newLocation;
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "POST", "", "");
 
@@ -399,7 +399,7 @@ class Document
 				//Save PDF file on server
 				$folder = new Folder();
 				$outputStream = $folder->GetFile($this->fileName);
-				$outputPath = SaasposeApp::$OutPutLocation . $this->fileName;
+				$outputPath = SaasposeApp::$outputLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
 			}
@@ -428,7 +428,7 @@ class Document
 						"/images/" . $imageIndex;
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "POST", "", $imageStream);
 
@@ -438,7 +438,7 @@ class Document
 				//Save PDF file on server
 				$folder = new Folder();
 				$outputStream = $folder->GetFile($this->fileName);
-				$outputPath = SaasposeApp::$OutPutLocation . $this->fileName;
+				$outputPath = SaasposeApp::$outputLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
 			}
@@ -467,7 +467,7 @@ class Document
 						"/images/" . $imageIndex . "?imageFile=" . $fileName;
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "POST", "", "");
 
@@ -477,7 +477,7 @@ class Document
 				//Save PDF file on server
 				$folder = new Folder();
 				$outputStream = $folder->GetFile($this->fileName);
-				$outputPath = SaasposeApp::$OutPutLocation . $this->fileName;
+				$outputPath = SaasposeApp::$outputLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
 			}
@@ -502,7 +502,7 @@ class Document
 			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/documentProperties";
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
 			$response_arr = json_decode($responseStream);
@@ -532,7 +532,7 @@ class Document
 			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/documentProperties/" . $propertyName;
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
 			$response_arr = json_decode($responseStream);
@@ -566,7 +566,7 @@ class Document
 			$json = json_encode($put_arr);
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 			$responseStream = Utils::processCommand($signedURI, "PUT", "json", $json);
 
 			$response_arr = json_decode($responseStream);
@@ -593,7 +593,7 @@ class Document
 			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/documentProperties";
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 			$responseStream = Utils::processCommand($signedURI, "DELETE", "", "");
 
 			$response_arr = json_decode($responseStream);

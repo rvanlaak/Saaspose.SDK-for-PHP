@@ -31,7 +31,7 @@ class Extractor
 		try {
 			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/textItems";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -54,16 +54,16 @@ class Extractor
     public function getOleData($index, $OLEFormat)
     {
       	try {
-			$strURI = Product::$BaseProductUri . "/words/" . $this->FileName . "/drawingObjects/" . $index . "/oleData";
+			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/drawingObjects/" . $index . "/oleData";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
 			$v_output = Utils::ValidateOutput($responseStream);
 
 			if ($v_output === "") {
-				Utils::saveFile($responseStream, SaasposeApp::$OutPutLocation . Utils::getFileName($this->FileName). "_" . $index . "." . $OLEFormat);
+				Utils::saveFile($responseStream, SaasposeApp::$outputLocation . Utils::getFileName($this->fileName). "_" . $index . "." . $OLEFormat);
 				return "";
 
 			} else {
@@ -83,9 +83,9 @@ class Extractor
     public function getImageData($index, $renderformat)
     {
        try {
-			$strURI = Product::$BaseProductUri . "/words/" . $this->FileName . "/drawingObjects/" . $index . "/ImageData";
+			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/drawingObjects/" . $index . "/ImageData";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -93,7 +93,7 @@ class Extractor
 
 			if ($v_output === "")
 			{
-				Utils::saveFile($responseStream, SaasposeApp::$OutPutLocation . Utils::getFileName($this->FileName). "_" . $index . "." . $renderformat);
+				Utils::saveFile($responseStream, SaasposeApp::$outputLocation . Utils::getFileName($this->fileName). "_" . $index . "." . $renderformat);
 				return "";
 
 			} else {
@@ -113,16 +113,16 @@ class Extractor
     public function convertDrawingObject($index, $renderformat)
     {
        try {
-			$strURI = Product::$BaseProductUri . "/words/" . $this->FileName . "/drawingObjects/" . $index . "?format=" . $renderformat;
+			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/drawingObjects/" . $index . "?format=" . $renderformat;
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
 			$v_output = Utils::ValidateOutput($responseStream);
 
 			if ($v_output === "") {
-				Utils::saveFile($responseStream, SaasposeApp::$OutPutLocation . Utils::getFileName($this->FileName). "_" . $index . "." . $renderformat);
+				Utils::saveFile($responseStream, SaasposeApp::$outputLocation . Utils::getFileName($this->fileName). "_" . $index . "." . $renderformat);
 				return "";
 			} else {
 				return $v_output;
@@ -140,9 +140,9 @@ class Extractor
     public function getDrawingObjectList()
     {
        try {
-			$strURI = Product::$BaseProductUri . "/words/" . $this->FileName . "/drawingObjects";
+			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/drawingObjects";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -180,7 +180,7 @@ class Extractor
 
 			$strURI = $objectURI;
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -199,7 +199,7 @@ class Extractor
 					$outputPath = $outputPath . "\\DrawingObject_" . $objectIndex . ".jpeg";
 				}
 
-				$signedURI = Utils::Sign($strURI);
+				$signedURI = Utils::sign($strURI);
 
 				$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -233,9 +233,9 @@ class Extractor
 				throw new Exception("Output path not specified");
 			}
 
-			$strURI = Product::$BaseProductUri . "/words/" . $this->FileName . "/drawingObjects";
+			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/drawingObjects";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 

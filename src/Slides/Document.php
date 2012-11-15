@@ -33,7 +33,7 @@ class Document
 			//Build URI to get a list of slides
 			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -73,7 +73,7 @@ class Document
 			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . ((isset($parameters[2]))? "/slides/" . $slideNumber: "") .
 						"/replaceText?oldValue=" . $oldText . "&newValue=" . $newText . "&ignoreCase=true";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "POST", "", "");
 
@@ -83,7 +83,7 @@ class Document
 				//Save doc on server
 				$folder = new Folder();
 				$outputStream = $folder->GetFile($this->fileName);
-				$outputPath = SaasposeApp::$OutPutLocation . $this->fileName;
+				$outputPath = SaasposeApp::$outputLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
 			} else {
@@ -114,7 +114,7 @@ class Document
 			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName .
 						((isset($parameters[0]))? "/slides/" . $slideNumber . "/textItems?withEmpty=" . $withEmpty: "/textItems");
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -136,7 +136,7 @@ class Document
 			//Build URI to replace text
 			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "DELETE", "", "");
 
@@ -146,7 +146,7 @@ class Document
 				//Save doc on server
 				$folder = new Folder();
 				$outputStream = $folder->GetFile($this->fileName);
-				$outputPath = SaasposeApp::$OutPutLocation . $this->fileName;
+				$outputPath = SaasposeApp::$outputLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
 
@@ -169,7 +169,7 @@ class Document
 			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/documentProperties";
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -187,7 +187,7 @@ class Document
 	}
 
 	/**
-    * Get Resource Properties information like document source format, IsEncrypted, IsSigned and document properties
+    * Get Resource Properties information like document source format, IsEncrypted, Issigned and document properties
 	* @param string $propertyName
 	*/
 	public function getDocumentProperty($propertyName)
@@ -201,7 +201,7 @@ class Document
 			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/presentation/documentProperties/" . $propertyName;
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -234,7 +234,7 @@ class Document
 			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/documentProperties";
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "DELETE");
 
@@ -269,7 +269,7 @@ class Document
 			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/documentProperties/" . $propertyName;
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "DELETE", "", "");
 
@@ -309,7 +309,7 @@ class Document
 			$put_data = json_encode($put_data_arr);
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "PUT", "json", $put_data);
 
@@ -343,7 +343,7 @@ class Document
 			$put_data = json_encode($propertiesList);
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "PUT", "json", $put_data);
 
@@ -374,7 +374,7 @@ class Document
 
 			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "?format=" . $saveFormat;
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -412,7 +412,7 @@ class Document
 
 			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides/$slideNumber?format=" . $saveFormat;
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 

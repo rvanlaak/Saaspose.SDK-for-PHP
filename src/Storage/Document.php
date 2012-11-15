@@ -11,7 +11,7 @@ use Saaspose\Common\Utils;
 */
 class Document
 {
-	public $FileName = "";
+	public $fileName = "";
 
 	public function __construct($fileName)
 	{
@@ -31,9 +31,9 @@ class Document
 	{
 		try {
 			//Build URI to get a list of slides
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->FileName . "/slides";
+			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -70,10 +70,10 @@ class Document
 
 		try {
 			//Build URI to replace text
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->FileName . ((isset($parameters[2]))? "/slides/" . $slideNumber: "") .
+			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . ((isset($parameters[2]))? "/slides/" . $slideNumber: "") .
 						"/replaceText?oldValue=" . $oldText . "&newValue=" . $newText . "&ignoreCase=true";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "POST", "", "");
 
@@ -82,8 +82,8 @@ class Document
 			if ($v_output === "") {
 				//Save doc on server
 				$folder = new Folder();
-				$outputStream = $folder->GetFile($this->FileName);
-				$outputPath = SaasposeApp::$OutPutLocation . $this->FileName;
+				$outputStream = $folder->GetFile($this->fileName);
+				$outputPath = SaasposeApp::$outputLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
 			} else {
@@ -111,11 +111,11 @@ class Document
 
 		try {
 			//Build URI to get all text items TODO make use of sprintf
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->FileName .
+			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName .
 								((isset($parameters[0]))? "/slides/" . $slideNumber .
 								"/textItems?withEmpty=" . $withEmpty: "/textItems");
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -135,9 +135,9 @@ class Document
 	{
 		try {
 			//Build URI to replace text
-			$strURI = Product::$BaseProductUri . "/slides/" . $this->FileName . "/slides";
+			$strURI = Product::$BaseProductUri . "/slides/" . $this->fileName . "/slides";
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "DELETE", "", "");
 
@@ -146,8 +146,8 @@ class Document
 			if ($v_output === "") {
 				//Save doc on server
 				$folder = new Folder();
-				$outputStream = $folder->GetFile($this->FileName);
-				$outputPath = SaasposeApp::$OutPutLocation . $this->FileName;
+				$outputStream = $folder->GetFile($this->fileName);
+				$outputPath = SaasposeApp::$outputLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
 			} else {

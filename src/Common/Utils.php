@@ -118,9 +118,9 @@ class Utils
         $url = parse_url($urlToSign);
 
         if (isset($url['query']) == "") {
-            $urlPartToSign = $url['path'] . "?appSID=" . SaasposeApp::$AppSID;
+            $urlPartToSign = $url['path'] . "?appSid=" . SaasposeApp::$appSid;
         } else {
-            $urlPartToSign = $url['path'] . "?" . str_replace(" ","%20",$url["query"]) . "&appSID=" . SaasposeApp::$AppSID;
+            $urlPartToSign = $url['path'] . "?" . str_replace(" ","%20",$url["query"]) . "&appSid=" . SaasposeApp::$appSid;
         }
 
         // Decode the private key into its binary format
@@ -132,11 +132,11 @@ class Utils
 
         $encodedSignature = self::encodeBase64UrlSafe($signature);
 
-        // return $urlToSign . "?appSID=" . $this->APPSID . "&signature=" . $encodedSignature;
+        // return $urlToSign . "?appSid=" . $this->appSid . "&signature=" . $encodedSignature;
         if (isset($url['query']) == "") {
-            return $url["scheme"] . "://" . $url["host"] . str_replace(" ", "%20",$url["path"]) . "?appSID=" . SaasposeApp::$AppSID . "&signature=" . $encodedSignature;
+            return $url["scheme"] . "://" . $url["host"] . str_replace(" ", "%20",$url["path"]) . "?appSid=" . SaasposeApp::$appSid . "&signature=" . $encodedSignature;
         } else {
-            return $url["scheme"] . "://" . $url["host"] . str_replace(" ", "%20",$url["path"]) . "?" . str_replace(" ","%20",$url["query"]) . "&appSID=" . SaasposeApp::$AppSID . "&signature=" . $encodedSignature;
+            return $url["scheme"] . "://" . $url["host"] . str_replace(" ", "%20",$url["path"]) . "?" . str_replace(" ","%20",$url["query"]) . "&appSid=" . SaasposeApp::$appSid . "&signature=" . $encodedSignature;
         }
     }
 

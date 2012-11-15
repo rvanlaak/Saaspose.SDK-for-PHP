@@ -50,10 +50,10 @@ class Document
             $json .= '  ] }';
 
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/words/" . $this->FileName . "/appendDocument";
+			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/appendDocument";
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "POST", "json", $json);
 
@@ -62,8 +62,8 @@ class Document
 			if ($v_output === "") {
 				//Save merged docs on server
 				$folder = new Folder();
-				$outputStream = $folder->GetFile($sourceFolder . (($sourceFolder == '') ? '' : '/') . $this->FileName);
-				$outputPath = SaasposeApp::$OutPutLocation . $this->FileName;
+				$outputStream = $folder->GetFile($sourceFolder . (($sourceFolder == '') ? '' : '/') . $this->fileName);
+				$outputPath = SaasposeApp::$outputLocation . $this->fileName;
 				Utils::saveFile($outputStream, $outputPath);
 				return "";
 			} else {
@@ -82,10 +82,10 @@ class Document
 	{
        try {
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/words/" . $this->FileName;
+			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName;
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -112,10 +112,10 @@ class Document
 				throw new Exception("Property Name not specified");
 
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/words/" . $this->FileName . "/documentProperties/" . $propertyName;
+			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/documentProperties/" . $propertyName;
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -149,14 +149,14 @@ class Document
 			}
 
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/words/" . $this->FileName . "/documentProperties/" . $propertyName;
+			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/documentProperties/" . $propertyName;
 
 			$put_data_arr['Value'] = $propertyValue;
 
 			$put_data = json_encode($put_data_arr);
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "PUT", "json", $put_data);
 
@@ -185,10 +185,10 @@ class Document
 			}
 
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/words/" . $this->FileName . "/documentProperties/" . $propertyName;
+			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/documentProperties/" . $propertyName;
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "DELETE", "", "");
 
@@ -212,10 +212,10 @@ class Document
 	{
        try {
 			//build URI to merge Docs
-			$strURI = Product::$BaseProductUri . "/words/" . $this->FileName . "/documentProperties";
+			$strURI = Product::$BaseProductUri . "/words/" . $this->fileName . "/documentProperties";
 
 			//sign URI
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
@@ -256,7 +256,7 @@ class Document
 				throw new Exception("input file doesn't exist.");
 			}
 
-			$signedURI = Utils::Sign($strURI);
+			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::uploadFileBinary($signedURI, $inputPath , "xml");
 
@@ -273,7 +273,7 @@ class Document
 					$outputPath = Utils::getFileName($inputPath). "." . $save_format;
 				}
 
-				Utils::saveFile($responseStream, SaasposeApp::$OutPutLocation . $outputPath);
+				Utils::saveFile($responseStream, SaasposeApp::$outputLocation . $outputPath);
 				return true;
 
 			} else {
