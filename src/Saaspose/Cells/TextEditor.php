@@ -119,7 +119,7 @@ class TextEditor
 
 			$responseStream = Utils::processCommand($signedURI, "POST", "", "");
 
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
 				//Save doc on server

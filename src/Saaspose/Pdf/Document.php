@@ -70,7 +70,7 @@ class Document
 
 			$responseStream = Utils::processCommand($signedURI, "POST", "", "");
 
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
 				//Save merged PDF on server
@@ -147,7 +147,7 @@ class Document
 
 			$responseStream = Utils::processCommand($signedURI, "PUT", "", "");
 
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
 				//Save PDF file on server
@@ -190,7 +190,7 @@ class Document
 
 			$responseStream = Utils::processCommand($signedURI, "PUT", "", "");
 
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
 				//Save PDF file on server
@@ -284,7 +284,7 @@ class Document
 
 			$responseStream = Utils::processCommand($signedURI, "PUT", "", "");
 
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
 				//Save PDF file on server
@@ -319,7 +319,7 @@ class Document
 
 			$responseStream = Utils::processCommand($signedURI, "PUT", "", "");
 
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
 				//Save PDF file on server
@@ -355,7 +355,7 @@ class Document
 
 			$responseStream = Utils::processCommand($signedURI, "DELETE", "", "");
 
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
 				//Save PDF file on server
@@ -393,7 +393,7 @@ class Document
 
 			$responseStream = Utils::processCommand($signedURI, "POST", "", "");
 
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
 				//Save PDF file on server
@@ -432,7 +432,7 @@ class Document
 
 			$responseStream = Utils::processCommand($signedURI, "POST", "", $imageStream);
 
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
 				//Save PDF file on server
@@ -471,7 +471,7 @@ class Document
 
 			$responseStream = Utils::processCommand($signedURI, "POST", "", "");
 
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
 				//Save PDF file on server

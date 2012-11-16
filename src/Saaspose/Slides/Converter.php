@@ -79,7 +79,7 @@ class Converter
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
 				Utils::saveFile($responseStream, SaasposeApp::$outputLocation . Utils::getFileName($this->fileName). "." . $this->saveformat);

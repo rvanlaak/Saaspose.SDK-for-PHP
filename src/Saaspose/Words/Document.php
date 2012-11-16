@@ -57,7 +57,7 @@ class Document
 
 			$responseStream = Utils::processCommand($signedURI, "POST", "json", $json);
 
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
 				//Save merged docs on server
@@ -260,7 +260,7 @@ class Document
 
 			$responseStream = Utils::uploadFileBinary($signedURI, $inputPath , "xml");
 
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
 				if ($outputFormat == "html") {

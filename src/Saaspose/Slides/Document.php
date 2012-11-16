@@ -77,7 +77,7 @@ class Document
 
 			$responseStream = Utils::processCommand($signedURI, "POST", "", "");
 
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
 				//Save doc on server
@@ -140,7 +140,7 @@ class Document
 
 			$responseStream = Utils::processCommand($signedURI, "DELETE", "", "");
 
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
 				//Save doc on server
@@ -378,7 +378,7 @@ class Document
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
 				Utils::saveFile($responseStream, $outputPath . Utils::getFileName($this->fileName) . "." . $saveFormat);
@@ -416,7 +416,7 @@ class Document
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
 				Utils::saveFile($responseStream, $outputPath . Utils::getFileName($this->fileName) . "." . $saveFormat);

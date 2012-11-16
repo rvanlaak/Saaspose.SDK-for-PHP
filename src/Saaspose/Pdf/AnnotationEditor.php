@@ -356,7 +356,7 @@ class AnnotationEditor
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
 				Utils::saveFile($responseStream, SaasposeApp::$outputLocation . $fileInformation->Name);

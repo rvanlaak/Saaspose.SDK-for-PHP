@@ -44,7 +44,7 @@ class Extractor
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
 			//Validate output
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
 				//Save ouput file
@@ -81,7 +81,7 @@ class Extractor
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
 			//Validate output
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
 				//Save ouput file
@@ -119,7 +119,7 @@ class Extractor
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
 			//Validate output
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
 				//Save ouput file
@@ -157,7 +157,7 @@ class Extractor
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
 			//Validate output
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
 				//Save ouput file

@@ -60,7 +60,7 @@ class Extractor
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
 				Utils::saveFile($responseStream, SaasposeApp::$outputLocation . Utils::getFileName($this->fileName). "_" . $index . "." . $OLEFormat);
@@ -89,7 +89,7 @@ class Extractor
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "")
 			{
@@ -119,7 +119,7 @@ class Extractor
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
 				Utils::saveFile($responseStream, SaasposeApp::$outputLocation . Utils::getFileName($this->fileName). "_" . $index . "." . $renderformat);
@@ -203,7 +203,7 @@ class Extractor
 
 				$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
-				$v_output = Utils::ValidateOutput($responseStream);
+				$v_output = Utils::validateOutput($responseStream);
 
 				if ($v_output === "") {
 					Utils::saveFile($responseStream, $outputPath);

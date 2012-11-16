@@ -47,7 +47,7 @@ class DocumentBuilder
 
 			$responseStream = Utils::processCommand($signedURI, "POST", "json", $json);
 
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
 				//Save docs on server
@@ -83,7 +83,7 @@ class DocumentBuilder
 
 			$responseStream = Utils::processCommand($signedURI, "POST", "json", '');
 
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
 				//Save doc on server
@@ -125,7 +125,7 @@ class DocumentBuilder
 
 			$responseStream = Utils::processCommand($signedURI, "POST", "json", $json);
 
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
 				//Save docs on server

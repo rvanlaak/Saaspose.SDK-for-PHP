@@ -42,7 +42,7 @@ class MailMerge
 			$responseStream = Utils::processCommand($signedURI, "POST", "", $strXML);
 			$json = json_decode($responseStream);
 
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
 				//Save docs on server
@@ -77,7 +77,7 @@ class MailMerge
 			$responseStream = Utils::processCommand($signedURI, "POST", "", $strXML);
 			$json = json_decode($responseStream);
 
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
 				//Save docs on server
@@ -111,7 +111,7 @@ class MailMerge
 
 			$responseStream = Utils::processCommand($signedURI, "POST", "", $strXML);
 
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
 				$json = json_decode($responseStream);

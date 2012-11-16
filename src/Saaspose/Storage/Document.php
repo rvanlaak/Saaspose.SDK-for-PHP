@@ -77,7 +77,7 @@ class Document
 
 			$responseStream = Utils::processCommand($signedURI, "POST", "", "");
 
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
 				//Save doc on server
@@ -141,7 +141,7 @@ class Document
 
 			$responseStream = Utils::processCommand($signedURI, "DELETE", "", "");
 
-			$v_output = Utils::ValidateOutput($responseStream);
+			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
 				//Save doc on server
