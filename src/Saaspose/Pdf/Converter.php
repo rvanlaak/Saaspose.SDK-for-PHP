@@ -2,12 +2,13 @@
 
 namespace Saaspose\Pdf;
 
-/*
-* converts pages or document into different formats
-*/
 use Saaspose\Common\Utils;
+use Saaspose\Common\Product;
 use Saaspose\Exception\Exception as Exception;
 
+/**
+* converts pages or document into different formats
+*/
 class Converter
 {
 	public $fileName = "";

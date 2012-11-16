@@ -124,7 +124,7 @@ class Utils
         }
 
         // Decode the private key into its binary format
-        $decodedKey = self::decodeBase64UrlSafe(SaasposeApp::$AppKey);
+        $decodedKey = self::decodeBase64UrlSafe(SaasposeApp::$appKey);
 
         // Create a signature using the private key and the URL-encoded
         // string using HMAC SHA1. This signature will be binary.
