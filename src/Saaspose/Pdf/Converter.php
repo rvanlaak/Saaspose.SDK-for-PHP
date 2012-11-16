@@ -5,27 +5,22 @@ namespace Saaspose\Pdf;
 use Saaspose\Common\Product;
 use Saaspose\Common\SaasposeApp;
 use Saaspose\Common\Utils;
+use Saaspose\Common\AbstractConverter;
 use Saaspose\Exception\Exception as Exception;
 
 /**
 * converts pages or document into different formats
 */
-class Converter
+class Converter extends AbstractConverter
 {
-	public $fileName = "";
-	public $saveformat = "";
 
-    public function __construct($fileName)
-    {
-        $this->fileName = $fileName;
-
-		$this->saveformat =  "Pdf";
-
-		//check whether file is set or not
-		if ($this->fileName == "") {
-			throw new Exception("No file name specified");
-		}
-    }
+	/**
+	 * convert a document to given saveFormat
+	 */
+	public static function convert($fileName, $saveFormat = 'Pdf')
+	{
+		return static::baseConvert('pdf', $fileName, $saveFormat);
+	}
 
 	/**
     * convert a particular page to image with specified size
@@ -34,10 +29,16 @@ class Converter
 	* @param string $width
 	* @param string $height
 	*/
-    public function convertToImagebySize($pageNumber, $imageFormat, $width, $height)
+    public static function convertToImagebySize($fileName, $pageNumber, $imageFormat = 'jpg', $width, $height)
     {
        try {
-			$strURI = Product::$baseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "?format=" . $imageFormat . "&width=" . $width . "&height=" . $height;
+			$strURI = sprintf("%s/pdf/%s/pages/%s?format=%s&width=%s&height=%s",
+							Product::$baseProductUri,
+							$fileName,
+							$pageNumber,
+							$imageFormat,
+							$width,
+							$height);
 
 			$signedURI = Utils::sign($strURI);
 
@@ -46,7 +47,7 @@ class Converter
 			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
-				Utils::saveFile($responseStream, SaasposeApp::$outputLocation . Utils::getFileName($this->fileName). "_" . $pageNumber . "." . $imageFormat);
+				Utils::saveFile($responseStream, SaasposeApp::$outputLocation . Utils::getFileName($fileName). "_" . $pageNumber . "." . $imageFormat);
 				return "";
 			} else {
 				return $v_output;
@@ -62,10 +63,14 @@ class Converter
 	* @param string $pageNumber
 	* @param string $imageFormat
 	*/
-	public function convertToImage($pageNumber, $imageFormat)
+	public static function convertToImage($fileName, $pageNumber, $imageFormat = 'jpg')
 	{
 		try {
-			$strURI = Product::$baseProductUri . "/pdf/" . $this->fileName . "/pages/" . $pageNumber . "?format=" . $imageFormat;
+			$strURI = sprintf("%s/pdf/%s/pages/%s?format=%s",
+							Product::$baseProductUri,
+							$fileName,
+							$pageNumber,
+							$imageFormat);
 
 			$signedURI = Utils::sign($strURI);
 
@@ -74,7 +79,7 @@ class Converter
 			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
-				Utils::saveFile($responseStream, SaasposeApp::$outputLocation . Utils::getFileName($this->fileName). "_" . $pageNumber . "." . $imageFormat);
+				Utils::saveFile($responseStream, SaasposeApp::$outputLocation . Utils::getFileName($fileName). "_" . $pageNumber . "." . $imageFormat);
 				return "";
 			} else {
 				return $v_output;
@@ -86,52 +91,20 @@ class Converter
     }
 
 	/**
-    * convert a document to SaveFormat
-	*/
-	public function convert()
-	{
-		try {
-			$strURI = Product::$baseProductUri . "/pdf/" . $this->fileName . "?format=" . $this->saveformat;
-
-			$signedURI = Utils::sign($strURI);
-
-			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
-
-			$v_output = Utils::validateOutput($responseStream);
-
-			if ($v_output === "") {
-				if($this->saveformat == "html") {
-					$save_format = "zip";
-				} else {
-					$save_format = $this->saveformat;
-				}
-
-				Utils::saveFile($responseStream, SaasposeApp::$outputLocation . Utils::getFileName($this->fileName). "." . $save_format);
-				return "";
-			} else {
-				return $v_output;
-			}
-
-		} catch (Exception $e) {
-			throw new Exception($e->getMessage());
-		}
-	}
-
-	/**
     * Convert PDF to different file format without using storage
 	* $param string $inputFile
 	* @param string $outputfileName
 	* @param string $outputFormat
 	*/
-	public function convertLocalFile($inputFile="", $outputfileName="", $outputFormat="")
+	public static function convertLocalFile($inputFile="", $outputfileName="", $outputFormat="")
 	{
 		try {
 			//check whether file is set or not
-			if ($inputFile == "") {
+			if (empty($inputFile)) {
 				throw new Exception("No file name specified");
 			}
 
-			if ($outputFormat == "") {
+			if (empty($outputFormat)) {
 				throw new Exception("output format not specified");
 			}
 
