@@ -17,7 +17,7 @@ class Converter extends AbstractConverter
 	/**
 	 * convert a document to given saveFormat
 	 */
-	public static function convert($fileName, $saveFormat = 'Pdf')
+	public function convert($fileName, $saveFormat = 'Pdf')
 	{
 		return static::baseConvert('pdf', $fileName, $saveFormat);
 	}
@@ -29,7 +29,7 @@ class Converter extends AbstractConverter
 	* @param string $width
 	* @param string $height
 	*/
-    public static function convertToImagebySize($fileName, $pageNumber, $imageFormat = 'jpg', $width, $height)
+    public function convertToImagebySize($fileName, $pageNumber, $imageFormat = 'png', $width, $height)
     {
        try {
 			$strURI = sprintf("%s/pdf/%s/pages/%s?format=%s&width=%s&height=%s",
@@ -46,11 +46,12 @@ class Converter extends AbstractConverter
 
 			$v_output = Utils::validateOutput($responseStream);
 
-			if ($v_output === "") {
-				Utils::saveFile($responseStream, SaasposeApp::$outputLocation . Utils::getFileName($fileName). "_" . $pageNumber . "." . $imageFormat);
-				return "";
+       		if ($v_output === "") {
+				$newFileName = Utils::getFileName($fileName). "_" . $pageNumber . "." . $imageFormat;
+				Utils::saveFile($responseStream, SaasposeApp::$outputLocation . $newFileName);
+				return $newFileName;
 			} else {
-				return $v_output;
+				throw new Exception($v_output);
 			}
 
 		} catch (Exception $e) {
@@ -63,7 +64,7 @@ class Converter extends AbstractConverter
 	* @param string $pageNumber
 	* @param string $imageFormat
 	*/
-	public static function convertToImage($fileName, $pageNumber, $imageFormat = 'jpg')
+	public function convertToImage($fileName, $pageNumber, $imageFormat = 'png')
 	{
 		try {
 			$strURI = sprintf("%s/pdf/%s/pages/%s?format=%s",
@@ -79,10 +80,11 @@ class Converter extends AbstractConverter
 			$v_output = Utils::validateOutput($responseStream);
 
 			if ($v_output === "") {
-				Utils::saveFile($responseStream, SaasposeApp::$outputLocation . Utils::getFileName($fileName). "_" . $pageNumber . "." . $imageFormat);
-				return "";
+				$newFileName = Utils::getFileName($fileName). "_" . $pageNumber . "." . $imageFormat;
+				Utils::saveFile($responseStream, SaasposeApp::$outputLocation . $newFileName);
+				return $newFileName;
 			} else {
-				return $v_output;
+				throw new Exception($v_output);
 			}
 
 		} catch (Exception $e) {
@@ -96,7 +98,7 @@ class Converter extends AbstractConverter
 	* @param string $outputfileName
 	* @param string $outputFormat
 	*/
-	public static function convertLocalFile($inputFile="", $outputfileName="", $outputFormat="")
+	public function convertLocalFile($inputFile="", $outputfileName="", $outputFormat="")
 	{
 		try {
 			//check whether file is set or not

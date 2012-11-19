@@ -16,7 +16,7 @@ class Converter extends AbstractConverter
 	/**
 	 * convert a document to given saveFormat
 	 */
-	public static function convert($fileName, $saveFormat = 'PPT')
+	public function convert($fileName, $saveFormat = 'PPT')
 	{
 		return static::baseConvert('slides', $fileName, $saveFormat);
 	}
@@ -24,7 +24,7 @@ class Converter extends AbstractConverter
 	/**
     * Saves a particular slide into various formats with specified width and height
 	*/
-	public static function convertToImage($fileName, $saveFormat = 'PPT', $slideNumber, $imageFormat)
+	public function convertToImage($fileName, $saveFormat = 'PPT', $slideNumber, $imageFormat)
 	{
 		try {
 			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName . "/slides/" . $slideNumber . "?format=" . $imageFormat;
@@ -41,7 +41,7 @@ class Converter extends AbstractConverter
 	/**
     * Saves a particular slide into various formats with specified width and height
 	*/
-	public static function convertToImagebySize($fileName, $saveFormat = 'PPT', $slideNumber, $imageFormat, $width, $height)
+	public function convertToImagebySize($fileName, $saveFormat = 'PPT', $slideNumber, $imageFormat, $width, $height)
 	{
 		try {
 			$strURI = Product::$baseProductUri . "/slides/" . $this->fileName . "/slides/" . $slideNumber . "?format=" . $imageFormat . "&width=" . $width . "&height=" . $height;

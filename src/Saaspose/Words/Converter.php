@@ -2,6 +2,7 @@
 
 namespace Saaspose\Words;
 
+use Saaspose\Storage\Folder;
 use Saaspose\Common\Product;
 use Saaspose\Common\AbstractConverter;
 use Saaspose\Common\SaasposeApp;
@@ -16,8 +17,23 @@ class Converter extends AbstractConverter
 	/**
     * converts a document to given saveformat
 	*/
-	public static function convert($fileName, $saveFormat = 'xls')
+	public function convert($localFileName, $saveFormat = 'Doc', $deleteOriginal = true)
 	{
-		return static::baseConvert('words', $fileName, $saveFormat);
+		// First upload local file
+		$folder = new Folder();
+
+		// Returns curl request
+		if ($folder->uploadFile($localFileName) != false) {
+			$fileName = basename($localFileName);
+			$res = $this->baseConvert('words', $fileName, $saveFormat);
+
+			// Only delete original file if wanted
+			if ($deleteOriginal) {
+				$folder->deleteFile($fileName);
+			}
+			return $res;
+		} else {
+			return false;
+		}
 	}
 }

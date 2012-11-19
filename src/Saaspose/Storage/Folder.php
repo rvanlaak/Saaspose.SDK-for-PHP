@@ -3,7 +3,7 @@
 namespace Saaspose\Storage;
 
 use Saaspose\Common\Utils;
-use Saaspore\Common\Product;
+use Saaspose\Common\Product;
 use Saaspose\Exception\SaasposeException as Exception;
 
 /**
@@ -30,7 +30,7 @@ class Folder
     * @param string $strFile
     * @param string $strFolder
     */
-    public function uploadFile($strFile, $strFolder)
+    public function uploadFile($strFile, $strFolder = '')
     {
         try {
 			$strRemotefileName = basename($strFile);
@@ -45,7 +45,7 @@ class Folder
 
 			$signedURI = Utils::sign($strURIRequest);
 
-			Utils::uploadFileBinary($signedURI, $strFile);
+			return Utils::uploadFileBinary($signedURI, $strFile);
 
         } catch (Exception $e) {
             throw new Exception($e->getMessage());

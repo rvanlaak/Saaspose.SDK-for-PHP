@@ -16,7 +16,7 @@ class Converter extends AbstractConverter
 	/**
     * converts a document to given saveformat
 	*/
-	public static function convert($fileName, $saveFormat = 'xls')
+	public function convert($fileName, $saveFormat = 'xls')
 	{
 		return static::baseConvert('cells', $fileName, $saveFormat);
 	}
@@ -26,7 +26,7 @@ class Converter extends AbstractConverter
 	* @param string $worksheetName
 	* @param string $imageFormat
 	*/
-	public static function convertToImage($fileName, $imageFormat, $worksheetName)
+	public function convertToImage($fileName, $imageFormat, $worksheetName)
 	{
 		try {
 			//Build URI
@@ -61,7 +61,7 @@ class Converter extends AbstractConverter
     * converts a document to outputFormat
 	* @param string $outputFormat
 	*/
-	public static function save($fileName, $outputFormat)
+	public function save($fileName, $outputFormat)
 	{
 		try {
 			//Build URI
@@ -94,7 +94,7 @@ class Converter extends AbstractConverter
     * converts a sheet to image
 	* @param string $imageFormat
 	*/
-	public static function worksheetToImage($fileName, $worksheetName, $imageFormat)
+	public function worksheetToImage($fileName, $worksheetName, $imageFormat)
 	{
 		try {
 			//Build URI
@@ -130,7 +130,7 @@ class Converter extends AbstractConverter
 	* @param $pictureIndex
 	* @param $imageFormat
 	*/
-	public static function pictureToImage($fileName, $worksheetName, $pictureIndex, $imageFormat)
+	public function pictureToImage($fileName, $worksheetName, $pictureIndex, $imageFormat)
 	{
 		try {
 			//Build URI
@@ -166,7 +166,7 @@ class Converter extends AbstractConverter
 	* @param $objectIndex
 	* @param $imageFormat
 	*/
-	public static function oleObjectToImage($fileName, $worksheetName, $objectIndex, $imageFormat)
+	public function oleObjectToImage($fileName, $worksheetName, $objectIndex, $imageFormat)
 	{
 		try {
 			//Build URI
@@ -202,7 +202,7 @@ class Converter extends AbstractConverter
 	* @param $chartIndex
 	* @param $imageFormat
 	*/
-	public static function chartToImage($fileName, $worksheetName, $chartIndex, $imageFormat)
+	public function chartToImage($fileName, $worksheetName, $chartIndex, $imageFormat)
 	{
 		try {
 			//Build URI

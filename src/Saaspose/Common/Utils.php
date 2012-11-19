@@ -9,6 +9,8 @@ if (!function_exists('json_decode')) {
     throw new Exception('Saaspose needs the JSON PHP extension.');
 }
 
+use Saaspose\Common\SaasposeApp;
+
 /**
  * Provides access to the Saaspose Platform.
  * @author Imran Anwar <imran.anwar@Saaspose.com>
@@ -68,9 +70,12 @@ class Utils
         $headerType = strtoupper($headerType);
         $fp = fopen($localfile, "r");
 
+        $saasposeUser = SaasposeApp::$appSid;
+        $saasposePass = SaasposeApp::$appKey;
+
         $session = curl_init();
         curl_setopt($session, CURLOPT_VERBOSE, 1);
-        curl_setopt($session, CURLOPT_USERPWD, 'user:password');
+        curl_setopt($session, CURLOPT_USERPWD, $saasposeUser . ':' . $saasposePass);
         curl_setopt($session, CURLOPT_URL, $url);
         curl_setopt($session, CURLOPT_PUT, 1);
         curl_setopt($session, CURLOPT_RETURNTRANSFER, 1);
@@ -146,7 +151,7 @@ class Utils
      * @param string $fieldName Field to be found.
      * @return getFieldValue($jsonRespose, $fieldName) - String Value of the given Field.
      */
-    public function getFieldValue($jsonRespose, $fieldName)
+    public static function getFieldValue($jsonRespose, $fieldName)
     {
         return json_decode($jsonResponse)->{$fieldName};
     }
@@ -157,7 +162,7 @@ class Utils
      * @param string $fieldName Field to be found.
      * @return getFieldCount($jsonRespose, $fieldName) - String Value of the given Field.
      */
-    public function getFieldCount($jsonResponse, $fieldName)
+    public static function getFieldCount($jsonResponse, $fieldName)
     {
 		$arr = json_decode($jsonResponse)->{$fieldName};
 		return count($arr,COUNT_RECURSIVE);
@@ -168,7 +173,7 @@ class Utils
      * @param string $input input stream.
      * @return copyStream($input) - Outputs the converted input stream.
      */
-    public function copyStream($input)
+    public static function copyStream($input)
     {
 		return stream_get_contents($input);
     }

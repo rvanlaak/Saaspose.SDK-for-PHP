@@ -12,7 +12,7 @@ class AbstractConverter
 	/**
 	 * convert a document to SaveFormat
 	 */
-	public static function baseConvert($fileType, $fileName, $saveFormat)
+	public function baseConvert($fileType, $fileName, $saveFormat)
 	{
 		try {
 			$strURI = sprintf("%s/%s/%s?format=%s",
@@ -33,12 +33,12 @@ class AbstractConverter
 					$saveFormat = "zip";
 				}
 
-				Utils::saveFile($responseStream,
-						SaasposeApp::$outputLocation . Utils::getFileName($fileName). "." . $saveFormat);
-				return "";
+				$saveFile = SaasposeApp::$outputLocation . Utils::getFileName($fileName). "." . $saveFormat;
+				Utils::saveFile($responseStream, $saveFile);
+				return $saveFile;
 
 			} else {
-				return $v_output;
+				throw new Exception($v_output);
 			}
 
 		} catch (Exception $e) {

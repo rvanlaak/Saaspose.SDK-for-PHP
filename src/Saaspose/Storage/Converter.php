@@ -16,7 +16,7 @@ class Converter
 	/**
     * Saves a particular slide into various formats with specified width and height
 	*/
-	public static function convertToImage($fileName, $saveFormat = 'PPT', $slideNumber, $imageFormat)
+	public function convertToImage($fileName, $saveFormat = 'PPT', $slideNumber, $imageFormat)
 	{
 		try {
 			//check whether file is set or not
@@ -39,7 +39,7 @@ class Converter
 	/**
     * Saves a particular slide into various formats with specified width and height
 	*/
-	public static function convertToImagebySize($fileName, $saveFormat = 'PPT', $slideNumber, $imageFormat, $width, $height)
+	public function convertToImagebySize($fileName, $saveFormat = 'PPT', $slideNumber, $imageFormat, $width, $height)
 	{
 		try {
 			//check whether file is set or not
@@ -63,7 +63,7 @@ class Converter
 	/**
     * convert a document to the given saveFormat
 	*/
-	public static function convert($fileName, $saveFormat = 'PPT')
+	public function convert($fileName, $saveFormat = 'PPT')
 	{
 		try {
 			//check whether file is set or not

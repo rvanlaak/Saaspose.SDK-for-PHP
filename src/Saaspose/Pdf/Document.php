@@ -2,12 +2,13 @@
 
 namespace Saaspose\Pdf;
 
+use Saaspose\Common\Utils;
+use Saaspose\Common\Product;
+use Saaspose\Exception\Exception as Exception;
+
 /**
 * Deals with PDF document level aspects
 */
-use Saaspose\Common\Utils;
-use Saaspose\Exception\Exception as Exception;
-
 class Document
 {
 	public $fileName = "";
@@ -33,7 +34,9 @@ class Document
 
 		$json = json_decode($responseStream);
 
-		 return count($json->Pages->List);
+		if (isset($json->Code) && $json->Code == '200') {
+			return count($json->Pages->List);
+		}
 	}
 
 	/**
