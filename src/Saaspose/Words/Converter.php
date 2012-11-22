@@ -17,7 +17,7 @@ class Converter extends AbstractConverter
 	/**
     * converts a document to given saveformat
 	*/
-	public function convert($localFileName, $saveFormat = 'Doc', $deleteOriginal = true)
+	public function convert($localFileName, $saveFormat = 'Doc')
 	{
 		// First upload local file
 		$folder = new Folder();
@@ -26,11 +26,6 @@ class Converter extends AbstractConverter
 		if ($folder->uploadFile($localFileName) != false) {
 			$fileName = basename($localFileName);
 			$res = $this->baseConvert('words', $fileName, $saveFormat);
-
-			// Only delete original file if wanted
-			if ($deleteOriginal) {
-				$folder->deleteFile($fileName);
-			}
 			return $res;
 		} else {
 			return false;

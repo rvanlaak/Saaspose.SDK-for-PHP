@@ -2,12 +2,13 @@
 
 namespace Saaspose\Pdf;
 
-/**
-* This class contains features to work with text
-*/
+use Saaspose\Common\Product;
 use Saaspose\Exception\Exception as Exception;
 use Saaspose\Common\Utils;
 
+/**
+* This class contains features to work with text
+*/
 class TextEditor
 {
 	public $fileName = "";
@@ -25,7 +26,7 @@ class TextEditor
 		$parameters = func_get_args();
 
 		//set parameter values
-		if (count($parameters)>0) {
+		if (count($parameters) > 0) {
 			$pageNumber = $parameters[0];
 		}
 
@@ -58,7 +59,7 @@ class TextEditor
 	/**
     * Gets text items from the whole PDF file or a specific page
 	*/
-	public function getTextItems()
+	public function getTextItems($pageNumber)
 	{
 		$parameters = func_get_args();
 
@@ -79,7 +80,7 @@ class TextEditor
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
-			$json = json_decode($responseStream);
+			return $json = json_decode($responseStream);
 
 			return $json->TextItems->List;
 		} catch (Exception $e) {
