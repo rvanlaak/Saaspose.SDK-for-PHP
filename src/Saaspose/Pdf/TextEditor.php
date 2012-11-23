@@ -27,18 +27,14 @@ class TextEditor
 	/**
     * Gets raw text from the whole PDF file or a specific page
 	*/
-	public function getText()
+	public function getText($pageNumber=null)
 	{
-		$parameters = func_get_args();
-
-		//set parameter values
-		if (count($parameters) > 0) {
-			$pageNumber = $parameters[0];
-		}
-
 		try {
-			$strURI = Product::$baseProductUri . "/pdf/" . $this->fileName .
-						((isset($parameters[0]))? "/pages/" . $pageNumber . "/TextItems" : "/TextItems");
+			$strURI = sprintf('%s/pdf/%s%s/TextItems',
+					Product::$baseProductUri,
+					$this->fileName,
+					(isset($pageNumber) && !empty($pageNumber)) ? "/pages/" . $pageNumber : ""
+				);
 
 			$signedURI = Utils::sign($strURI);
 
@@ -60,24 +56,20 @@ class TextEditor
 	/**
     * Gets text items from the whole PDF file or a specific page
 	*/
-	public function getTextItems($pageNumber)
+	public function getTextItems($pageNumber=null)
 	{
-		$parameters = func_get_args();
-
-		//set parameter values
-		if (count($parameters)>0) {
-			$pageNumber = $parameters[0];
-		}
-
 		try {
-			$strURI = Product::$baseProductUri . "/pdf/" . $this->fileName .
-						((isset($parameters[0]))? "/pages/" . $pageNumber . "/TextItems" : "/TextItems");
+			$strURI = sprintf('%s/pdf/%s%s/TextItems',
+						Product::$baseProductUri,
+						$this->fileName,
+						(isset($pageNumber) && !empty($pageNumber)) ? "/pages/" . $pageNumber : ""
+				);
 
 			$signedURI = Utils::sign($strURI);
 
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
-			return $json = json_decode($responseStream);
+			$json = json_decode($responseStream);
 
 			return $json->TextItems->List;
 		} catch (Exception $e) {
