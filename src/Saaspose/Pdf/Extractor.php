@@ -6,7 +6,7 @@ namespace Saaspose\Pdf;
 * Extract various types of information from the document
 */
 use Saaspose\Common\Utils;
-use Saaspose\Exception\Exception as Exception;
+use Saaspose\Exception\SaasposeException as Exception;
 
 class Extractor
 {

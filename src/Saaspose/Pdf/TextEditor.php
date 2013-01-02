@@ -5,7 +5,7 @@ namespace Saaspose\Pdf;
 use Saaspose\Common\SaasposeApp;
 
 use Saaspose\Common\Product;
-use Saaspose\Exception\Exception as Exception;
+use Saaspose\Exception\SaasposeException as Exception;
 use Saaspose\Common\Utils;
 
 /**
@@ -70,7 +70,11 @@ class TextEditor
 			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 
 			$json = json_decode($responseStream);
-
+			
+			if ($json == 'Incorect file format') {
+				throw new Exception('Maximum number of API requests used. See Saaspose API History log for more info.');
+			}
+			
 			return $json->TextItems->List;
 		} catch (Exception $e) {
 			throw new Exception($e->getMessage());

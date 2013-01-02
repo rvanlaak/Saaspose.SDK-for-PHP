@@ -6,7 +6,7 @@ use Saaspose\Common\Product;
 use Saaspose\Common\SaasposeApp;
 use Saaspose\Common\Utils;
 use Saaspose\Common\AbstractConverter;
-use Saaspose\Exception\Exception as Exception;
+use Saaspose\Exception\SaasposeException as Exception;
 
 /**
 * converts pages or document into different formats
