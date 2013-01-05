@@ -2,6 +2,8 @@
 
 namespace Saaspose\Common;
 
+use Saaspose\Exception\SaasposeInvalidOutputException;
+
 if (!function_exists('curl_init')) {
     throw new Exception('Saaspose needs the CURL PHP extension.');
 }
@@ -209,6 +211,8 @@ class Utils
 				"Not a Microsoft PowerPoint 2007 presentation",
 				"Index was outside the bounds of the array",
 				"An attempt was made to move the position before the beginning of the stream",
+				"Your pricing plan allows only",
+				"is not found",
 		);
 
 		$invalid = 0;
