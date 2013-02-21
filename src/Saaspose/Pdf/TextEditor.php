@@ -102,7 +102,28 @@ class TextEditor
 			throw new Exception($e->getMessage());
 		}
 	}
-
+	
+	/**
+	 * Gets count of the fragments from all pages
+	 * $pageNumber
+	 */
+	public function getFragmentsPerPage()
+	{
+		try {
+			$strURI = Product::$baseProductUri . "/pdf/" . $this->fileName . "/pages/wordCount";
+	
+			$signedURI = Utils::sign($strURI);
+	
+			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
+	
+			$json = json_decode($responseStream);
+	
+			return $json->WordsPerPage->List;
+	
+		} catch (Exception $e) {
+			throw new Exception($e->getMessage());
+		}
+	}
 
 	/**
     * Gets count of the segments in a fragment
