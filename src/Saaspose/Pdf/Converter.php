@@ -24,10 +24,10 @@ class Converter extends AbstractConverter
 
 	/**
     * convert a particular page to image with specified size
-	* @param string $pageNumber
+	* @param int $pageNumber
 	* @param string $imageFormat
-	* @param string $width
-	* @param string $height
+	* @param int $width
+	* @param int $height
 	*/
     public function convertToImagebySize($fileName, $pageNumber, $imageFormat = 'png', $width, $height)
     {
