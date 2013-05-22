@@ -583,7 +583,9 @@ class Document
 			$signedURI = Utils::Sign($strURI);
 			$responseStream = Utils::processCommand($signedURI, "POST", "", "");
 			$json = json_decode($responseStream);
+			
 			$i = 1;
+			$resultFiles = array();
 			foreach ($json->Result->Documents as $splitPage) {
 				$splitFileName = basename($splitPage->Href);
 				$strURI = Product::$BaseProductUri . '/storage/file/' . $splitFileName;
@@ -592,9 +594,11 @@ class Document
 				$fileName = $this->FileName . "_" . $i . ".pdf";
 				$outputFile = SaasposeApp::$OutPutLocation . $fileName;
 				Utils::saveFile($responseStream, $outputFile);
-				echo $outputFile;
+				$resultFiles[$i] = $outputFile;
 				$i++;
 			}
+			return $resultFiles;
+			
 		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
@@ -615,7 +619,9 @@ class Document
 			$signedURI = Utils::Sign($strURI);
 			$responseStream = Utils::processCommand($signedURI, "POST", "", "");
 			$json = json_decode($responseStream);
+			
 			$i = 1;
+			$resultFiles = array();
 			foreach ($json->Result->Documents as $splitPage) {
 				$splitFileName = basename($splitPage->Href);
 				$strURI = Product::$BaseProductUri . '/storage/file/' . $splitFileName;
@@ -624,9 +630,11 @@ class Document
 				$fileName = $this->fileName . "_" . $i . ".pdf";
 				$outputFile = SaasposeApp::$OutPutLocation . $fileName;
 				Utils::saveFile($responseStream, $outputFile);
-				echo $outputFile;
+				$resultFiles[$i] = $outputFile;
 				$i++;
 			}
+			return $resultFiles;
+			
 		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
@@ -648,7 +656,9 @@ class Document
 			$signedURI = Utils::Sign($strURI);
 			$responseStream = Utils::processCommand($signedURI, "POST", "", "");
 			$json = json_decode($responseStream);
+			
 			$i = 1;
+			$resultFiles = array();
 			foreach ($json->Result->Documents as $splitPage) {
 				$splitFileName = basename($splitPage->Href);
 				$strURI = Product::$BaseProductUri . '/storage/file/' . $splitFileName;
@@ -657,9 +667,11 @@ class Document
 				$fileName = $this->fileName . "_" . $i . "." . $format;
 				$outputFile = SaasposeApp::$OutPutLocation . $fileName;
 				Utils::saveFile($responseStream, $outputFile);
-				echo $outputFile;
+				$resultFiles[$i] = $outputFile;
 				$i++;
 			}
+			return $resultFiles;
+			
 		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		}
