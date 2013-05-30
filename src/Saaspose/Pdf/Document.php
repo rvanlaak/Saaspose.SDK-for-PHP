@@ -580,7 +580,7 @@ class Document
 			if ($this->fileName == "") {
 				throw new Exception("File name not specified");
 			}
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->FileName . "/split";
+			$strURI = Product::$baseProductUri . "/pdf/" . $this->FileName . "/split";
 			$signedURI = Utils::Sign($strURI);
 			$responseStream = Utils::processCommand($signedURI, "POST", "", "");
 			$json = json_decode($responseStream);
@@ -589,7 +589,7 @@ class Document
 			$resultFiles = array();
 			foreach ($json->Result->Documents as $splitPage) {
 				$splitFileName = basename($splitPage->Href);
-				$strURI = Product::$BaseProductUri . '/storage/file/' . $splitFileName;
+				$strURI = Product::$baseProductUri . '/storage/file/' . $splitFileName;
 				$signedURI = Utils::Sign($strURI);
 				$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 				$fileName = $this->FileName . "_" . $i . ".pdf";
@@ -616,7 +616,7 @@ class Document
 			if ($this->fileName == "") {
 				throw new Exception("File name not specified");
 			}
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/split?from=" . $from . "&to=" . $to;
+			$strURI = Product::$baseProductUri . "/pdf/" . $this->fileName . "/split?from=" . $from . "&to=" . $to;
 			$signedURI = Utils::Sign($strURI);
 			$responseStream = Utils::processCommand($signedURI, "POST", "", "");
 			$json = json_decode($responseStream);
@@ -625,7 +625,7 @@ class Document
 			$resultFiles = array();
 			foreach ($json->Result->Documents as $splitPage) {
 				$splitFileName = basename($splitPage->Href);
-				$strURI = Product::$BaseProductUri . '/storage/file/' . $splitFileName;
+				$strURI = Product::$baseProductUri . '/storage/file/' . $splitFileName;
 				$signedURI = Utils::Sign($strURI);
 				$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 				$fileName = $this->fileName . "_" . $i . ".pdf";
@@ -653,7 +653,7 @@ class Document
 			if ($this->fileName == "") {
 				throw new Exception("File name not specified");
 			}
-			$strURI = Product::$BaseProductUri . "/pdf/" . $this->fileName . "/split?from=" . $from . "&to=" . $to . "&format=" . $format;
+			$strURI = Product::$baseProductUri . "/pdf/" . $this->fileName . "/split?from=" . $from . "&to=" . $to . "&format=" . $format;
 			$signedURI = Utils::Sign($strURI);
 			$responseStream = Utils::processCommand($signedURI, "POST", "", "");
 			$json = json_decode($responseStream);
@@ -662,7 +662,7 @@ class Document
 			$resultFiles = array();
 			foreach ($json->Result->Documents as $splitPage) {
 				$splitFileName = basename($splitPage->Href);
-				$strURI = Product::$BaseProductUri . '/storage/file/' . $splitFileName;
+				$strURI = Product::$baseProductUri . '/storage/file/' . $splitFileName;
 				$signedURI = Utils::Sign($strURI);
 				$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 				$fileName = $this->fileName . "_" . $i . "." . $format;
