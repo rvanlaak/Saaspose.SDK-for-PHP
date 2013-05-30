@@ -5,6 +5,7 @@ namespace Saaspose\Pdf;
 use Saaspose\Common\Utils;
 use Saaspose\Common\Product;
 use Saaspose\Exception\SaasposeException as Exception;
+use Saaspose\Common\SaasposeApp;
 
 /**
  * Deals with PDF document level aspects
