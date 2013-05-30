@@ -593,7 +593,7 @@ class Document
 				$signedURI = Utils::Sign($strURI);
 				$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 				$fileName = $this->FileName . "_" . $i . ".pdf";
-				$outputFile = SaasposeApp::$OutPutLocation . $fileName;
+				$outputFile = SaasposeApp::$outputLocation . $fileName;
 				Utils::saveFile($responseStream, $outputFile);
 				$resultFiles[$i] = $outputFile;
 				$i++;
@@ -629,7 +629,7 @@ class Document
 				$signedURI = Utils::Sign($strURI);
 				$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 				$fileName = $this->fileName . "_" . $i . ".pdf";
-				$outputFile = SaasposeApp::$OutPutLocation . $fileName;
+				$outputFile = SaasposeApp::$outputLocation . $fileName;
 				Utils::saveFile($responseStream, $outputFile);
 				$resultFiles[$i] = $outputFile;
 				$i++;
@@ -666,7 +666,7 @@ class Document
 				$signedURI = Utils::Sign($strURI);
 				$responseStream = Utils::processCommand($signedURI, "GET", "", "");
 				$fileName = $this->fileName . "_" . $i . "." . $format;
-				$outputFile = SaasposeApp::$OutPutLocation . $fileName;
+				$outputFile = SaasposeApp::$outputLocation . $fileName;
 				Utils::saveFile($responseStream, $outputFile);
 				$resultFiles[$i] = $outputFile;
 				$i++;
