@@ -587,12 +587,13 @@ class Document
 			
 			$i = 1;
 			$resultFiles = array();
+			$info = pathinfo($this->fileName);
 			foreach ($json->Result->Documents as $splitPage) {
 				$splitFileName = basename($splitPage->Href);
 				$strURI = Product::$baseProductUri . '/storage/file/' . $splitFileName;
 				$signedURI = Utils::Sign($strURI);
 				$responseStream = Utils::processCommand($signedURI, "GET", "", "");
-				$fileName = $this->FileName . "_" . $i . ".pdf";
+				$fileName = $info['filename'] . "_" . $i . ".pdf";
 				$outputFile = SaasposeApp::$outputLocation . $fileName;
 				Utils::saveFile($responseStream, $outputFile);
 				$resultFiles[$i] = $outputFile;
@@ -623,12 +624,13 @@ class Document
 			
 			$i = 1;
 			$resultFiles = array();
+			$info = pathinfo($this->fileName);
 			foreach ($json->Result->Documents as $splitPage) {
 				$splitFileName = basename($splitPage->Href);
 				$strURI = Product::$baseProductUri . '/storage/file/' . $splitFileName;
 				$signedURI = Utils::Sign($strURI);
 				$responseStream = Utils::processCommand($signedURI, "GET", "", "");
-				$fileName = $this->fileName . "_" . $i . ".pdf";
+				$fileName = $info['filename'] . "_" . $i . ".pdf";
 				$outputFile = SaasposeApp::$outputLocation . $fileName;
 				Utils::saveFile($responseStream, $outputFile);
 				$resultFiles[$i] = $outputFile;
@@ -660,12 +662,13 @@ class Document
 			
 			$i = 1;
 			$resultFiles = array();
+			$info = pathinfo($this->fileName);
 			foreach ($json->Result->Documents as $splitPage) {
 				$splitFileName = basename($splitPage->Href);
 				$strURI = Product::$baseProductUri . '/storage/file/' . $splitFileName;
 				$signedURI = Utils::Sign($strURI);
 				$responseStream = Utils::processCommand($signedURI, "GET", "", "");
-				$fileName = $this->fileName . "_" . $i . "." . $format;
+				$fileName = $info['filename'] . "_" . $i . "." . $format;
 				$outputFile = SaasposeApp::$outputLocation . $fileName;
 				Utils::saveFile($responseStream, $outputFile);
 				$resultFiles[$i] = $outputFile;

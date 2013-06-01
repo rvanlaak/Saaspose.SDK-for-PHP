@@ -2,7 +2,7 @@
 
 namespace Saaspose\Common;
 
-use Saaspose\Exception\SaasposeInvalidOutputException;
+use Saaspose\Exception\SaasposeException as Exception;
 
 if (!function_exists('curl_init')) {
     throw new Exception('Saaspose needs the CURL PHP extension.');
