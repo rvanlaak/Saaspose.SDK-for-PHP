@@ -1,6 +1,6 @@
 {
     "description": 	"This repository contains Saaspose.SDK for PHP source code. This SDK allows you to work with Saaspose REST API in your PHP applications quickly and easily.",
-    "name": 		"saaspose/saaspose",
+    "name": 		"rvanlaak/saaspose-php-sdk",
     "type": 		"library",
     "keywords" : 	["saaspose", "php", "text processing"],
 	"homepage": 	"https://github.com/saaspose/Saaspose.SDK-for-PHP",
