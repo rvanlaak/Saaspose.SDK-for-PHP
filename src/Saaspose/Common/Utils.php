@@ -19,6 +19,78 @@ use Saaspose\Common\SaasposeApp;
  */
 class Utils
 {
+    
+    public static $validateOutputMessages = array(
+            "Unknown file format",
+            "Incorect file format",
+            "Unable to read beyond the end of the stream",
+            "Index was out of range",
+            "Cannot read that as a ZipFile",
+            "Not a Microsoft PowerPoint 2007 presentation",
+            "Index was outside the bounds of the array",
+            "An attempt was made to move the position before the beginning of the stream",
+            "Your pricing plan allows only",
+            "is not found",
+            "Attempted to divide by zero",
+    );
+    
+    public static $httpCodes = array(
+            100 => 'Continue',
+            101 => 'Switching Protocols',
+            102 => 'Processing',
+            200 => 'OK',
+            201 => 'Created',
+            202 => 'Accepted',
+            203 => 'Non-Authoritative Information',
+            204 => 'No Content',
+            205 => 'Reset Content',
+            206 => 'Partial Content',
+            207 => 'Multi-Status',
+            300 => 'Multiple Choices',
+            301 => 'Moved Permanently',
+            302 => 'Found',
+            303 => 'See Other',
+            304 => 'Not Modified',
+            305 => 'Use Proxy',
+            306 => 'Switch Proxy',
+            307 => 'Temporary Redirect',
+            400 => 'Bad Request',
+            401 => 'Unauthorized',
+            402 => 'Payment Required',
+            403 => 'Forbidden',
+            404 => 'Not Found',
+            405 => 'Method Not Allowed',
+            406 => 'Not Acceptable',
+            407 => 'Proxy Authentication Required',
+            408 => 'Request Timeout',
+            409 => 'Conflict',
+            410 => 'Gone',
+            411 => 'Length Required',
+            412 => 'Precondition Failed',
+            413 => 'Request Entity Too Large',
+            414 => 'Request-URI Too Long',
+            415 => 'Unsupported Media Type',
+            416 => 'Requested Range Not Satisfiable',
+            417 => 'Expectation Failed',
+            418 => 'I\'m a teapot',
+            422 => 'Unprocessable Entity',
+            423 => 'Locked',
+            424 => 'Failed Dependency',
+            425 => 'Unordered Collection',
+            426 => 'Upgrade Required',
+            449 => 'Retry With',
+            450 => 'Blocked by Windows Parental Controls',
+            500 => 'Internal Server Error',
+            501 => 'Not Implemented',
+            502 => 'Bad Gateway',
+            503 => 'Service Unavailable',
+            504 => 'Gateway Timeout',
+            505 => 'HTTP Version Not Supported',
+            506 => 'Variant Also Negotiates',
+            507 => 'Insufficient Storage',
+            509 => 'Bandwidth Limit Exceeded',
+            510 => 'Not Extended'
+    );
 
     /**
      * Performs Saaspose Api Request.
@@ -51,12 +123,21 @@ class Utils
         }
 
         curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
-        if (preg_match("/^(https)/i", $url)) {
+        if (preg_match('/^(https)/i', $url)) {
             curl_setopt($session, CURLOPT_SSL_VERIFYPEER, false);
         }
+        
         $result = curl_exec($session);
+        $header = curl_getinfo($session);
+        if ($header['http_code'] != 200) {
+            throw new Exception('Error Code: ' . $header['http_code'] . ', ' . Utils::$httpCodes[$header['http_code']]);
+        } else {
+            if (preg_match('/You have processed/i', $result) || preg_match('/Your pricing plan allows only/i', $result)) {
+                throw new Exception($result);
+            }
+        }
+        
         curl_close($session);
-
         return $result;
     }
 
@@ -92,9 +173,6 @@ class Utils
         curl_setopt($session, CURLOPT_INFILESIZE, filesize($localfile));
 
         $result = curl_exec($session);
-        //$error = curl_error($session);
-        //$http_code = curl_getinfo($session, CURLINFO_HTTP_CODE);
-
         curl_close($session);
         fclose($fp);
         return $result;
@@ -203,20 +281,8 @@ class Utils
 	{
 		$string = (string)$result;
 
-		$validate = array(
-				"Unknown file format.",
-				"Unable to read beyond the end of the stream",
-				"Index was out of range",
-				"Cannot read that as a ZipFile",
-				"Not a Microsoft PowerPoint 2007 presentation",
-				"Index was outside the bounds of the array",
-				"An attempt was made to move the position before the beginning of the stream",
-				"Your pricing plan allows only",
-				"is not found",
-		);
-
 		$invalid = 0;
-		foreach ($validate as $key => $value) {
+		foreach (self::$validateOutputMessages as $key => $value) {
 			$pos = strpos($string, $value);
 			if ($pos === 1) {
 				$invalid = 1;
