@@ -196,12 +196,16 @@ class Utils
     }
 
 	/**
-     * Saves the files
+     * Saves the file, or throw exception if size < 400
      * @param string $input input stream.
      * @param string $fileName fileName along with the full path.
      */
     public static function saveFile($input, $fileName)
     {
+        $strlen = mb_strlen($input, '8bit');
+        if ($strlen < 400) {
+            throw new Exception('Input is not a file, filesize is only ' . $strlen . '. The input was: ' . $input); 
+        }
 		$fh = fopen($fileName, 'w') or die("can't open file");
 		fwrite($fh, $input);
 		fclose($fh);
