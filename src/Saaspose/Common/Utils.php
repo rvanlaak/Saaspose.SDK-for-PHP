@@ -63,7 +63,7 @@ class Utils
         if ($headerType == "XML") {
             curl_setopt($session, CURLOPT_HTTPHEADER, array('Accept: application/xml', 'Content-Type: application/xml'));
         } else {
-            curl_setopt($session, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
+            curl_setopt($session, CURLOPT_HTTPHEADER, array('Accept: application/json', "Content-Type: application/json"));
         }
 
         curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
