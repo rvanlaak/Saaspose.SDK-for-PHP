@@ -87,7 +87,7 @@ class Document
 			//sign URI
 			$signedURI = Utils::sign($strURI);
 
-			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
+			$responseStream = Utils::processCommand($signedURI, "GET", "json");
 
 			$json = json_decode($responseStream);
 
@@ -117,10 +117,9 @@ class Document
 			//sign URI
 			$signedURI = Utils::sign($strURI);
 
-			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
+			$responseStream = Utils::processCommand($signedURI, "GET", "json");
 
 			$json = json_decode($responseStream);
-
 
 			if($json->Code == 200)
 				return $json->DocumentProperty;
@@ -190,7 +189,7 @@ class Document
 			//sign URI
 			$signedURI = Utils::sign($strURI);
 
-			$responseStream = Utils::processCommand($signedURI, "DELETE", "", "");
+			$responseStream = Utils::processCommand($signedURI, "DELETE", "json");
 
 			$json = json_decode($responseStream);
 
@@ -217,7 +216,7 @@ class Document
 			//sign URI
 			$signedURI = Utils::sign($strURI);
 
-			$responseStream = Utils::processCommand($signedURI, "GET", "", "");
+			$responseStream = Utils::processCommand($signedURI, "GET", "json");
 
 			$json = json_decode($responseStream);
 
@@ -282,6 +281,147 @@ class Document
 
 		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
+		}
+	}
+
+	/**
+	 * Accept all trackChanges of the document, optionally save it as another fileName
+	 * 
+	 * Example response:
+	 * POST http://api.aspose.com/v1.1/words/TestRevisions.doc/revisions/acceptAll?filename=TestAcceptAll.doc
+	 * 
+	 * <?xml version="1.0" encoding="utf-8"?>
+	 * <WordsResponse xmlns:atom="http://www.w3.org/2005/Atom" >
+	 * 	<Status>OK</Status>
+	 * 	<Document>
+	 * 		<Source rel="self" href="http://api.aspose.com/v1.1/words/TestRevisions.doc"/>
+	 * 		<Dest rel="result" href="http://api.aspose.com/v1.1/words/TestRejectAll.doc"/>
+	 * 	</Document>
+	 * </WordsResponse>
+	 * 
+	 * @param string $destinationDocumentName
+	 * @throws Exception
+	 * @return array $json
+	 */
+	public function acceptAllTrackChanges($destinationDocumentName=null)
+	{
+		//build URI to accept all tracking changes in the document
+		$strUri = Product::$baseProductUri . "/words/" . $this->fileName . "/revisions/acceptAll";
+		
+		// Put the destination filename in the request
+		if ($destinationDocumentName) {
+			$strUri .= '?filename='.$destinationDocumentName;
+		}
+		
+		//sign URI
+		$signedUri = Utils::sign($strUri);
+		
+		$responseStream = Utils::processCommand($signedUri, "POST", "json");
+		
+		$json = json_decode($responseStream);
+		
+		if ($json->Code == 200) {
+			return $json;
+		} else {
+			throw new Exception("Error while accepting all document trackChanges");
+		}
+	}
+
+	/**
+	 * Reject all trackChanges of the document, optionally save it as another fileName
+	 * 
+	 * Example response:
+	 * POST http://api.aspose.com/v1.1/words/TestRevisions.doc/revisions/rejectAll?filename=TestRejectAll.doc
+	 * 
+	 * <?xml version="1.0" encoding="utf-8"?>
+	 * <WordsResponse xmlns:atom="http://www.w3.org/2005/Atom" >
+	 * 	<Status>OK</Status>
+	 * 	<Document>
+	 * 		<Source rel="self" href="http://api.aspose.com/v1.1/words/TestRevisions.doc"/>
+	 * 		<Dest rel="result" href="http://api.aspose.com/v1.1/words/TestRejectAll.doc"/>
+	 * 	</Document>
+	 * </WordsResponse>
+	 * 
+	 * @param string $destinationDocumentName
+	 * @throws Exception
+	 * @return array $json
+	 */
+	public function rejectAllTrackChanges($destinationDocumentName=null)
+	{
+		//build URI to accept all tracking changes in the document
+		$strUri = Product::$baseProductUri . "/words/" . $this->fileName . "/revisions/rejectAll";
+		
+		// Put the destination filename in the request
+		if ($destinationDocumentName) {
+			$strUri .= '?filename='.$destinationDocumentName;
+		}
+		
+		//sign URI
+		$signedUri = Utils::sign($strUri);
+		
+		$responseStream = Utils::processCommand($signedUri, "POST", "json");
+		
+		$json = json_decode($responseStream);
+		
+		if ($json->Code == 200) {
+			return $json;
+		} else {
+			throw new Exception("Error while rejecting all document trackChanges");
+		}
+	}
+
+	/**
+	 * Get pagecount, wordcount, paragraphcount statistics from the Word document
+	 * 
+	 * Example response:
+	 * GET http://api.aspose.com/v1.1/words/TestStatDataDocument.doc/statistics
+	 * 
+	 * <?xml version="1.0" encoding="utf-8"?>
+	 * <SaaSposeResponse xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	 *   <Status>OK</Status>
+	 *   <StatData>
+	 *       <WordCount>100</WordCount>
+	 *       <ParagraphCount>40</ParagraphCount>
+	 *       <PageCount>3</PageCount>
+	 *       <PageStatData>
+	 *       	<Page number="1">
+	 *       		<WordCount>25</WordCount>
+	 *       		<ParagraphCount>10</ParagraphCount>
+	 *       	</Page>
+	 *       	<Page number="2">
+	 *       		<WordCount>45</WordCount>
+	 *       		<ParagraphCount>15</ParagraphCount>
+	 *       	</Page>
+	 *       	<Page number="3">
+	 *       		<WordCount>30</WordCount>
+	 *       		<ParagraphCount>15</ParagraphCount>
+	 *       	</Page>
+	 *       </PageStatData>
+	 *   </StatData>
+	 *   <DocumentLink href="http://api.aspose.com/v1.1/words/TestStatDataDocument.doc" rel="self" />
+	 * </SaaSposeResponse>
+	 * 
+	 * 
+	 * @param string $destinationDocumentName
+	 * @throws Exception
+	 * @return array $json
+	 */
+	public function getStatistics()
+	{
+		//build URI to accept all tracking changes in the document
+		$strUri = Product::$baseProductUri . "/words/" . $this->fileName . "/statistics";
+		
+		//sign URI
+		$signedUri = Utils::sign($strUri);
+		
+		$responseStream = Utils::processCommand($signedUri, "GET", "json");
+		
+		$json = json_decode($responseStream);
+		
+		if ($json->Code == 200) {
+			return $json;
+		} else {
+			throw new Exception("Error while retreiving document statistics");
 		}
 	}
 
